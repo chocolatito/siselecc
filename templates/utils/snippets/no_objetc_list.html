@@ -1,0 +1,21 @@
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-center">
+    {% if estado == "activo" or estado == "inactivo" %}
+      <br><h2>No hay registros con estado {{estado}}</h2>
+      </div>
+      <!-- /card-header -->
+      <div class="card-body d-flex justify-content-center">
+        <a class="btn btn-block btn-secondary" href={% url url_listado %}>Todos los registros</a>
+      </div>
+      <!-- /card-body -->
+    {% else %}
+      <br><h2>{{message_no_queryset}}</h2>
+      </div>
+      <!-- /card-header -->
+      <div class="card-body d-flex justify-content-center">
+        <a class="btn btn-block btn-primary" href={% url url_agregar %}>Registrar Ahora</a>
+      </div>
+      <!-- /card-body -->
+    {% endif %}
+</div>
+<!-- /card -->

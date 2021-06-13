@@ -1,0 +1,38 @@
+{% load static %}
+<table class="mb-0 table table-bordered" id="data1">
+  <thead>
+    <tr>
+      {% for th in thead_values %}<th>{{th}}</th>{% endfor %}
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+    <tr>
+      {% for value in object.get_field_values %}
+      <td>{{value}}</td>
+      {% endfor %}
+      <td>
+        <!--'Acción' cell-->
+        <div class="btn-group">
+          <a class="btn btn-secondary" href={% url url_detalle object.id %} name="active">Ver</a>
+          {% if object.editable == 0 %}
+          <a href={% url url_actualizar object.id %} class="btn btn-warning">Editar</a>
+          {% endif %}
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="object_id" value="{{object.id}}">
+            <input type="hidden" name="active" value="{{object.active}}">
+            {% if object.active %}
+            <button type="submit" class="btn btn-danger">Desactivar</button>
+            {% else %}
+            <button type="submit" class="btn btn-success">Activar</button>
+            {% endif %}
+          </form>
+        </div>
+        <!--/'Acción' cell-->
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

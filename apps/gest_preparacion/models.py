@@ -1,0 +1,215 @@
+import datetime
+from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from ..BaseModel import Base
+from ..gest_cargo.models import Cargo
+from ..gest_elector.models import Elector
+# from ..gest_usuario.models import Cuenta
+# Create your models here.
+from ..utils import vname_f
+
+ELECCION_ETAPA = [(0, "PREPARACIÓN"), (1, "PROGRAMADA"), (2, "LISTA"),
+                  (3, "EN CURSO"), (4, "CERRADA"), (5, "CONTEO INICIADO")]
+
+
+class Eleccion(Base):
+    titulo = models.CharField('Titulo', max_length=100)
+    fecha = models.DateField('Fecha de realización',
+                             default=datetime.date.today)
+    hora_inicio = models.TimeField('Hora de inicio', blank=True, null=True)
+    hora_fin = models.TimeField('Hora de cierre', blank=True, null=True)
+    etapa = models.IntegerField('Etapa de elección',
+                                choices=ELECCION_ETAPA, default=0)
+    slug = models.SlugField(max_length=50, unique=True)
+    # Relationships
+    cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['fecha', 'titulo']
+        verbose_name = 'Eleccion'
+        verbose_name_plural = 'Elecciones'
+
+    def get_absolute_url(self):
+        return reverse('gest_preparacion:detalle', args=[str(self.id)])
+
+    def get_absolute_url_cifrado(self):
+        return reverse('gest_cifrado:ini-publica-i', args=[str(self.id)])
+
+    # ____________________________________________________________________________________
+    def get_field_values(self):
+        return [self.titulo,
+                self.fecha.strftime('%d-%m-%Y'),
+                self.get_strftime(),
+                self.get_etapa_display()]
+
+    def get_strftime(self):
+        if self.etapa:
+            return f'{self.hora_inicio.strftime("%H:%M")} - {self.hora_fin.strftime("%H:%M")}'
+        else:
+            return '00:00 - 00:00'
+    # ____________________________________________________________________________________
+
+    def get_detali_info(self):
+        """ [(verbose_name, value_field), ]"""
+        return [(vname_f(self._meta, 'titulo'), self.titulo),
+                (vname_f(self._meta, 'fecha'), self.fecha),
+                ('Horarios de Inicio-Fin', self.get_strftime()),
+                (vname_f(self._meta, 'etapa'), self.get_etapa_display()),
+                ('Cargo', self.cargo)]
+
+    def __str__(self):
+        return "{} - {}".format(self.fecha, self.titulo)
+
+    def es_proxima(self):
+        return self.fecha >= datetime.datetime.now().date()
+
+    def es_programable(self):
+        if self.es_proxima():
+            fecha_anterior = self.fecha - datetime.timedelta(days=1)
+            if fecha_anterior <= datetime.datetime.now().date():
+                if self.candidato_set.filter(estado_postulacion=True).count() >= 2:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
+
+
+class Candidato(Base):
+    estado_postulacion = models.BooleanField(verbose_name="Estado de postulación",
+                                             default=True)
+    # Relationships REVISAR
+    eleccion = models.ForeignKey(Eleccion, on_delete=models.CASCADE)
+    elector = models.ForeignKey(Elector, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['estado_postulacion', ]
+        verbose_name = "Candidato"
+        verbose_name_plural = "Candidatos"
+
+    def get_absolute_url(self):
+        # return reverse('padron:edit-padron', args=[str(self.id)])
+        pass
+
+    def get_field_values(self):
+        # return []
+        pass
+
+    def get_field_values_candidato(self):
+        return [self.elector.dni, self.elector.nombres, self.elector.apellidos, ]
+
+    def __str__(self):
+        return "{} - {},{}".format(self.elector.dni,
+                                   self.elector.nombres,
+                                   self.elector.apellidos)
+
+
+# https://docs.djangoproject.com/en/3.1/topics/db/models/#extra-fields-on-many-to-many-relationships
+
+PADRON_ESTADO_PADRON = [(0, "ABIERTO"), (1, "LISTO"), (2, "EN OPERACIÓN"), (3, "CERRADO"), ]
+
+
+class Padron(Base):
+    estado_padron = models.IntegerField('Etapa de padrón',
+                                        choices=PADRON_ESTADO_PADRON, default=0)
+    # slug = models.SlugField(unique=True)
+    # Relationships
+    eleccion = models.OneToOneField(Eleccion, on_delete=models.CASCADE)
+    electores = models.ManyToManyField(Elector, through='PadronElector')
+
+    class Meta:
+        ordering = ['estado_padron']
+        verbose_name = "Padron"
+        verbose_name_plural = "Padrones"
+
+    def get_field_values(self):
+        # return [self.title, self.slug]
+        pass
+
+    def get_absolute_url(self):
+        return reverse('gest_preparacion:adm-padron', args=[self.id])
+
+    def __str__(self):
+        return "{}".format(self.id)
+
+
+ESTADO_PADRONELECTOR = [(0, "AUSENTE"), (1, "AUTORIZADO"), (2, "RETIRADO"), ]
+
+
+class PadronElector(Base):
+    padron = models.ForeignKey(Padron, on_delete=models.CASCADE)
+    elector = models.ForeignKey(Elector, on_delete=models.CASCADE)
+    estado_padronelector = models.IntegerField(verbose_name="Estado padron-elecctor",
+                                               choices=ESTADO_PADRONELECTOR,
+                                               default=0)
+    hora_votacion = models.DateTimeField(verbose_name="Hora de votación",
+                                         null=True, blank=True)
+    codigo_votacion = models.UUIDField(verbose_name="Código de votación",
+                                       null=True, blank=True)
+
+    def get_field_values(self):
+        return [self.elector.dni, self.elector.apellidos, self.elector.nombres,
+                self.get_estado_padronelector_display()]
+
+    class Meta:
+        unique_together = [['padron', 'elector']]
+
+
+ESTADO_MESA = [(0, "CREADA"), (1, "CON AUTORIDAD"),
+               (2, "PREPARADA"),
+               (3, "INICIADA"), (4, "LISTA"), (5, "OPERATIVA"),
+               (4, "CERRADA"), ]
+
+
+class Mesa(Base):
+    estado_mesa = models.IntegerField('Estado de mesa', choices=ESTADO_MESA, default=0)
+    # slug = models.SlugField(unique=True)
+    # Relationships
+    eleccion = models.OneToOneField(Eleccion, on_delete=models.CASCADE)
+    cuenta = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        ordering = ['estado_mesa']
+        verbose_name = "Mesa"
+        verbose_name_plural = "Mesas"
+
+    def get_absolute_url(self):
+        return reverse('gest_preparacion:adm-mesa', args=[self.id])
+
+# _Iniciada mesa
+    def get_absolute_url_ini(self):
+        return reverse('gest_votacion:ini-mesa', args=[self.id])
+
+# _Mesa iniciada
+    def get_absolute_url_mesa_ini(self):
+        return reverse('gest_votacion:mesa-ini', args=[self.id])
+
+# _Mesa operativa
+    def get_absolute_url_mesa_ope(self):
+        return reverse('gest_votacion:mesa-ope', args=[self.id])
+
+    def get_detali_info(self):
+        """[(verbose_name, value_field), ]"""
+        return [(vname_f(self._meta, 'estado_mesa'), self.get_estado_mesa_display()), ]
+
+    def __str__(self):
+        return "{}".format(self.id)
+
+
+# _______________________________________________________
+# PRE/POST SAVE
+
+
+def set_slug_Eleccion(sender, instance, *args, **kwargs):
+    if instance.id and instance.titulo and instance.fecha and not instance.slug:
+        instance.slug = slugify(
+            f'{instance.fecha}__{instance.id}_{instance.titulo}')
+        instance.save()
+
+
+post_save.connect(set_slug_Eleccion, sender=Eleccion)

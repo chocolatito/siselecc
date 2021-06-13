@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}CREAR USUARIO{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-4">
+  paa</div>
+  <div class="col-sm-4">
+    <div class="card">
+      <form action="." method="post">
+        {% csrf_token %}
+        <div class="card-header">Crear Usuario</div>
+        <div class="card-body">
+          <div class="form-group">
+          {% for field in form.visible_fields %}
+            <label class="font-weight-bold	mt-3">{{field.label}}</label>
+            {{field}}
+            {% if field.label|stringformat:"s" == 'Nombre de usuario' %}
+            <div class="mb-3 font-weight-light">
+              {{field.help_text}}
+            </div>
+            {% endif %}
+          {% endfor %}
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn-block btn-lg btn-primary ">Registrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-sm-4">{{form.errors}}</div>
+</div>
+{% endblock %}

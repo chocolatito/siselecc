@@ -1,0 +1,9 @@
+{% load static %}
+{% if no_incluidos.all %}
+<h1>DEBE IR UNA TABLA</h1>
+{% for no_incluido in no_incluidos.all %}
+<h6>{{no_incluido}}</h6>
+{% endfor %}
+{% else %}
+<h1>TODO LOS ELECTORES ESTAN EN EL PADRON</h1>
+{% endif %}

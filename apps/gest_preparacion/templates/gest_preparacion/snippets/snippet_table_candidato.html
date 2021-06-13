@@ -1,0 +1,34 @@
+{% load static %}
+<table class="mb-0 table table-bordered" id="{{id_data}}">
+  <!--thead-->
+  <thead>
+    <tr>
+      {% for th in thead_values %}<th>{{th}}</th>{% endfor %}
+      <th class="text-center">
+          <div class="position-relative form-check">
+            <label class="form-check-label">
+              Acción
+            </label>
+          </div>
+      </th>
+    </tr>
+  </thead>
+  <!-- ./thead-->
+
+  <!--body-->
+  <tbody>
+    {% for object in object_list %}
+    <tr>
+      {% for value in object.get_field_values_candidato %}
+      <td>{{value}}</td>
+      {% endfor %}
+    <td class="text-center">
+      <!--'Acción' cell-->
+        {% include snippet_accion_table %}
+      <!--/'Acción' cell-->
+    </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <!-- ./body-->
+</table>

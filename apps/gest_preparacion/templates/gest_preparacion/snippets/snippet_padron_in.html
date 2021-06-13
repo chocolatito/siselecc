@@ -1,0 +1,9 @@
+{% load static %}
+{% if object.electores.all %}
+<h1>DEBE IR UNA TABLA</h1>
+{% for elector in object.electores.all %}
+<h6>{{elector}}</h6>
+{% endfor %}
+{% else %}
+<h1>EL PADRON ESTA VACIO</h1>
+{% endif %}

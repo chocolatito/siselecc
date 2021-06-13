@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block page-title-heading %}
+Es usted Candidato o Autoridad de mesa???
+{% endblock %}
+
+{% block rows %}
+<form method="post">
+  {% csrf_token %}
+  <div class="row bg-light">
+  <div class="col card mt-3">
+    <div class="card-header bg-dark">
+      ...
+    </div>
+    <div class="card-body bg-white">
+      <button type="submit" name="btn" value='candidato' class='btn btn-primary'>
+      Soy Candidato
+      </button>
+    </div>
+  </div>
+    <div class="col card mt-3">
+      <div class="card-header bg-dark">
+        ...
+      </div>
+      <div class="card-body bg-white">
+        <button type="submit" name="btn" value='autoridad' class='btn btn-primary'>
+        Soy Autoridad de mesa
+        </button>
+      </div>
+    </div>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% load static %}
+<a href="{% url url_listado %}" class="btn btn-light">
+  Listado
+</a>
+{% if object.editable %}
+<a href="{% url url_actualizar object.pk %}" class="btn btn-warning">
+  Actualizar
+</a>
+<!--Activar-Desactivar-->
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="object_id" value="{{object.id}}">
+  <input type="hidden" name="active" value="{{object.active}}">
+  {% if object.active %}
+  <button type="submit" class="btn btn-danger">Desactivar</button>
+  {% else %}
+  <button type="submit" class="btn btn-success">Activar</button>
+  {% endif %}
+</form>
+<!-- ./Activar-Desactivar-->
+  {% endif %}

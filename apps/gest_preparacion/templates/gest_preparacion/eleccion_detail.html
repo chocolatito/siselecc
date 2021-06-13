@@ -1,0 +1,100 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+{% block div_card-body %}
+{% comment %}{% endcomment %}
+{% if object.etapa == 1 %}
+<div class="card">
+  <div class="card bg-light">
+    <div class="card-header">
+      <h5 class="card-title">ELECCION EN ETAPA PROGRAMADA</h5>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <!--CARGO-->
+        <li class="list-group-item">
+          {% include 'gest_preparacion/snippets/snippet_cargo.html' %}
+        </li>
+        <!-- ./CARGO-->
+        <!--PROGRAMACIÓN-->
+        <li class="list-group-item">
+          {% include 'gest_preparacion/snippets/snippet_programacion.html' %}
+        </li>
+        <!-- ./PROGRAMACIÓN-->
+        <!--INICIALIZAR CLAVE PUBLICA-->
+        <!-- ./INICIALIZAR CLAVE PUBLICA-->
+      </ul>
+    </div>
+  </div>
+
+</div>
+{% elif  object.etapa == 2 %}
+<div class="card bg-light">
+  <div class="card-header">
+    <h5 class="card-title">ELECCION EN ETAPA LISTA</h5>
+  </div>
+  <div class="card-body">
+    <ul class="list-group">
+      <!--INICIAR MESA-->
+      <li class="list-group-item">
+        {% include 'gest_preparacion/snippets/snippet_ini_mesa.html' %}
+      </li>
+      <!-- ./INICIAR MESA-->
+    </ul>
+  </div>
+</div>
+{% elif  object.etapa == 3 %}
+<div class="card bg-light">
+  <div class="card-header">
+    <h5 class="card-title">ELECCION EN CURSO</h5>
+  </div>
+  <div class="card-body">
+    <ul class="list-group">
+      <!--INICIAR MESA-->
+      <li class="list-group-item">
+        {% include 'gest_preparacion/snippets/snippet_ini_mesa.html' %}
+      </li>
+      <!-- ./INICIAR MESA-->
+    </ul>
+  </div>
+</div>
+{% else %}
+<div class="card">
+  <div class="card bg-light">
+    <div class="card-header">
+      <h5 class="card-title">ELECCION EN PROCESO DE PREPARACIÓN</h5>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <!--CARGO-->
+        <li class="list-group-item">
+          {% include 'gest_preparacion/snippets/snippet_cargo.html' %}
+        </li>
+        <!-- ./CARGO-->
+        <!--PADRON-->
+        <li class="list-group-item">
+          {% include 'gest_preparacion/snippets/snippet_padron.html' %}
+        </li>
+        <!-- ./PADRON-->
+        <!--MESA-->
+        <li class="list-group-item">
+          {% include 'gest_preparacion/snippets/snippet_mesa.html' %}
+        </li>
+        <!-- ./MESA-->
+        <!--CANDIDATO-->
+        <li class="list-group-item">
+          {% include 'gest_preparacion/snippets/snippet_candidato.html' %}
+        </li>
+        <!-- ./CANDIDATO-->
+
+        <!--PROGRAMACIÓN-->
+        <li class="list-group-item">
+          {% include 'gest_preparacion/snippets/snippet_programacion.html' %}
+        </li>
+        <!-- ./PROGRAMACIÓN-->
+      </ul>
+    </div>
+  </div>
+
+</div>
+{% endif %}
+{% endblock %}

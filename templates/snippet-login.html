@@ -1,0 +1,22 @@
+<div class="app-header__content">
+  <!--app-header-left-->
+  {# Lado izquierdo #}
+  <div class="app-header-left">
+  </div>
+  <!-- ./app-header-left-->
+  <!--app-header-right-->
+  {# Lado derecho #}
+  <div class="app-header-right">
+    <ul class="header-menu nav">
+      {% block nav-items-izquierda %}
+      <li class="nav-item">
+        <a href="{% url 'gest_usuario:login' %}?next=/" class="nav-link">
+          <i class="nav-link-icon fa fa-user"> </i>
+          <b>Iniciar Sesión</b>
+        </a>
+      </li>
+      {% endblock %}
+    </ul>
+  </div>
+  <!-- ./app-header-right-->
+</div>

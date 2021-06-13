@@ -1,0 +1,87 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+{% block link-script %}
+  <link rel="stylesheet" type="text/css" href="{% static 'DataTables-v1/datatables.min.css' %}">
+  <script src="{% static 'DataTables-v1/jQuery-3.3.1/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'DataTables-v1/datatables.min.js'%}"></script>
+{% endblock %}
+
+{% block rows %}
+{% block div_card-body %}
+<div class="card card-body" style="background-color: rgb(51, 51, 51) border-color: rgb(51, 51, 51);">
+  <div class="row">
+    <div class="container mb-3">
+      <a class='mb-2 mr-2 btn-transition btn btn-outline-secondary btn-block' href="{{object.get_absolute_url}}">
+        <b>Ir a Elección</b>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <!--CANDIDATOS-->
+    <div class="col-6 card">
+      {% if candidatos %}
+      <form method="post">
+        {% csrf_token %}
+      <div class="card-header bg-light justify-content-around">
+        <h5 class="card-title">Candidatos</h5>
+      </div>
+      <div class="card-body">
+        {% include 'gest_preparacion/snippets/snippet_table_candidato.html' with id_data='data1' snippet_accion_table='gest_preparacion/snippets/snippet_accion_table_candidatos.html' object_list=candidatos %}
+      </div>
+      <div class="card-footer">
+        <p>. . .</p>
+      </div>
+      </form>
+      {% else %}
+      <div class="card-body bg-warning">
+        <h1>No hay candidatos</h1>
+      </div>
+      {% endif %}
+    </div>
+    <!-- ./CANDIDATOS-->
+    <!--DIPONIBLES-->
+    <div class="col-6 card">
+      {% if disponibles %}
+      <form method="post">
+        {% csrf_token %}
+      <div class="card-header bg-light justify-content-around">
+        <h5 class="card-title">TABLA DIPONIBLES</h5>
+      </div>
+      <div class="card-body">
+        {% include 'gest_preparacion/snippets/snippet_table_candidato.html' with id_data='data2' snippet_accion_table='gest_preparacion/snippets/snippet_accion_table_disponibles.html' object_list=disponibles %}
+      </div>
+      <div class="card-footer">
+        <p>. . .</p>
+        </form>
+      </div>
+      {% else %}
+      <div class="card-header">
+      </div>
+      <div class="card-body bg-warning">
+        <h1>NO HAY ELECTORES PARA POSTULAR</h1>
+      </div>
+      <div class="card-footer">
+        <p>. . .</p>
+      </div>
+      {% endif %}
+    </div>
+    <!-- ./DIPONIBLES-->
+  </div>
+</div>
+
+{% endblock %}
+{% endblock %}
+
+{% block  script_DataTable %}
+<script>
+  $(document).ready(function() {
+    $('#data1').DataTable();
+  });
+
+  $(document).ready(function() {
+    $('#data2').DataTable();
+  });
+</script>
+{% endblock %}
+{% comment %}
+{% endcomment %}

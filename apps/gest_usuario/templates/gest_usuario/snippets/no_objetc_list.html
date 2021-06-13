@@ -1,0 +1,21 @@
+<div class="card mb-4">
+  <!--card-header-->
+  <div class="card-header d-flex justify-content-center">
+    <br>
+    <h2>{{message_no_queryset}}</h2>
+  </div>
+  <!-- ./card-header-->
+  <!--card-body-->
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <a class="btn btn-block btn-secondary" href={% url url_listado_E %}>Listado de Elector</a>
+      </div>
+      <div class="col">
+        <a class="btn btn-block btn-primary" href={% url url_listado_CE %}>Listado de Cuentas de Elector</a>
+      </div>
+    </div>
+
+  </div>
+  <!-- ./card-body-->
+</div>

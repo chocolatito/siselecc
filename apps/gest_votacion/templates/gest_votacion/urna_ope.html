@@ -1,0 +1,61 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+
+{% block rows %}
+{% block div_card-body %}
+<form  method="post">
+  {% csrf_token %}
+  {% if object.estado_urna in estados_pasivos %}
+  <h1>URNA LIBRE</h1>
+  <button type="submit" name="btn" class='btn btn-primary'>Actualizar</button>
+  {% elif object.estado_urna == 3 %}
+  <h1>Alternativas de votación</h1>
+  <div class="row">
+    <form method="post">
+      {% csrf_token %}
+    {% for boleta in boletas %}
+      <div class="col">
+        <div class="card">
+        <div class="card-header">
+          #
+        </div>
+        <div class="card-body">
+          {{boleta.get_info_alternativa}}
+        </div>
+        <div class="card-footer">
+          <button type="submit" name="btn-boleta" value='{{boleta.id}}' class='btn btn-primary'>
+            Votar
+          </button>
+        </div>
+      </div>
+      </div>
+    {% endfor %}
+    </form>
+  </div>
+  {% elif object.estado_urna == 4 %}
+  <h1>Confirmar voto por: {{boleta.get_info_alternativa}}</h1>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" name="btn-confirmar" value='{{boleta.id}}' class='btn btn-primary'>
+      Confirmar
+    </button>
+    <button type="submit" name="btn-cancelar" class='btn btn-warning'>
+      Cambiar Voto
+    </button>
+  </form>
+
+  {% elif object.estado_urna == 5 %}
+  <h1>Voto emitido correctamente</h1>
+  <h4>Presione Aceptar para finalizar la operación</h4>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" name="btn" class='btn btn-success'>
+      Aceptar
+    </button>
+  </form>
+  {% else %}
+  <h1>ESPERANDO ELECTOR</h1>
+{% endif %}
+</form>
+{% endblock %}
+{% endblock %}

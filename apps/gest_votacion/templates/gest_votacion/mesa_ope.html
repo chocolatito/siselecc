@@ -1,0 +1,34 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+
+{% block link-script %}
+<link rel="stylesheet" type="text/css" href="{% static 'DataTables-v1/datatables.min.css' %}">
+<script src="{% static 'DataTables-v1/jQuery-3.3.1/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'DataTables-v1/datatables.min.js'%}"></script>
+{% endblock %}
+
+{% block rows %}
+{% block div_card-body %}
+{% if padronelector %}
+{% include "gest_votacion/snippets/padronelector_table.html" %}
+{% else %}
+<h1>La elección inicia a las {{inicio}}hs </h1>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" name="btn" class='btn btn-primary btn-lg btn-block'>
+    Actualizar
+  </button>
+</form>
+{% endif %}
+{% endblock %}
+{% endblock %}
+{% block  script_DataTable %}
+<script>
+$(document).ready( function () {
+  $('#data1').DataTable();
+} );
+</script>
+{% endblock %}
+
+{% comment %}
+{% endcomment %}

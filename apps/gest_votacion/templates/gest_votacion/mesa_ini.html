@@ -1,0 +1,69 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+
+{% block rows %}
+{% block div_card-body %}
+{% if urna.estado_urna == 0 %}
+
+<div class="container bg-white">
+  <div class="row d-flex align-items-center">
+  <div class="col">
+    <div class="card mb-3 widget-content bg-premium-dark">
+      <div class="widget-content-wrapper text-white">
+        <div class="widget-content-left">
+          <div class="widget-heading">CODIGO DE INICIO</div>
+          <div class="widget-subheading">para iniciar la terminal de votación</div>
+        </div>
+        <div class="widget-content-right">
+          <div class="widget-numbers text-warning"><span>{{urna.codigo_inicio}}</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="btn" class='btn btn-primary btn-lg btn-block'>Actualizar</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+{% else %}
+<h1>BIENVENIDO</h1>
+{% endif %}
+{% endblock %}
+{% endblock %}
+
+{% comment %}
+{% block rows %}
+{% block div_card-body %}
+<div class="card card-body" style="background-color: rgb(51, 51, 51) border-color: rgb(51, 51, 51);">
+  <div class="row">
+    <div class="container mb-3">
+      <a class='mb-2 mr-2 btn-transition btn btn-outline-secondary btn-block' href="{{object.eleccion.get_absolute_url}}">
+        <b>Ir a Elección</b>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col">
+      <h4>Cuando se inicia la elección</h4>
+      <p>Se genera un codigo para iniciar la terminal de votacion.</p>
+      <p> . . . . . . . . . . . . . . . . . . . . . . . .</p>
+      <p> . . . . . . . . . . . . . . . . . . . . . . . .</p>
+    </div>
+    <div class="col">
+      <a class='mb-2 mr-2 btn btn-primary btn-block' href="{{object.get_absolute_url_mesa_ini}}">
+        <b>Iniciar</b>
+      </a>
+      <a class='mb-2 mr-2 btn btn-secondary btn-block' href="{{object.eleccion.get_absolute_url}}">
+        <b>Cancelar</b>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% endblock %}
+{% endcomment %}

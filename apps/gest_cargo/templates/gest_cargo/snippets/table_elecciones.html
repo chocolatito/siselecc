@@ -1,0 +1,25 @@
+<table class="table" id="data">
+  <thead class="thead-light">
+    <tr>
+      {% for th in thead %}
+        <th>{{th}}</th>
+      {% endfor %}
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody class="text-dark">
+    {% for object in object_list %}
+      <tr>
+        {% for values in object.get_field_values %}
+         <td>{{values}}</td>
+       {% endfor %}
+       <td>
+         <div class="btn-group">
+          <a class="btn btn-secondary" href={% url detail_url object.slug %} name="active">Ver</a>
+          <a href={% url edit_url object.slug %} class="btn btn-warning {{hidden}}">Editar</a>
+        </div>
+       </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

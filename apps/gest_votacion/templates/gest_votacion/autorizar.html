@@ -1,0 +1,26 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+
+{% block rows %}
+{% block div_card-body %}
+<h1><b>Elector:</b> {{object.elector}}</h1>
+<form method="post">
+  {% csrf_token %}
+    {% if estado_urna == 1 %}
+    <button type="submit" name="btn" class='btn btn-primary'>
+      Autorizar
+    </button>
+    <a href='{{mesa.get_absolute_url_mesa_ope}}' class='btn btn-danger'>Cancelar</a>
+    {% else %}
+    <button type="submit" name="btn" class='btn btn-success'>
+      Retirar
+    </button>
+    {% endif %}
+
+</form>
+
+{% endblock %}
+{% endblock %}
+
+{% comment %}
+{% endcomment %}

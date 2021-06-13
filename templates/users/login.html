@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block app-header__content %}
+{% endblock %}
+
+{% block rows %}
+<div class="tab-content">
+  <div class="tab-pane tabs-animation fade active show" id="tab-content-1" role="tabpanel">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Grid</h5>
+        <form method="post">
+          {% csrf_token %}
+          <div class="position-relative row form-group"><label for="exampleEmail" class="col-sm-2 col-form-label">Nombre de Cuenta</label>
+            <div class="col-sm-10">
+              <input name="username" id="exampleEmail" placeholder="Ingrese nombre de la cuenta" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="position-relative row form-group"><label for="examplePassword" class="col-sm-2 col-form-label">Contraseña</label>
+            <div class="col-sm-10">
+              <input name="password" id="examplePassword" placeholder="Ingrese la contraseña" type="password" class="form-control">
+            </div>
+          </div>
+          <div class="position-relative row form-check">
+            <div class="col-sm-10 offset-sm-2">
+              <button type="submit" class="btn btn-secondary">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

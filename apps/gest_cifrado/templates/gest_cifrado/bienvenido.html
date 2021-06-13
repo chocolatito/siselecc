@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block rows %}
+<h1>Si es autoridad de mesa o candidato, podra...</h1>
+<div class="row">
+  <div class="col">
+    <div class="main-card mb-3 card">
+      <div class="card-header bg-premium-dark text-white">Inicializar clave de Cifrado</div>
+      <div class="card-body">
+        <h5 class="card-title">Para elecciones proximas</h5>
+        <p>Es decir, para aquellas elecciones que ya esten programadas.</p>
+        {% if programadas %}
+        <ul class="list-group">
+        {% for object in  programadas.all %}
+          <li class="list-group-item text-dark">
+            <a href="{{object.get_absolute_url_cifrado}}"><b>{{object}}</b></a>
+          </li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <h1>NO HAY ELECCIONES PROGRAMADAS</h1>
+        {% endif %}
+        <p>...</p>
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="main-card mb-3 card">
+      <div class="card-header bg-premium-dark text-white">Inicializar clave de Descifrado</div>
+      <div class="card-body">
+        <h5 class="card-title">Para elecciones en etapa de recuento iniciado</h5>
+        <p>Es decir, para aquellas elecciones que finalizaron la votación y se solicito el inicio del recuento.</p>
+        <p>...</p>
+      </div>
+      <div class="card-footer"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

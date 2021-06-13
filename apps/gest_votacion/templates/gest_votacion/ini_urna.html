@@ -1,0 +1,18 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+
+{% block rows %}
+{% block div_card-body %}
+<form method='post'>
+  {% csrf_token %}
+  <div class="form-group">
+    <label>Código de Inicio</label>
+    <input type="password" name='codigo' class="form-control" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Iniciar</button>
+</form>
+{% endblock %}
+{% endblock %}
+
+{% comment %}
+{% endcomment %}

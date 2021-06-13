@@ -1,0 +1,15 @@
+{% load static %}
+  <!--'Acción' cell-->
+  <div class="btn-group">
+    {% if object.estado_postulacion %}
+    <button type="submit" class="btn btn-danger" name='candidato' value='{{object.id}}'>
+      Bajar
+    </button>
+    {% else %}
+    <button type="submit" class="btn btn-success" name='candidato' value='{{object.id}}'>
+      Re-postular
+    </button>
+    {% endif %}
+
+  </div>
+  <!--/'Acción' cell-->

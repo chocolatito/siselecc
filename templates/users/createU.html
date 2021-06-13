@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}CREAR USUARIO{% endblock %}
+{% block main %}
+<form action="." method="post">
+{% csrf_token %}
+<div class="row bg-light">
+  <div class="col-md-4 well">
+    <div class="card">
+      <div class="card-header">Datos del Usuario</div>
+      <div class="card-body">
+        <div class="form-group">
+        {% for field in formU.visible_fields %}
+          <label class="font-weight-bold	mt-3">{{field.label}}</label>
+          {{field}}
+          {% if field.label|stringformat:"s" == 'Nombre de usuario' %}
+          <div class="mb-3 font-weight-light">
+            {{field.help_text}}
+          </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 well">
+    <div class="card">
+      <div class="card-header">Datos del Elector</div>
+      <div class="card-body">
+        <div class="form-group">
+        {% for field in formE.visible_fields %}
+          <label class="font-weight-bold	mt-3">{{field.label}}</label>
+          {{field}}
+        {% endfor %}
+        </div>
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 well"></div>
+</div>
+<div class="row">
+  <button type="submit" class="btn-block btn-lg btn-primary ">Registrar</button>
+</div>
+</form>
+{% endblock %}
