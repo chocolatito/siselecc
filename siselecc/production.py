@@ -6,7 +6,7 @@ from .settings import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'eleccionvirtual',
+        'NAME': 'siselecc',
         'USER':  env.str('USER'),
         'PASSWORD': env.str('PASSWORD'),
         'HOST': '127.0.0.1',
