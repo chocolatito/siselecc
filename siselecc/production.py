@@ -1,9 +1,6 @@
 from .settings import *
-<<<<<<< HEAD
-
-=======
 import os
->>>>>>> b2470755c0381c26487255a6a234eafb66578674
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
