@@ -77,6 +77,8 @@ INSTALLED_APPS = [
     # LIBRARIES
     # # for import/export data with included Django admin.
     'import_export',
+    # A multiprocessing task queue for Django
+    'django_q',
 ]
 
 MIDDLEWARE = [

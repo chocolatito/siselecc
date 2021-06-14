@@ -1,6 +1,6 @@
 from django.db.models import Q
 from .models import Boleta
-from ..gest_preparacion.models import Padron, Mesa, Candidato
+# from ..gest_preparacion.models import Padron, Mesa, Candidato
 
 
 def crear_boleta(n, indice, vector, eleccion, candidato):
@@ -15,8 +15,8 @@ def generar_vector(n):
 
 
 def get_postulados(eleccion):
-    return Candidato.objects.filter(Q(eleccion=eleccion) and Q(estado_postulacion=True))
-    # eleccion.candidato_set.filter(Q(eleccion=eleccion) and Q(estado_postulacion=True))
+    return eleccion.candidato_set.filter(Q(eleccion=eleccion)
+                                         and Q(estado_postulacion=True))
 
 
 def generar_boletas(eleccion, candidatos):
@@ -30,8 +30,6 @@ def generar_boletas(eleccion, candidatos):
 
 def actualizar_etapa(eleccion):
     """ Función llamada en la vista AdmProgramacion"""
-    # padron = Padron.objects.get(eleccion=eleccion)
-    # mesa = Mesa.objects.get(eleccion=eleccion)
     if eleccion.etapa == 0:
         eleccion.mesa.estado_mesa = 2
         eleccion.mesa.save()
