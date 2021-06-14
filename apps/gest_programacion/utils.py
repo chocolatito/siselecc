@@ -15,8 +15,8 @@ def generar_vector(n):
 
 
 def get_postulados(eleccion):
-    return Candidato.objects.filter(
-        Q(eleccion=eleccion) and Q(estado_postulacion=True))
+    return Candidato.objects.filter(Q(eleccion=eleccion) and Q(estado_postulacion=True))
+    # eleccion.candidato_set.filter(Q(eleccion=eleccion) and Q(estado_postulacion=True))
 
 
 def generar_boletas(eleccion, candidatos):
@@ -29,13 +29,14 @@ def generar_boletas(eleccion, candidatos):
 
 
 def actualizar_etapa(eleccion):
-    padron = Padron.objects.get(eleccion=eleccion)
-    mesa = Mesa.objects.get(eleccion=eleccion)
+    """ Función llamada en la vista AdmProgramacion"""
+    # padron = Padron.objects.get(eleccion=eleccion)
+    # mesa = Mesa.objects.get(eleccion=eleccion)
     if eleccion.etapa == 0:
-        mesa.estado_mesa = 2
-        mesa.save()
-        padron.estado_padron = 1
-        padron.save()
+        eleccion.mesa.estado_mesa = 2
+        eleccion.mesa.save()
+        eleccion.padron.estado_padron = 1
+        eleccion.padron.save()
         eleccion.etapa = 1
         eleccion.save()
         generar_boletas(eleccion, get_postulados(eleccion))
