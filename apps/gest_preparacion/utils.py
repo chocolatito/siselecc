@@ -6,7 +6,7 @@ from ..gest_elector.models import Elector
 from ..gest_usuario.models import CuentaElector
 
 
-def get_elector_exclude_candidato(excluidos, field='id'):
+def get_disponibles(excluidos, field='id'):
     if excluidos:
         lista_electores = Elector.objects.filter(
             Q(active=True) and Q(cuenta_u=True)).exclude(

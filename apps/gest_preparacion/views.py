@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from .forms import EleccionForm
 from .models import Eleccion, Padron, Mesa, Candidato
 from .utils import (gen_padron_mesa,
-                    get_elector_exclude_candidato,
+                    get_disponibles,
                     get_elector_exclude_padron,
                     admi_elector2padron,
                     staff_list,
@@ -229,10 +229,8 @@ class AdministrarCandidatos(DetailView):
 
     def post(self, request, *args, **kwargs):
         if 'disponible' in request.POST:
-            agregar_candidato(self.object,
-                              request.POST["disponible"])
+            agregar_candidato(self.object, request.POST["disponible"])
         elif 'candidato' in request.POST:
-            print(request.POST['candidato'])
             set_estado_postulacion(Candidato.objects.get(id=request.POST['candidato']))
         return redirect(request.META['HTTP_REFERER'])
 
@@ -242,7 +240,7 @@ class AdministrarCandidatos(DetailView):
         context['title'] = 'Administración del Candidatos'
         context['page_title_heading'] = f'Elección::: {self.object.__str__()}'
         context['candidatos'] = self.object.candidato_set.all()
-        context['disponibles'] = get_elector_exclude_candidato(context['candidatos'], 'elector')
+        context['disponibles'] = get_disponibles(context['candidatos'], 'elector')
         context['thead_values'] = ['DNI', 'Nombre/s', 'Apellido/s']
         context['snippet_accion_detail'] = 'utils/blank.html'
         return context
