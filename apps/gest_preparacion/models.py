@@ -50,6 +50,12 @@ class Eleccion(Base):
             return f'{self.hora_inicio.strftime("%H:%M")} - {self.hora_fin.strftime("%H:%M")}'
         else:
             return '00:00 - 00:00'
+
+    def get_progr_inicio(self):
+        return datetime.datetime.strptime(f'{self.fecha.strftime("%Y %m %d")} {self.hora_inicio.strftime("%H %M")}', "%Y %m %d %H %M")
+
+    def get_progr_fin(self):
+        return datetime.datetime.strptime(f'{self.fecha.strftime("%Y %m %d")} {self.hora_fin.strftime("%H %M")}', "%Y %m %d %H %M")
     # ____________________________________________________________________________________
 
     def get_detali_info(self):
