@@ -9,12 +9,12 @@ from ..gest_usuario.models import CuentaElector
 def get_elector_exclude_candidato(excluidos, field='id'):
     if excluidos:
         lista_electores = Elector.objects.filter(
-            Q(active=True) and Q(cuenta_u=True) and Q(cuenta_u=True)).exclude(
+            Q(active=True) and Q(cuenta_u=True)).exclude(
                 Q(id__in=excluidos.values_list(field, flat=True)))
-        return [e for e in lista_electores if CuentaElector.objects.get(elector=e)]
+        return [e for e in lista_electores if CuentaElector.objects.get(
+            elector=e).estado_confirmacion == True]
     else:
-        lista_electores = Elector.objects.filter(
-            Q(active=True) and Q(cuenta_u=True) and Q(cuenta_u=True))
+        lista_electores = Elector.objects.filter(Q(active=True) and Q(cuenta_u=True))
         return [e for e in lista_electores if CuentaElector.objects.get(
             elector=e).estado_confirmacion == True]
         # return Elector.objects.filter(Q(active=True) & Q(cuenta_u=True))
