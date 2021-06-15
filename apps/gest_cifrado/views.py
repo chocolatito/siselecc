@@ -39,7 +39,13 @@ class IniPublica_I(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+        # Se debe verificar que la eleccion este programada
+        if self.object.etapa == 1:
+            return super().dispatch(request, *args, **kwargs)
+        elif self.object.etapa == 2:
+            return redirect(self.object.get_absolute_url())
+        else:
+            return redirect('bienvenido:bienvenido')
 
     def post(self, request, *args, **kwargs):
         if request.POST['btn'] == 'candidato':
@@ -82,6 +88,7 @@ class IniPublica_II(FormView):
     success_url = reverse_lazy('gest_cifrado:gest_cifrado')
 
     def dispatch(self, request, *args, **kwargs):
+        #self.object = get_eleccion(kwargs['pk'])
         if verificar_user_clave(get_eleccion(kwargs['pk']),
                                 get_user(request.user.username)):
             return super().dispatch(request, *args, **kwargs)
@@ -95,6 +102,7 @@ class IniPublica_II(FormView):
                                 tuple(int(x) for x in form.cleaned_data.get('color')),
                                 get_user(request.user.username),
                                 get_eleccion(kwargs['pk'])):
+                # return redirect(self.object.get_absolute_url())
                 return redirect('bienvenida:bienvenida')
             else:
                 return redirect(self.success_url)

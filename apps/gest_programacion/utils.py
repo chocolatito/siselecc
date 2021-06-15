@@ -1,6 +1,6 @@
 from django.db.models import Q
 ##
-from django_q.models import Schedule
+
 ##
 from .models import Boleta
 # from ..gest_preparacion.models import Padron, Mesa, Candidato
@@ -42,22 +42,6 @@ def actualizar_etapa(eleccion):
         eleccion.etapa = 1
         eleccion.save()
         generar_boletas(eleccion, get_postulados(eleccion))
-    # programar el inicio
-    Schedule.objects.create(name=f'{eleccion.id} st2: {eleccion.get_progr_inicio()}',
-                                 func='apps.gest_programacion.tasks.set_status',
-                                 args=f'{eleccion.id},{3}',
-                                 schedule_type='O',
-                                 repeats=1,
-                                 next_run=eleccion.get_progr_inicio()
-                            )
-    # programar el final
-    Schedule.objects.create(name=f'{eleccion.id} st3: {eleccion.get_progr_fin()}',
-                                 func='apps.gest_programacion.tasks.set_status',
-                                 args=f'{eleccion.id},{4}',
-                                 schedule_type='O',
-                                 repeats=1,
-                                 next_run=eleccion.get_progr_fin()
-                            )
     return eleccion
 
 # ________________________________

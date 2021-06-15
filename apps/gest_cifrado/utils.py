@@ -1,4 +1,5 @@
 from functools import reduce
+from django_q.models import Schedule
 from .models import SecuenciaPrimo
 from .models import Clave
 from ..gest_usuario.models import CuentaElector
@@ -57,6 +58,22 @@ def todas_las_claves(e):
     if e.clave_set.all().count() == e.candidato_set.all().count()+1:
         e.etapa = 2
         e.save()
+        # programar el inicio https://youtu.be/KXP84ijiLbg?t=880
+        Schedule.objects.create(name=f'{e.id} st2: {e.get_progr_inicio()}',
+                                     func='apps.gest_programacion.tasks.set_status',
+                                     args=f'{e.id},{3}',
+                                     schedule_type='O',
+                                     repeats=1,
+                                     next_run=e.get_progr_inicio()
+                                )
+        # programar el final
+        Schedule.objects.create(name=f'{e.id} st3: {e.get_progr_fin()}',
+                                     func='apps.gest_programacion.tasks.set_status',
+                                     args=f'{e.id},{4}',
+                                     schedule_type='O',
+                                     repeats=1,
+                                     next_run=e.get_progr_fin()
+                                )
         return True
     else:
         return False
