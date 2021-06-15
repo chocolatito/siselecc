@@ -27,6 +27,6 @@ def escribir_objeto(indice, ruta):
 
 if __name__ == "__main__":
     rutas = get_rutas()
-    f = open(rutas[0]+'/300txt/0.txt', 'r')
+    f = open(rutas[0], 'r')
     f.close()
     # [escribir_objeto((x*240100),rutas[x]) for x in range(300)]
