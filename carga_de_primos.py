@@ -2,7 +2,7 @@ import os
 import re
 import django
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "siselecc.local")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "siselecc.production")
 django.setup()
 
 from apps.gest_cifrado.models import SecuenciaPrimo
