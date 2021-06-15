@@ -4,8 +4,9 @@ from .models import Clave, SecuenciaPrimo
 # Register your models here.
 
 
-class SecuenciaPrimoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+class SecuenciaPrimoAdmin(ImportExportModelAdmin, SecuenciaPrimo):
     list_display = ['indice']
+    list_per_page = 25
 
 
 admin.site.register(SecuenciaPrimo, SecuenciaPrimoAdmin)
