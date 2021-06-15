@@ -130,3 +130,6 @@ dmypy.json
 
 # acceso directo
 *.lnk
+
+# carpeta
+300txt/
