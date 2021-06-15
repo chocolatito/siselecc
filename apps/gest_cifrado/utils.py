@@ -85,7 +85,7 @@ def calcular_indices(ingreso, segmento):
     valor = ingreso*segmento
     indice = ((valor-1) // 240100) * 240100
     indiceSec = (valor-1) % 240100
-    return int(SecuenciaPrimo.objects.get(indice=indice).secuencia['sec'][indiceSec])
+    return int(SecuenciaPrimo.objects.get(indice=indice).secuencia['secuencia'][indiceSec])
 
 
 def get_valor_clave(clave):
