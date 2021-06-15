@@ -8,9 +8,7 @@ django.setup()
 from apps.gest_cifrado.models import SecuenciaPrimo
 
 def get_rutas():
-    # ruta_base = os.path.dirname(__file__)
-    ruta_base = os.getcwd()
-    return [ruta_base+'/300txt/'+f'{(x*240100)}.txt' for x in range(300)]
+    return ['f/media/sf_300txt/300txt/{(x*240100)}.txt' for x in range(300)]
 
 
 """
@@ -29,4 +27,8 @@ def main():
     rutas = get_rutas()
     [print(x) for x in rutas]
     print(f'Los filas de la tabla son::: {SecuenciaPrimo.objects.all().count()}')
+    f = open(rutas[0], 'r')
+    print(f.read()[:50])
+    f.close()
+
     # [escribir_objeto((x*240100), rutas[x]) for x in range(300)]
