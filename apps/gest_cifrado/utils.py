@@ -85,14 +85,6 @@ def calcular_indices(ingreso, segmento):
     valor = ingreso*segmento
     indice = ((valor-1) // 240100) * 240100
     indiceSec = (valor-1) % 240100
-    tipo_indice = type(indice)
-    if SecuenciaPrimo.objects.get(indice=indice):
-        existeSecPri = True
-        tipo_sec = type(SecuenciaPrimo.objects.get(indice=indice).secuencia)
-        tipo_secsec = type(loads(SecuenciaPrimo.objects.get(indice=indice).secuencia)['sec'])
-        tipo_indiceSec = type(indiceSec)
-    else:
-        existeSecPri = False
     return int(SecuenciaPrimo.objects.get(indice=indice).secuencia['sec'][indiceSec])
 
 
@@ -102,7 +94,7 @@ def get_valor_clave(clave):
 
 def generar_N(ingreso, segmento):
     sub_claves = (get_valor_clave(ingreso[:4]), get_valor_clave(ingreso[4:8]))
-    return str(calcular_indices(sub_claves[0], segmento[0]) * calcular_indices(sub_claves[1], segmento[0]))
+    return str(calcular_indices(sub_claves[0], segmento[0]) * calcular_indices(sub_claves[1], segmento[1]))
 
 
 def generar_Cpublica(ingreso, color, cuenta, eleccion):
