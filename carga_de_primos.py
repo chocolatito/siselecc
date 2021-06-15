@@ -11,7 +11,7 @@ django.setup()
 def get_rutas():
     # ruta_base = os.path.dirname(__file__)
     ruta_base = os.getcwd()
-    return [ruta_base+'\\300txt\\'+f'{(x*240100)}.txt' for x in range(300)]
+    return [ruta_base+'/300txt/'+f'{(x*240100)}.txt' for x in range(300)]
 
 
 """
@@ -27,5 +27,6 @@ def escribir_objeto(indice, ruta):
 
 if __name__ == "__main__":
     rutas = get_rutas()
-    [print(r) for r in rutas]
+    f = open(rutas[0]+'/300txt/0.txt', 'r')
+    f.close()
     # [escribir_objeto((x*240100),rutas[x]) for x in range(300)]
