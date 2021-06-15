@@ -8,7 +8,7 @@ django.setup()
 from apps.gest_cifrado.models import SecuenciaPrimo
 
 def get_rutas():
-    return ['f/media/sf_300txt/300txt/{(x*240100)}.txt' for x in range(300)]
+    return [f'/media/sf_300txt/300txt/{(x*240100)}.txt' for x in range(300)]
 
 
 """
