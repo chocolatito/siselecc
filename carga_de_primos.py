@@ -27,4 +27,5 @@ def escribir_objeto(indice, ruta):
 
 if __name__ == "__main__":
     rutas = get_rutas()
+    [print(r) for r in rutas]
     # [escribir_objeto((x*240100),rutas[x]) for x in range(300)]
