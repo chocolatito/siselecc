@@ -5,7 +5,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "siselecc.local")
 django.setup()
 
-from apps.gest_cifrado.models import SecuenciaPrimo
+.from apps.gest_cifrado.models import SecuenciaPrimo
 
 
 def get_rutas():
