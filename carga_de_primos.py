@@ -7,28 +7,16 @@ django.setup()
 
 from apps.gest_cifrado.models import SecuenciaPrimo
 
-def get_rutas():
-    return [f'/media/sf_300txt/{(x*240100)}.txt' for x in range(300)]
-
-
-"""
-def escribir_objeto(indice, ruta):
+def escribir_objeto(indice):
     print(indice)
-    f = open(ruta, 'r')
+    f = open(f'/media/sf_300txt/{(indice)}.txt', 'r')
     SecuenciaPrimo.objects.create(indice=indice,
                                   secuencia={
                                       'indice': indice,
                                       'secuencia': re.findall('\d+', f.read())})
     f.close()
-"""
 
 
 def main():
-    rutas = get_rutas()
-    [print(x) for x in rutas]
+    [escribir_objeto((x*240100)) for x in range(300)]
     print(f'Los filas de la tabla son::: {SecuenciaPrimo.objects.all().count()}')
-    f = open(rutas[0], 'r')
-    print(f.read()[:50])
-    f.close()
-
-    # [escribir_objeto((x*240100), rutas[x]) for x in range(300)]
