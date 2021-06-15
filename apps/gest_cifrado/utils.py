@@ -1,4 +1,6 @@
+from json import loads
 from functools import reduce
+
 from django_q.models import Schedule
 from .models import SecuenciaPrimo
 from .models import Clave
@@ -86,7 +88,8 @@ def calcular_indices(ingreso, segmento):
     tipo_indice = type(indice)
     if SecuenciaPrimo.objects.get(indice=indice):
         existeSecPri = True
-        tipo_secsec = type(SecuenciaPrimo.objects.get(indice=indice).secuencia['sec'])
+        tipo_sec = type(loads(SecuenciaPrimo.objects.get(indice=indice).secuencia))
+        tipo_secsec = type(loads(SecuenciaPrimo.objects.get(indice=indice).secuencia)['sec'])
         tipo_indiceSec = type(indiceSec)
     else:
         existeSecPri = False
