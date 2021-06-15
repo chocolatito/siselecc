@@ -5,7 +5,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "siselecc.local")
 django.setup()
 
-# from apps.gest_cifrado.models import SecuenciaPrimo
+from apps.gest_cifrado.models import SecuenciaPrimo
 
 
 def get_rutas():
@@ -14,7 +14,6 @@ def get_rutas():
     return [ruta_base+'/300txt/'+f'{(x*240100)}.txt' for x in range(300)]
 
 
-"""
 def escribir_objeto(indice, ruta):
     print(indice)
     f = open(ruta, 'r')
@@ -23,10 +22,8 @@ def escribir_objeto(indice, ruta):
                                       'indice': indice,
                                       'secuencia': re.findall('\d+', f.read())})
     f.close()
-"""
+
 
 if __name__ == "__main__":
     rutas = get_rutas()
-    f = open(rutas[0], 'r')
-    f.close()
-    # [escribir_objeto((x*240100),rutas[x]) for x in range(300)]
+    [escribir_objeto((x*240100), rutas[x]) for x in range(300)]
