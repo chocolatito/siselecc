@@ -88,7 +88,7 @@ def calcular_indices(ingreso, segmento):
     tipo_indice = type(indice)
     if SecuenciaPrimo.objects.get(indice=indice):
         existeSecPri = True
-        tipo_sec = type(loads(SecuenciaPrimo.objects.get(indice=indice).secuencia))
+        tipo_sec = type(SecuenciaPrimo.objects.get(indice=indice).secuencia)
         tipo_secsec = type(loads(SecuenciaPrimo.objects.get(indice=indice).secuencia)['sec'])
         tipo_indiceSec = type(indiceSec)
     else:
