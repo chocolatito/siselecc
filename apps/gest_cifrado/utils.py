@@ -83,6 +83,13 @@ def calcular_indices(ingreso, segmento):
     valor = ingreso*segmento
     indice = ((valor-1) // 240100) * 240100
     indiceSec = (valor-1) % 240100
+    tipo_indice = type(indice)
+    if SecuenciaPrimo.objects.get(indice=indice):
+        existeSecPri = True
+        tipo_secsec = type(SecuenciaPrimo.objects.get(indice=indice).secuencia['sec'])
+        tipo_indiceSec = type(indiceSec)
+    else:
+        existeSecPri = False
     return int(SecuenciaPrimo.objects.get(indice=indice).secuencia['sec'][indiceSec])
 
 
