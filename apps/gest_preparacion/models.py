@@ -1,8 +1,9 @@
 import datetime
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from ..BaseModel import Base
 from ..gest_cargo.models import Cargo
@@ -177,7 +178,8 @@ class Mesa(Base):
     # slug = models.SlugField(unique=True)
     # Relationships
     eleccion = models.OneToOneField(Eleccion, on_delete=models.CASCADE)
-    cuenta = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    cuenta = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                  on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         ordering = ['estado_mesa']
