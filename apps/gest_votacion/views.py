@@ -106,7 +106,6 @@ class MesaOpe(DetailView):
                 if self.object.estado_mesa == 5:
                     # LA MESA ESTA OPERATIVA
                     self.padronelector = get_padronelector(self.object)
-
                 return super().dispatch(request, *args, **kwargs)
             elif self.object.estado_mesa == 3:
                 # LA MESA ESTA INICIADA
