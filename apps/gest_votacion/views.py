@@ -151,7 +151,7 @@ class AutorizarElector(DetailView):
         self.mesa = self.object.padron.eleccion.mesa
         self.estado_urna = self.mesa.urna.estado_urna
         # FALTA CONTROLAR QUE EL ELECTOR NO TENGA ESTADO 2
-        if es_autoridad(self.object, request.user):
+        if es_autoridad(self.mesa, request.user):
             if self.mesa.estado_mesa == 5:
                 return super().dispatch(request, *args, **kwargs)
             else:
