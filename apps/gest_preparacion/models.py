@@ -117,7 +117,7 @@ class Candidato(Base):
 
 # https://docs.djangoproject.com/en/3.1/topics/db/models/#extra-fields-on-many-to-many-relationships
 
-PADRON_ESTADO_PADRON = [(0, "ABIERTO"), (1, "LISTO"), (2, "EN OPERACIÓN"), (3, "CERRADO"), ]
+PADRON_ESTADO_PADRON = [(0, "ABIERTO"), (1, "PREPARADO"), (2, "EN OPERACIÓN"), (3, "CERRADO"), ]
 
 
 class Padron(Base):
