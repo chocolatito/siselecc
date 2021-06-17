@@ -20,9 +20,12 @@
         <p> . . . . . . . . . . . . . . . . . . . . . . . .</p>
       </div>
     <div class="col">
-      <button type="submit" name="btn" class='mb-2 mr-2 btn btn-primary btn-block'>
-        <b>Iniciar</b>
-      </button>
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="btn" class='mb-2 mr-2 btn btn-primary btn-block'>
+          <b>Iniciar</b>
+        </button>
+      </form>
       <a class='mb-2 mr-2 btn btn-secondary btn-block' href="{{object.eleccion.get_absolute_url}}">
         <b>Cancelar</b>
       </a>
