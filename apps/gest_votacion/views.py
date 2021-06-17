@@ -40,7 +40,7 @@ class IniMesa(DetailView):
     def post(self, request, *args, **kwargs):
         """EL USUARIO SOLICITA INICIAR LA MESA"""
         # Iniciar mesa
-        self.object.estado_mesa == 3
+        self.object.estado_mesa = 3
         self.object.save()
         # redireccionar a la vista de mesa iniciada
         return redirect(self.object.get_absolute_url_mesa_ini())
