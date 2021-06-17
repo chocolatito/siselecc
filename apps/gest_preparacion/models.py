@@ -178,8 +178,8 @@ class Mesa(Base):
     # slug = models.SlugField(unique=True)
     # Relationships
     eleccion = models.OneToOneField(Eleccion, on_delete=models.CASCADE)
-    cuenta = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                  on_delete=models.CASCADE, null=True, blank=True)
+    cuenta = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         ordering = ['estado_mesa']
