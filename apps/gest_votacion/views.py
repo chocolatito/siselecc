@@ -37,6 +37,14 @@ class IniMesa(DetailView):
             # La mesa puede estar LISTA, OPERATIVA, CERRADA, CREADA, CON AUTORIDAD
             return redirect('bienvenida:bienvenida')
 
+    def post(self, request, *args, **kwargs):
+        """EL USUARIO SOLICITA INICIAR LA MESA"""
+        # Iniciar mesa
+        self.object.estado_mesa == 3
+        self.object.save()
+        # redireccionar a la vista de mesa iniciada
+        return redirect(self.object.get_absolute_url_mesa_ini())
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Iniciar Mesa'
