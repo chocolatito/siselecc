@@ -170,7 +170,7 @@ class PadronElector(Base):
 ESTADO_MESA = [(0, "CREADA"), (1, "CON AUTORIDAD"),
                (2, "PREPARADA"),
                (3, "INICIADA"), (4, "LISTA"), (5, "OPERATIVA"),
-               (4, "CERRADA"), ]
+               (6, "CERRADA"), ]
 
 
 class Mesa(Base):
