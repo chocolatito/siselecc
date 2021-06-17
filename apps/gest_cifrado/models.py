@@ -12,7 +12,7 @@ class Clave(Base):
     creacion = models.DateTimeField(verbose_name='Fecha  y hora de creacón',
                                     auto_now_add=True)
     eleccion = models.ForeignKey(Eleccion, on_delete=models.CASCADE)
-    cuenta = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    cuenta = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['eleccion', 'cuenta', 'creacion']
