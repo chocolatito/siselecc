@@ -19,7 +19,6 @@ def actualizar_urna(urna, estado):
     urna.save()
     mesa = urna.mesa
     mesa.estado_mesa = 4
-    mesa.save()
     return urna
 
 

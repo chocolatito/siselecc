@@ -122,7 +122,13 @@ class MesaOpe(DetailView):
 
     def post(self, request, *args, **kwargs):
         """EL USUARIO SOLICITA AUTORIZAR AL ELECTOR"""
-        return redirect(reverse('gest_votacion:autorizar', args=[request.POST['btn']]))
+        if 'btn-autorizar' in request.POST:
+            return redirect(reverse('gest_votacion:autorizar', args=[request.POST['btn-autorizar']]))
+        elif 'btn-actualizar' in request.POST:
+            if self.object.estado_mesa == 4 and self.object.eleccion.etapa == 3:
+                self.object.estado_mesa = 5
+                self.object.save()
+        return redirect(request.META['HTTP_REFERER'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -147,7 +153,7 @@ class AutorizarElector(DetailView):
         self.estado_urna = self.mesa.urna.estado_urna
         # FALTA CONTROLAR QUE EL ELECTOR NO TENGA ESTADO 2
         if es_autoridad(self.object, request.user):
-            if self.mesa.estado_mesa == 4:
+            if self.mesa.estado_mesa == 5:
                 return super().dispatch(request, *args, **kwargs)
             else:
                 return redirect('bienvenida:bienvenida')

@@ -13,9 +13,12 @@
 {% include "gest_votacion/snippets/padronelector_table.html" %}
 {% else %}
 <h1>La elección inicia a las {{inicio}}hs </h1>
-  <a href="{{object.get_absolute_url_mesa_ope}}" class='btn btn-primary btn-lg btn-block'>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" name="btn-actualizar" class='btn btn-primary btn-lg btn-block'>
     Actualizar
-  </a>
+  </button>
+</form>
 {% endif %}
 {% endblock %}
 {% endblock %}
