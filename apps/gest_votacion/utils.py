@@ -57,3 +57,8 @@ def es_autoridad(mesa, user):
 def get_padronelector(mesa):
     """Utilizado en la vista MesaOpe"""
     return mesa.eleccion.padron.padronelector_set.all()
+
+
+# _
+def get_boleta(urna, id_boleta):
+    return urna.mesa.eleccion.boleta_set.get(id=id_boleta)

@@ -10,7 +10,8 @@ from .utils import (get_urna,
                     autorizar_elector,
                     retirar_elector,
                     es_autoridad,
-                    get_padronelector)
+                    get_padronelector,
+                    get_boleta)
 from ..gest_preparacion.models import Mesa, PadronElector
 from ..utils import group_required
 
@@ -204,42 +205,56 @@ class UrnaOpe(DetailView):
         self.object = self.get_object()
         # ver hora
         if self.object.estado_urna == 0:
+            # LA URNA NO HA SIDO INICIADA
             return redirect(self.object.get_absolute_url_ini())
         else:
             if self.object.estado_urna in [1, 2, 5, 6]:
-                # self.object.estado_urna == 1 or self.object.estado_urna == 2 or self.object.estado_urna == 5:
+                # LA URNA PUEDE TENER UN ESTADO
+                # LIBRE, ESPERANDO ELECTOR, OPERACION COMPLETADA o ELECTOR RETIRADO
                 return super().dispatch(request, *args, **kwargs)
             elif self.object.estado_urna == 3:
+                # LA URNA ESTA EN OPERATIVA
                 self.boletas = self.object.mesa.eleccion.boleta_set.all()
                 return super().dispatch(request, *args, **kwargs)
             elif self.object.estado_urna == 4:
-                self.boleta = self.object.mesa.eleccion.boleta_set.get(id=kwargs['id_boleta'])
+                # LA URNA ESTA EN CONFIRMACIÓN
+                self.boleta = get_boleta(self.object, kwargs['id_boleta'])
+                # self.boleta = self.object.mesa.eleccion.boleta_set.get(id=kwargs['id_boleta'])
                 return super().dispatch(request, *args, **kwargs)
             else:
                 return redirect('bienvenida:bienvenida')
 
     def post(self, request, *args, **kwargs):
         if self.object.estado_urna == 2:
+            # El elector esta autorizado
+            # La urna entra EN OPERACION
             self.object.estado_urna = 3
             self.object.save()
         elif self.object.estado_urna == 3:
+            # El elector selecciono una alternativa de votación
+            # la urna espera confirmación
             self.object.estado_urna = 4
             self.object.save()
+            # se redirecciona a la misma vista pero con un argumento extra
             return redirect('gest_votacion:urna-confirmar',
                             pk=self.object.id,
                             id_boleta=request.POST['btn-boleta'])
         elif self.object.estado_urna == 4:
+            # El elector puede haber confirmado o cancelado
             if 'btn-confirmar' in request.POST:
+                # El elector confirma
+                # 1º SE DEBE GENBERAR EL VOTO ANTES DE ACTUALIZAR EL ESTADO
                 self.object.estado_urna = 5
                 self.object.save()
             elif 'btn-cancelar' in request.POST:
+                # El elector cancela
                 self.object.estado_urna = 3
                 self.object.save()
-            return redirect(self.object.get_absolute_url_urna_ope())
         elif self.object.estado_urna == 5:
+            # El elector ha dejado la terminal de votación
             self.object.estado_urna = 6
             self.object.save()
-        return redirect(request.META['HTTP_REFERER'])
+        return redirect(self.object.get_absolute_url_urna_ope())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
