@@ -11,7 +11,8 @@ from .utils import (get_urna,
                     retirar_elector,
                     es_autoridad,
                     get_padronelector,
-                    get_boleta)
+                    get_boleta,
+                    emitir_voto)
 from ..gest_preparacion.models import Mesa, PadronElector
 from ..utils import group_required
 
@@ -19,6 +20,7 @@ from ..utils import group_required
 decorators = [login_required(login_url='gest_usuario:login'), group_required('staff',)]
 
 
+# _Mesa
 @method_decorator(decorators, name='dispatch')
 class IniMesa(DetailView):
     model = Mesa
@@ -176,6 +178,7 @@ class AutorizarElector(DetailView):
         return context
 
 
+# _Urna
 class IniUrna(TemplateView):
     template_name = 'gest_votacion/ini_urna.html'
 
@@ -244,6 +247,7 @@ class UrnaOpe(DetailView):
             if 'btn-confirmar' in request.POST:
                 # El elector confirma
                 # 1º SE DEBE GENBERAR EL VOTO ANTES DE ACTUALIZAR EL ESTADO
+                emitir_voto(self.boleta, self.object)
                 self.object.estado_urna = 5
                 self.object.save()
             elif 'btn-cancelar' in request.POST:

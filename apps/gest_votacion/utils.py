@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Urna
+from .models import Urna, Voto
 from ..utils import get_user
 
 
@@ -62,3 +62,10 @@ def get_padronelector(mesa):
 # _
 def get_boleta(urna, id_boleta):
     return urna.mesa.eleccion.boleta_set.get(id=id_boleta)
+
+
+# _
+def emitir_voto(boleta, urna):
+    Voto.object.create(vector_cifrado=boleta.vector_candidato,
+                       hash_voto='#####',
+                       urna=urna)
