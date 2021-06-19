@@ -100,7 +100,7 @@ def generar_N(ingreso, segmento):
 
 def generar_Cpublica(ingreso, color, cuenta, eleccion):
     n = generar_N(ingreso, color)
-    hash = hashlib.md5(ingreso.encode()).hexdigest()
+    hash = hashlib.md5(f'{ingreso}+{color}'.encode()).hexdigest()
     Clave.objects.create(hash=hash, n=n, cuenta=cuenta, eleccion=eleccion)
     return todas_las_claves(eleccion)
 
