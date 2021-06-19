@@ -7,7 +7,7 @@ from ..gest_preparacion.models import Eleccion
 
 
 class Clave(Base):
-    # hash = models.CharField(verbose_name='Hash', max_length=100, unique=True)
+    hash = models.CharField(verbose_name='Hash', max_length=32)
     n = models.CharField(verbose_name='Clave pública', max_length=100, default='')
     creacion = models.DateTimeField(verbose_name='Fecha  y hora de creacón',
                                     auto_now_add=True)
