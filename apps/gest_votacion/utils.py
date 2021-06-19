@@ -74,7 +74,7 @@ def cifrar(vector, eleccion):
     clave = Clave.objects.filter(eleccion=eleccion).order_by('?').first()
     publica = paillier.PaillierPublicKey(int(clave.n))
     tipo_vector = type(vector)
-    vector_cifrado = [publica.encrypt(x) for x in vector]
+    vector_cifrado = [str(publica.encrypt(x).ciphertext()) for x in vector]
     return vector_cifrado
 
 
