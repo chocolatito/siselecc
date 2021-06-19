@@ -1,4 +1,5 @@
-from json import loads
+import hashlib
+
 from functools import reduce
 
 from django_q.models import Schedule
@@ -70,8 +71,8 @@ def todas_las_claves(e):
                                 )
         # programar el final
         Schedule.objects.create(name=f'{e.id} st3: {e.get_progr_fin()}',
-                                     func='apps.gest_programacion.tasks.set_status',
-                                     args=f'{e.id},{4}',
+                                     func='apps.gest_programacion.tasks.carrar_votacion',
+                                     args=f'{e.id}',
                                      schedule_type='O',
                                      repeats=1,
                                      next_run=e.get_progr_fin()
@@ -99,7 +100,8 @@ def generar_N(ingreso, segmento):
 
 def generar_Cpublica(ingreso, color, cuenta, eleccion):
     n = generar_N(ingreso, color)
-    Clave.objects.create(n=n, cuenta=cuenta, eleccion=eleccion)
+    hash = hashlib.md5(ingreso.encode()).hexdigest()
+    Clave.objects.create(hash=hash, n=n, cuenta=cuenta, eleccion=eleccion)
     return todas_las_claves(eleccion)
 
 

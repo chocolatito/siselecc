@@ -14,3 +14,21 @@ def set_status(id, status):
     eleccion = Eleccion.objects.get(id=id)
     eleccion.etapa = status
     eleccion.save()
+
+
+def carrar_votacion(id):
+    """
+    https://mattsegal.dev/simple-scheduled-tasks.html
+    """
+    eleccion = Eleccion.objects.get(id=id)
+    eleccion.etapa = 4
+    eleccion.save()
+    #
+    eleccion.mesa = 6
+    eleccion.save()
+    #
+    eleccion.mesa.urna = 7
+    eleccion.save()
+    #
+    eleccion.padron = 3
+    eleccion.save()
