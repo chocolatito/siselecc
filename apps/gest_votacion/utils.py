@@ -66,6 +66,6 @@ def get_boleta(urna, id_boleta):
 
 # _
 def emitir_voto(boleta, urna):
-    Voto.object.create(vector_cifrado=boleta.vector_candidato,
-                       hash_voto='#####',
-                       urna=urna)
+    Voto.objects.create(vector_cifrado=boleta.vector_candidato,
+                        hash_voto='#####',
+                        urna=urna)
