@@ -1,7 +1,11 @@
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
+#
+from phe import paillier
+#
 from .models import Urna, Voto
 from ..utils import get_user
+from ..gest_cifrado.models import Clave
 
 
 def get_urna(mesa):
@@ -66,8 +70,17 @@ def get_boleta(urna, id_boleta):
 
 
 # _
+def cifrar(vector, eleccion):
+    clave = Clave.objects.filter(eleccion=eleccion).order_by('?').first()
+    publica = paillier.PaillierPublicKey(int(clave.n))
+    tipo_vector = type(vector)
+    vector_cifrado = [publica.encrypt(x) for x in vector]
+    return vector_cifrado
+
+
 def emitir_voto(boleta, urna):
     now = datetime.now()
-    Voto.objects.create(vector_cifrado=boleta.vector_candidato['vector_candidato'],
+    vector_cifrado = cifrar(boleta.vector_candidato['vector_candidato'], boleta.eleccion)
+    Voto.objects.create(vector_cifrado=vector_cifrado,
                         hash_voto=now.strftime("%H:%M:%S"),
                         urna=urna)
