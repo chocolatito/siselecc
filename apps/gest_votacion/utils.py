@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Urna, Voto
 from ..utils import get_user
@@ -66,6 +67,7 @@ def get_boleta(urna, id_boleta):
 
 # _
 def emitir_voto(boleta, urna):
+    now = datetime.now()
     Voto.objects.create(vector_cifrado=boleta.vector_candidato,
-                        hash_voto='#####',
+                        hash_voto=now.strftime("%H:%M:%S"),
                         urna=urna)
