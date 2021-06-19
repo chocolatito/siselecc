@@ -68,6 +68,6 @@ def get_boleta(urna, id_boleta):
 # _
 def emitir_voto(boleta, urna):
     now = datetime.now()
-    Voto.objects.create(vector_cifrado=boleta.vector_candidato,
+    Voto.objects.create(vector_cifrado=boleta.vector_candidato['vector_candidato'],
                         hash_voto=now.strftime("%H:%M:%S"),
                         urna=urna)
