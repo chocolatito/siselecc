@@ -46,7 +46,7 @@ class Urna(Base):
         return "{} - {}".format(self.estado_urna, self.creacion)
 
 
-PADRON_ESTADO_VOTO = [(0, "PREPARACIÓN"), (1, "PROGRAMADA"), (2, "LISTA"),
+PADRON_ESTADO_VOTO = [(0, "EMITIDO"), (1, "PROGRAMADA"), (2, "LISTA"),
                       (3, "EN CURSO"), (4, "CERRADA"), (5, "CONTEO INICIADO")]
 
 
@@ -74,4 +74,4 @@ class Voto(Base):
         pass
 
     def __str__(self):
-        return "{}".format(self.estado_voto)
+        return f'{self.id} - {self.vector_cifrado}'
