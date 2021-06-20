@@ -159,10 +159,8 @@ class IniPrivada_I(DetailView):
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         # Se debe verificar que la eleccion este cerrada
-        if self.object.etapa == 4:
+        if self.object.etapa == 5:
             return super().dispatch(request, *args, **kwargs)
-        elif self.object.etapa == 5:
-            return redirect(self.object.get_absolute_url())
         else:
             return redirect('bienvenido:bienvenido')
 
