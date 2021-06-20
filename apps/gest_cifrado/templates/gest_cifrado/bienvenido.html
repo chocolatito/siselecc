@@ -33,6 +33,17 @@
       <div class="card-body">
         <h5 class="card-title">Para elecciones en etapa de recuento iniciado</h5>
         <p>Es decir, para aquellas elecciones que finalizaron la votación y se solicito el inicio del recuento.</p>
+        {% if cerradas %}
+        <ul class="list-group">
+        {% for object in  cerradas.all %}
+          <li class="list-group-item text-dark">
+            <a href="{{object.get_absolute_url_cifrado}}"><b>{{object}}</b></a>
+          </li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <h1>NO HAY ELECCIONES CERRADAS</h1>
+        {% endif %}
         <p>...</p>
       </div>
       <div class="card-footer"></div>

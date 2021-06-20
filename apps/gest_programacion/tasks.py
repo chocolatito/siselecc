@@ -14,6 +14,9 @@ def set_status(id, status):
     eleccion = Eleccion.objects.get(id=id)
     eleccion.etapa = status
     eleccion.save()
+    #
+    eleccion.padron.estado_padron = 2
+    eleccion.save()
 
 
 def carrar_votacion(id):
@@ -24,11 +27,11 @@ def carrar_votacion(id):
     eleccion.etapa = 4
     eleccion.save()
     #
-    eleccion.mesa = 6
+    eleccion.mesa.estado_mesa = 6
     eleccion.save()
     #
-    eleccion.mesa.urna = 7
+    eleccion.mesa.urna.estado_urna = 7
     eleccion.save()
     #
-    eleccion.padron = 3
+    eleccion.padron.estado_padron = 3
     eleccion.save()
