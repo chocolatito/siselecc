@@ -134,7 +134,7 @@ class IniConteo(DetailView):
             # Se debe verificar que la eleccion este cerrada
             if self.object.etapa == 4:
                 return super().dispatch(request, *args, **kwargs)
-            else self.object.etapa == 5:
+            else:
                 return redirect(self.object.get_absolute_url())
         else:
             return redirect('bienvenido:bienvenido')
