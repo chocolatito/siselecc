@@ -57,6 +57,23 @@
     </ul>
   </div>
 </div>
+{% elif  object.etapa == 4 %}
+<div class="card bg-light">
+  <div class="card-header">
+    <h5 class="card-title">ELECCION CERRADA</h5>
+  </div>
+  <div class="card-body">
+    <ul class="list-group">
+      <!--INICIAR CONTEO-->
+      <li class="list-group-item">
+        {% include 'gest_preparacion/snippets/snippet_ini_conteo.html' %}
+      </li>
+      <!-- ./INICIAR MESA-->
+    </ul>
+  </div>
+</div>
+
+
 {% else %}
 <div class="card">
   <div class="card bg-light">
