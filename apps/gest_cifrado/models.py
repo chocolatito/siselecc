@@ -34,7 +34,7 @@ class Clave(Base):
 class Resultado(Base):
     final = models.BooleanField(verbose_name='Resultado final', default=False)
     parciales = models.IntegerField(verbose_name='Parciales restantes', default=0)
-    vector_resultado = models.JSONField(verbose_name="Vector resultado", default=[])
+    vector_resultado = models.JSONField(verbose_name="Vector resultado", default={})
     creacion = models.DateTimeField(verbose_name='Fecha y hora de creacón',
                                     auto_now_add=True)
     hash_final = models.CharField(verbose_name='Hash final',
