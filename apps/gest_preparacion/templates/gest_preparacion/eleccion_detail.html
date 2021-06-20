@@ -25,7 +25,6 @@
       </ul>
     </div>
   </div>
-
 </div>
 {% elif  object.etapa == 2 %}
 <div class="card bg-light">
@@ -72,7 +71,21 @@
     </ul>
   </div>
 </div>
-
+{% elif  object.etapa == 5 %}
+<div class="card bg-light">
+  <div class="card-header">
+    <h5 class="card-title">RECUENTO INICIADO</h5>
+  </div>
+  <div class="card-body">
+    <ul class="list-group">
+      <!--INICIALIZAR PRIVADA-->
+      <li class="list-group-item">
+        {% include 'gest_preparacion/snippets/snippet_ini_privada.html' %}
+      </li>
+      <!-- ./INICIAR MESA-->
+    </ul>
+  </div>
+</div>
 
 {% else %}
 <div class="card">

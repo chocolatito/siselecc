@@ -14,7 +14,7 @@ from ..utils import vname_f
 
 ELECCION_ETAPA = [(0, "PREPARACIÓN"), (1, "PROGRAMADA"), (2, "LISTA"),
                   (3, "EN CURSO"), (4, "CERRADA"),
-                  (5, "CONTEO INICIADO"), (5, "CONTEO FINALIZADO")]
+                  (5, "CONTEO INICIADO"), (6, "CONTEO FINALIZADO")]
 
 
 class Eleccion(Base):
