@@ -47,8 +47,7 @@ class Urna(Base):
         return "{} - {}".format(self.estado_urna, self.creacion)
 
 
-PADRON_ESTADO_VOTO = [(0, "EMITIDO"), (1, "PROGRAMADA"), (2, "LISTA"),
-                      (3, "EN CURSO"), (4, "CERRADA"), (5, "CONTEO INICIADO")]
+ESTADO_VOTO = [(0, "EMITIDO"), (1, "SUMADO"), ]
 
 
 class Voto(Base):
@@ -56,7 +55,7 @@ class Voto(Base):
     hash_voto = models.CharField(verbose_name='Hash voto',
                                  max_length=100, unique=True)
     estado_voto = models.IntegerField('Estado de voto',
-                                      choices=PADRON_ESTADO_VOTO, default=0)
+                                      choices=ESTADO_VOTO, default=0)
     hora_conteo = models.DateTimeField(verbose_name='Fecha y hora de conteo',
                                        auto_now_add=True)
     urna = models.ForeignKey(Urna, on_delete=models.CASCADE)
