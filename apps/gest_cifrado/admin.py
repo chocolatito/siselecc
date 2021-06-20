@@ -16,7 +16,7 @@ class ClaveAdmin(admin.ModelAdmin):
 
 
 class ResultadoAdmin(admin.ModelAdmin):
-    list_display = ['eleccion', 'final', 'resultado']
+    list_display = ['eleccion', 'final', ]
 
 
 class ParcialAdmin(admin.ModelAdmin):
