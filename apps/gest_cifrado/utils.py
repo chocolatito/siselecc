@@ -1,10 +1,12 @@
 import hashlib
 
 from functools import reduce
-
+from phe import paillier
+from phe.paillier import EncryptedNumber
+#
 from django_q.models import Schedule
 from .models import SecuenciaPrimo
-from .models import Clave
+from .models import Clave, Resultado, Parcial
 from ..gest_usuario.models import CuentaElector
 
 REFERENCIA = {'a': '1', 'b': '2', 'c': '3', 'd': '4', 'e': '5',
@@ -111,3 +113,58 @@ def verificar_user_clave(eleccion, cuenta):
         return False
     else:
         return True
+
+
+# ________________________________________________________________________________________
+def crear_resultado(eleccion):
+    return Resultado.objects.create(eleccion=eleccion)
+
+
+# ________________________________________________________________________________________
+def actualizar_voto(voto):
+    voto.estado_voto = 1
+    voto.save()
+
+
+def suma_individual(enc):
+    # <reduce()> retora un <paillier.EncryptedNumber>
+    # <paillier.EncryptedNumber.ciphertext()> retora un <int>
+    # <str> retora un tipo string
+    return str(reduce(lambda x, y: x+y, enc).ciphertext())
+
+
+def get_EncNum(publica, vector_cifrado):
+    return [EncryptedNumber(publica, int(v)) for v in vector_cifrado]
+
+
+def get_suma_parcial(n, votos):
+    pub = paillier.PaillierPublicKey(n)
+    # se recupera el vector y combierte a tipo INTEGGER
+    EncNums = [get_EncNum(pub, voto.vector_cifrado) for voto in votos]
+    length_v = len(EncNums[0])
+    return [suma_individual([enc[i] for enc in EncNums]) for i in range(length_v)]
+
+
+def generar_parcial(clave, votos, resultado):
+    suma = get_suma_parcial(int(clave.n), votos)
+    Parcial.objects.create(suma=suma, resultado=resultado, clave=clave)
+    [actualizar_voto(v) for v in votos]
+
+
+def generar_parciales(resultado, claves):
+    if claves:
+        [generar_parcial(clave, clave.voto_set.all(), resultado) for clave in claves]
+        return True
+    else:
+        return False
+
+
+# ________________________________________________________________________________________
+
+# ________________________________________________________________________________________
+
+# ________________________________________________________________________________________
+
+# ________________________________________________________________________________________
+
+# ________________________________________________________________________________________

@@ -6,7 +6,10 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from .forms import ClaveForm
-from .utils import verificar_user_elector, generar_Cpublica, verificar_user_clave
+from .utils import (verificar_user_elector,
+                    generar_Cpublica,
+                    verificar_user_clave,
+                    crear_resultado, generar_parciales)
 from ..utils import group_required, get_user
 from ..gest_preparacion.models import Eleccion
 from ..gest_preparacion.utils import get_eleccion
@@ -141,8 +144,12 @@ class IniConteo(DetailView):
 
     def post(self, request, *args, **kwargs):
         if 'btn-iniciar' in request.POST:
-            self.object.etapa = 5
-            self.object.save()
+            #
+            resultado = crear_resultado(self.object)
+            # se deben obtener las sumas parciales
+            if generar_parciales(resultado, self.object.clave_set.all()):
+                self.object.etapa = 5
+                self.object.save()
         return redirect(self.object.get_absolute_url())
 
     def get_context_data(self, **kwargs):
