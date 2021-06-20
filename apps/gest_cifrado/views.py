@@ -184,12 +184,4 @@ class IniPrivada_I(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Eleccion xyz'
-        context['page_title_heading'] = 'Listado de Eleccion xyz'
-        context['message_no_queryset'] = 'No hay elecciones registradas'
-        context['url_listado'] = 'gest_preparacion:listado'
-        context['url_agregar'] = 'gest_preparacion:agregar'
-        context['url_detalle'] = 'gest_preparacion:detalle'
-        context['url_actualizar'] = 'gest_preparacion:actualizar'
-        context['snippet_accion_table'] = 'gest_preparacion/snippets/snippet_accion_table.html'
         return context
