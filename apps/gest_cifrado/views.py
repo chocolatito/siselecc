@@ -146,8 +146,9 @@ class IniConteo(DetailView):
         if 'btn-iniciar' in request.POST:
             #
             resultado = crear_resultado(self.object)
+            claves = self.object.clave_set.exclude(cuenta=self.object.mesa.cuenta)
             # se deben obtener las sumas parciales
-            if generar_parciales(resultado, self.object.clave_set.all()):
+            if generar_parciales(resultado, claves):
                 self.object.etapa = 5
                 self.object.save()
         return redirect(self.object.get_absolute_url())

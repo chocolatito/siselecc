@@ -70,8 +70,8 @@ class Parcial(Base):
 
     class Meta:
         ordering = ['descifrado']
-        verbose_name = "Resultado"
-        verbose_name_plural = "Resultados"
+        verbose_name = "Parcial"
+        verbose_name_plural = "Parciales"
 
     def get_absolute_url(self):
         # return reverse('eleccion:cargo-detail', args=[str(self.id)])
