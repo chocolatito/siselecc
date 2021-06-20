@@ -60,7 +60,7 @@ class Voto(Base):
     hora_conteo = models.DateTimeField(verbose_name='Fecha y hora de conteo',
                                        auto_now_add=True)
     urna = models.ForeignKey(Urna, on_delete=models.CASCADE)
-    clave = models.ForeignKey(Clave, on_delete=models.CASCADE)
+    clave = models.ForeignKey(Clave, on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ['estado_voto']
