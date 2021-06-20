@@ -13,7 +13,8 @@ from ..gest_elector.models import Elector
 from ..utils import vname_f
 
 ELECCION_ETAPA = [(0, "PREPARACIÓN"), (1, "PROGRAMADA"), (2, "LISTA"),
-                  (3, "EN CURSO"), (4, "CERRADA"), (5, "CONTEO INICIADO")]
+                  (3, "EN CURSO"), (4, "CERRADA"),
+                  (5, "CONTEO INICIADO"), (5, "CONTEO FINALIZADO")]
 
 
 class Eleccion(Base):
@@ -35,9 +36,16 @@ class Eleccion(Base):
 
     def get_absolute_url(self):
         return reverse('gest_preparacion:detalle', args=[str(self.id)])
+    # _
+
+    def get_absolute_url_ini_conteo(self):
+        return reverse('gest_cifrado:ini-conteo', args=[str(self.id)])
 
     def get_absolute_url_cifrado(self):
         return reverse('gest_cifrado:ini-publica-i', args=[str(self.id)])
+
+    def get_absolute_url_descifrado(self):
+        return reverse('gest_cifrado:ini-privada-i', args=[str(self.id)])
 
     # ____________________________________________________________________________________
     def get_field_values(self):

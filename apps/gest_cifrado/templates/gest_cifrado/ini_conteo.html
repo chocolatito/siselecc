@@ -1,0 +1,18 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+
+{% block rows %}
+{% block div_card-body %}
+<h1><b>Desea iniciar el conteo de votos correspondiente a la eleccion:</b> {{object}}</h1>
+<form method="post">
+  {% csrf_token %}
+    <button type="submit" name="btn-iniciar" class='btn btn-primary'>
+      Iniciar
+    </button>
+</form>
+<a href='{{object.get_absolute_url}}' class='btn btn-danger'>Cancelar</a>
+{% endblock %}
+{% endblock %}
+
+{% comment %}
+{% endcomment %}

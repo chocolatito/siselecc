@@ -10,6 +10,7 @@ from .utils import verificar_user_elector, generar_Cpublica, verificar_user_clav
 from ..utils import group_required, get_user
 from ..gest_preparacion.models import Eleccion
 from ..gest_preparacion.utils import get_eleccion
+from ..gest_votacion.utils import es_autoridad
 
 # Create your views here.
 
@@ -29,10 +30,11 @@ class GestorCifradoView(TemplateView):
         context['title_of_the_document'] = 'Gestor de Cifrado'
         context['page_title_heading'] = 'Gestor de Cifrado'
         context['programadas'] = Eleccion.objects.filter(etapa=1)
-        context['cerradas'] = Eleccion.objects.filter(etapa=4)
+        context['cerradas'] = Eleccion.objects.filter(etapa=5)
         return context
 
 
+# _Publica
 @ method_decorator(decorators, name='dispatch')
 class IniPublica_I(DetailView):
     model = Eleccion
@@ -58,7 +60,8 @@ class IniPublica_I(DetailView):
             else:
                 print(f'No es Candidatos\n___> {request.user.username}\n')
         elif request.POST['btn'] == 'autoridad':
-            if self.object.mesa.cuenta.username == request.user.username:
+            # if self.object.mesa.cuenta.username == request.user.username:
+            if es_autoridad(self.object.mesa, request.user):
                 print(f'Autoridad\n___> {request.user.username}\n')
                 print('SE DEBE REDIRECCIONAR A UN FORMULARIO PARA INGRESAR LA CLAVE')
                 return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
@@ -116,4 +119,77 @@ class IniPublica_II(FormView):
         context = super().get_context_data(**kwargs)
         context['submit_button'] = 'Ingresar'
         context['card_title'] = 'Crea una clave para inicializar el cifrado'
+        return context
+
+
+# _Conteo
+@ method_decorator(decorators, name='dispatch')
+class IniConteo(DetailView):
+    model = Eleccion
+    template_name = 'gest_cifrado/ini_conteo.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if es_autoridad(self.object.mesa, request.user):
+            # Se debe verificar que la eleccion este cerrada
+            if self.object.etapa == 4:
+                return super().dispatch(request, *args, **kwargs)
+            else self.object.etapa == 5:
+                return redirect(self.object.get_absolute_url())
+        else:
+            return redirect('bienvenido:bienvenido')
+
+    def post(self, request, *args, **kwargs):
+        if 'btn-iniciar' in request.POST:
+            self.object.etapa = 5
+            self.object.save()
+        return redirect(self.object.get_absolute_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+# _Privada
+@ method_decorator(decorators, name='dispatch')
+class IniPrivada_I(DetailView):
+    model = Eleccion
+    template_name = 'gest_cifrado/ini_privada_i.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # Se debe verificar que la eleccion este cerrada
+        if self.object.etapa == 4:
+            return super().dispatch(request, *args, **kwargs)
+        elif self.object.etapa == 5:
+            return redirect(self.object.get_absolute_url())
+        else:
+            return redirect('bienvenido:bienvenido')
+
+    def post(self, request, *args, **kwargs):
+        if request.POST['btn'] == 'candidato':
+            if verificar_user_elector(get_user(request.user.username),
+                                      self.object.candidato_set.filter(estado_postulacion=True)):
+                return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
+            else:
+                print(f'No es Candidatos\n___> {request.user.username}\n')
+        elif request.POST['btn'] == 'autoridad':
+            if self.object.mesa.cuenta.username == request.user.username:
+                print(f'Autoridad\n___> {request.user.username}\n')
+                print('SE DEBE REDIRECCIONAR A UN FORMULARIO PARA INGRESAR LA CLAVE')
+                return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
+            else:
+                print(f'No es Autoridad\n___> {request.user.username}\n')
+        return redirect(request.META['HTTP_REFERER'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado de Eleccion xyz'
+        context['page_title_heading'] = 'Listado de Eleccion xyz'
+        context['message_no_queryset'] = 'No hay elecciones registradas'
+        context['url_listado'] = 'gest_preparacion:listado'
+        context['url_agregar'] = 'gest_preparacion:agregar'
+        context['url_detalle'] = 'gest_preparacion:detalle'
+        context['url_actualizar'] = 'gest_preparacion:actualizar'
+        context['snippet_accion_table'] = 'gest_preparacion/snippets/snippet_accion_table.html'
         return context
