@@ -29,6 +29,7 @@ class GestorCifradoView(TemplateView):
         context['title_of_the_document'] = 'Gestor de Cifrado'
         context['page_title_heading'] = 'Gestor de Cifrado'
         context['programadas'] = Eleccion.objects.filter(etapa=1)
+        context['cerradas'] = Eleccion.objects.filter(etapa=4)
         return context
 
 
