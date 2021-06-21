@@ -86,18 +86,16 @@ class IniPublica_I(DetailView):
 
 @ method_decorator(decorators, name='dispatch')
 class IniPublica_II(FormView):
-    # specify the Form you want to use
     form_class = ClaveForm
-
-    # sepcify name of template
     template_name = 'utils/create.html'
     success_url = reverse_lazy('gest_cifrado:gest_cifrado')
 
     def dispatch(self, request, *args, **kwargs):
-        #self.object = get_eleccion(kwargs['pk'])
         if verificar_user_clave(get_eleccion(kwargs['pk']), get_user(request.user)):
+            # El usuario no posee clave inicializada
             return super().dispatch(request, *args, **kwargs)
         else:
+            # El usuario ya ha inicializado su clave
             return redirect('bienvenida:bienvenida')
 
     def post(self, request, *args, **kwargs):
@@ -204,9 +202,10 @@ class IniPrivada_II(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         if verificar_user_clave(get_eleccion(kwargs['pk']), get_user(request.user)):
-            return super().dispatch(request, *args, **kwargs)
-        else:
+            # El usuario no posee clave inicializada
             return redirect('bienvenida:bienvenida')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
