@@ -170,7 +170,6 @@ class IniPrivada_I(DetailView):
 
     def post(self, request, *args, **kwargs):
         if request.POST['btn'] == 'candidato':
-            # if es_candidato(get_user(request.user), self.object.candidato_set.filter(estado_postulacion=True)):
             #
             if es_candidato(get_user(request.user), self.object.candidatos()):
                 return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
