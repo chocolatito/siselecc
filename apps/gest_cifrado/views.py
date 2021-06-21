@@ -9,7 +9,9 @@ from .forms import ClaveForm
 from .utils import (es_candidato,
                     generar_Cpublica,
                     verificar_user_clave,
-                    crear_resultado, generar_parciales)
+                    crear_resultado, generar_parciales,
+                    privada_iniciada,
+                    generar_Cprivada)
 from ..utils import group_required, get_user
 from ..gest_preparacion.models import Eleccion
 from ..gest_preparacion.utils import get_eleccion
@@ -172,8 +174,12 @@ class IniPrivada_I(DetailView):
         if request.POST['btn'] == 'candidato':
             if es_candidato(get_user(request.user), self.object.candidatos()):
                 # El usuarios es un candidato de la elección
-                # Verificar si no ha iniciado su clave de descifrado
-                return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
+                if privada_iniciada(self.object, get_user(request.user)):
+                    # El usuario ya ha inicializado la clave privada
+                    return redirect(self.object.get_absolute_url())
+                else:
+                    # El usuario puede inicializar la clave privada
+                    return redirect('gest_cifrado:ini-privada-ii', pk=self.object.id)
             else:
                 print(f'No es Candidatos\n___> {request.user.username}\n')
         elif request.POST['btn'] == 'autoridad':
@@ -187,4 +193,39 @@ class IniPrivada_I(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        return context
+
+
+@ method_decorator(decorators, name='dispatch')
+class IniPrivada_II(FormView):
+    form_class = ClaveForm
+    template_name = 'utils/create.html'
+    success_url = reverse_lazy('gest_cifrado:gest_cifrado')
+
+    def dispatch(self, request, *args, **kwargs):
+        if verificar_user_clave(get_eleccion(kwargs['pk']), get_user(request.user)):
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('bienvenida:bienvenida')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            if generar_Cprivada(form.cleaned_data.get('clave'),
+                                tuple(int(x) for x in form.cleaned_data.get('color')),
+                                get_user(request.user),
+                                get_eleccion(kwargs['pk'])):
+                # return redirect(self.object.get_absolute_url())
+                return redirect('bienvenida:bienvenida')
+            else:
+                return redirect(self.success_url)
+        else:
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            return render(request, self.template_name, context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_button'] = 'Ingresar'
+        context['card_title'] = 'Crea una clave para inicializar el descifrado'
         return context

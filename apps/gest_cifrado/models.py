@@ -57,9 +57,6 @@ class Resultado(Base):
     def __str__(self):
         return "{} de {}".format(self.vector_resultado, self.parciales)
 
-# Clave.Parcial -> descifrado==False
-# Eleccion.Clave (cuenta==cuenta)
-
 
 class Parcial(Base):
     suma = models.JSONField(verbose_name="Suma parcial")
