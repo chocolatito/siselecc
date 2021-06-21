@@ -161,8 +161,11 @@ def generar_parciales(resultado, claves):
 
 # ________________________________________________________________________________________
 def privada_iniciada(eleccion, user):
-    """Retorna un <True> o <False>"""
-    return eleccion.clave_set.get(cuenta=user).parcial.descifrado
+    """Retorna un <True> o <False>
+    NOTA: SE DEBERIA COMBIAR LA RELACION FK ENTRE PARCIAL Y CLAVE A UNA RELACION OtO"""
+    clave = eleccion.clave_set.get(cuenta=user)
+    parcial = eleccion.resultado.parcial_set.get(clave=clave)
+    return parcial.descifrado
 
 
 # ________________________________________________________________________________________
