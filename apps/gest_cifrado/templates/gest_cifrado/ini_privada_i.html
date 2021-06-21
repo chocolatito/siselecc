@@ -10,7 +10,7 @@ Es usted Candidato o Autoridad de mesa???
   <div class="row bg-light">
   <div class="col card mt-3">
     <div class="card-header bg-dark">
-      ...
+      {% if candidatos %} ************** {% else %} --- {% endif %}
     </div>
     <div class="card-body bg-white">
       <button type="submit" name="btn" value='candidato' class='btn btn-primary'>
