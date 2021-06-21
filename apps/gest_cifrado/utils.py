@@ -162,7 +162,7 @@ def generar_parciales(resultado, claves):
 # ________________________________________________________________________________________
 def privada_iniciada(eleccion, user):
     """Retorna un <True> o <False>"""
-    return eleccion.clave_set.filter(cuenta=user).parcial.descifrado
+    return eleccion.clave_set.get(cuenta=user).parcial.descifrado
 
 
 # ________________________________________________________________________________________
