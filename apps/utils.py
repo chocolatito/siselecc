@@ -41,5 +41,5 @@ def group_required(*group_names):
     return user_passes_test(in_groups, login_url='bienvenida:bienvenida')
 
 
-def get_user(username):
-    return User.objects.get(username=username)
+def get_user(user):
+    return User.objects.get(username=user.username)
