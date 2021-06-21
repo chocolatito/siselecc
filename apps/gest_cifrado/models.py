@@ -66,7 +66,8 @@ class Parcial(Base):
     hash_final = models.CharField(verbose_name='Hash',
                                   max_length=100, null=True)
     resultado = models.ForeignKey(Resultado, on_delete=models.CASCADE)
-    clave = models.ForeignKey(Clave, on_delete=models.CASCADE)
+    # clave = models.ForeignKey(Clave, on_delete=models.CASCADE)
+    clave = models.OneToOneField(Clave, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['descifrado']
