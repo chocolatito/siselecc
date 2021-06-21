@@ -170,8 +170,9 @@ class IniPrivada_I(DetailView):
 
     def post(self, request, *args, **kwargs):
         if request.POST['btn'] == 'candidato':
-            #
             if es_candidato(get_user(request.user), self.object.candidatos()):
+                # El usuarios es un candidato de la elección
+                # Verificar si no ha iniciado su clave de descifrado
                 return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
             else:
                 print(f'No es Candidatos\n___> {request.user.username}\n')
