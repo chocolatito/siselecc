@@ -16,6 +16,10 @@ from ..gest_preparacion.utils import get_eleccion
 from ..gest_votacion.utils import es_autoridad
 
 # Create your views here.
+# _Publica
+# _Conteo
+# _Privada
+
 
 decorators = [login_required(login_url='gest_usuario:login'),
               group_required('staff', 'elector')]
@@ -75,12 +79,6 @@ class IniPublica_I(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Eleccion xyz'
-        context['page_title_heading'] = 'Listado de Eleccion xyz'
-        context['message_no_queryset'] = 'No hay elecciones registradas'
-        context['url_listado'] = 'gest_preparacion:listado'
-        context['url_agregar'] = 'gest_preparacion:agregar'
-        context['url_detalle'] = 'gest_preparacion:detalle'
-        context['url_actualizar'] = 'gest_preparacion:actualizar'
         context['snippet_accion_table'] = 'gest_preparacion/snippets/snippet_accion_table.html'
         return context
 
@@ -174,6 +172,7 @@ class IniPrivada_I(DetailView):
 
     def post(self, request, *args, **kwargs):
         if request.POST['btn'] == 'candidato':
+            # verificar_user_elector(request.user.username, self.object.candidato_set.all()):
             if verificar_user_elector(get_user(request.user.username),
                                       self.object.candidato_set.filter(estado_postulacion=True)):
                 return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
@@ -190,4 +189,6 @@ class IniPrivada_I(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # verificar_user_elector(request.user.username, self.object.candidato_set.all()):
+        context['candidatos'] = self.object.candidatos()
         return context

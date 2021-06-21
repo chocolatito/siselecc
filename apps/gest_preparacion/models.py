@@ -94,6 +94,9 @@ class Eleccion(Base):
         else:
             return False
 
+    def candidatos(self):
+        return self.candidato_set.filter(estado_postulacion=True)
+
 
 class Candidato(Base):
     estado_postulacion = models.BooleanField(verbose_name="Estado de postulación",
