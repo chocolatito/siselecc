@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from .forms import ClaveForm
-from .utils import (verificar_user_elector,
+from .utils import (es_candidato,
                     generar_Cpublica,
                     verificar_user_clave,
                     crear_resultado, generar_parciales)
@@ -59,8 +59,7 @@ class IniPublica_I(DetailView):
 
     def post(self, request, *args, **kwargs):
         if request.POST['btn'] == 'candidato':
-            if verificar_user_elector(get_user(request.user.username),
-                                      self.object.candidato_set.filter(estado_postulacion=True)):
+            if es_candidato(get_user(request.user), self.object.candidatos()):
                 print(f'Candidatos\n___> {request.user.username}\n')
                 print('SE DEBE REDIRECCIONAR A UN FORMULARIO PARA INGRESAR LA CLAVE')
                 return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
@@ -94,8 +93,7 @@ class IniPublica_II(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         #self.object = get_eleccion(kwargs['pk'])
-        if verificar_user_clave(get_eleccion(kwargs['pk']),
-                                get_user(request.user.username)):
+        if verificar_user_clave(get_eleccion(kwargs['pk']), get_user(request.user)):
             return super().dispatch(request, *args, **kwargs)
         else:
             return redirect('bienvenida:bienvenida')
@@ -105,7 +103,7 @@ class IniPublica_II(FormView):
         if form.is_valid():
             if generar_Cpublica(form.cleaned_data.get('clave'),
                                 tuple(int(x) for x in form.cleaned_data.get('color')),
-                                get_user(request.user.username),
+                                get_user(request.user),
                                 get_eleccion(kwargs['pk'])):
                 # return redirect(self.object.get_absolute_url())
                 return redirect('bienvenida:bienvenida')
@@ -172,9 +170,9 @@ class IniPrivada_I(DetailView):
 
     def post(self, request, *args, **kwargs):
         if request.POST['btn'] == 'candidato':
-            # verificar_user_elector(request.user.username, self.object.candidato_set.all()):
-            if verificar_user_elector(get_user(request.user.username),
-                                      self.object.candidato_set.filter(estado_postulacion=True)):
+            # if es_candidato(get_user(request.user), self.object.candidato_set.filter(estado_postulacion=True)):
+            #
+            if es_candidato(get_user(request.user), self.object.candidatos()):
                 return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
             else:
                 print(f'No es Candidatos\n___> {request.user.username}\n')
@@ -189,6 +187,4 @@ class IniPrivada_I(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # verificar_user_elector(request.user.username, self.object.candidato_set.all()):
-        context['candidatos'] = self.object.candidatos()
         return context

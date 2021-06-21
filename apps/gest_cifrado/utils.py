@@ -46,7 +46,7 @@ def generar_secuencias():
 # ________________________________________________________________________________________
 
 
-def verificar_user_elector(user, candidatos):
+def es_candidato(user, candidatos):
     try:
         cuentaelector = CuentaElector.objects.get(cuenta=user)
     except CuentaElector.DoesNotExist:
@@ -60,7 +60,7 @@ def verificar_user_elector(user, candidatos):
 
 def todas_las_claves(e):
     """ e: Eleccion"""
-    if e.clave_set.all().count() == e.candidato_set.all().count()+1:
+    if e.clave_set.all().count() == e.candidatos().count()+1:
         e.etapa = 2
         e.save()
         # programar el inicio https://youtu.be/KXP84ijiLbg?t=880
