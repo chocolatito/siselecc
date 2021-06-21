@@ -205,6 +205,7 @@ class IniPrivada_II(FormView):
             # El usuario no posee clave inicializada
             return redirect('bienvenida:bienvenida')
         else:
+            #
             return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
