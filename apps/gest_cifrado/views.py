@@ -184,7 +184,7 @@ class IniPrivada_I(DetailView):
             if self.object.mesa.cuenta.username == request.user.username:
                 print(f'Autoridad\n___> {request.user.username}\n')
                 print('SE DEBE REDIRECCIONAR A UN FORMULARIO PARA INGRESAR LA CLAVE')
-                return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
+                return redirect('gest_cifrado:ini-privada-ii', pk=self.object.id)
             else:
                 print(f'No es Autoridad\n___> {request.user.username}\n')
         return redirect(request.META['HTTP_REFERER'])
