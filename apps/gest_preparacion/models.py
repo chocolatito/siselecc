@@ -94,8 +94,16 @@ class Eleccion(Base):
         else:
             return False
 
+    # ____________________________________________________________________________________
     def candidatos(self):
         return self.candidato_set.filter(estado_postulacion=True)
+
+    def n_candidatos(self):
+        return self.candidatos().count()
+
+    def get_n_staff(self):
+        cuenta = self.mesa.cuenta
+        return int(self.clave_set.get(cuenta=cuenta).n)
 
 
 class Candidato(Base):

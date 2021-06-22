@@ -161,18 +161,108 @@ def generar_parciales(resultado, claves):
 
 # ________________________________________________________________________________________
 def privada_iniciada(eleccion, user):
-    """Retorna un <True> o <False>
-    NOTA: SE DEBERIA COMBIAR LA RELACION FK ENTRE PARCIAL Y CLAVE A UNA RELACION OtO
-    clave = eleccion.clave_set.get(cuenta=user)
-    parcial = eleccion.resultado.parcial_set.get(clave=clave)
-    return parcial.descifrado"""
+    """Retorna un <True> o <False>"""
     clave = eleccion.clave_set.get(cuenta=user)
     return clave.parcial.descifrado
 
 
 # ________________________________________________________________________________________
+def sumar_par(alfa, beta):
+    return [suma_individual([ab[i] for ab in [alfa, beta]]) for i in range(len(alfa))]
+
+
+def get_vector_resultado(publica, vector):
+    return [str(v.ciphertext()) for v in get_VecEncNum(publica, vector)]
+
+
+def gen_privada(public_key, p, q):
+    return paillier.PaillierPrivateKey(public_key, p, q)
+
+
+def gen_PQ(alfa, beta):
+    # <alfa> string de 8 caracteres
+    # <beta> tupla de dos enteros
+    # <gamma> tupla de dos enteros
+    gamma = (get_valor_clave(alfa[:4]), get_valor_clave(alfa[4:8]))
+    return calcular_indices(gamma[0], beta[0]), calcular_indices(gamma[1], beta[1])
+
+
+def get_VecEncNum(publica, vector):
+    return [EncryptedNumber(publica, v) for v in vector]
+
+
+def gen_publica(n):
+    return paillier.PaillierPublicKey(n)
+
+
+def desencriptar_suma(ingreso, color, cuenta, eleccion):
+    """Se asume que <cuenta> corresponde a un candidato de la elección""""
+    hash = hashlib.md5(f'{ingreso}+{color}'.encode()).hexdigest()
+    clave = eleccion.clave_set.get(cuenta=cuenta)
+    parcial = clave.parcial
+    if clave.hash == hash:
+        # <pub> es la clave publica
+        pub = gen_publica(int(clave.n))
+        p, q = gen_PQ(ingreso, color)
+        # <pri> es la clave privada
+        pri = gen_privada(pub, p, q)
+        # retorna una lista de enteros no nulos
+        suma = [pri.decrypt(v) for v in get_VecEncNum(pub, parcial.int_suma())]
+        parcial.descifrado = True
+        parcial.save()
+        return suma
+    else:
+        # La clave ingresada por el usuario es incorrecta
+        return []
+
+
+def actualizar_resultado(ingreso, color, cuenta, eleccion):
+    resultado = eleccion.resultado
+    if resultado.final:
+        # El ingreso corresponde al usuario tipo Staff
+        hash = hashlib.md5(f'{ingreso}+{color}'.encode()).hexdigest()
+        clave = eleccion.clave_set.get(cuenta=cuenta)
+        if clave.hash == hash:
+            # <pub> es la clave publica
+            pub_staff = gen_publica(int(clave.n))
+            p, q = gen_PQ(ingreso, color)
+            r_actual = get_VecEncNum(pub_staff, resultado.int_vector_resultado())
+            pri = gen_privada(pub, p, q)
+            resultado.vector_resultado = [pri.decrypt(v) for v in r_actual]
+            resultado.save()
+            eleccion.etapa = 6
+            eleccion.save()
+            return True
+        else:
+            return []
+    suma = desencriptar_suma(ingreso, color, cuenta, eleccion)
+    if suma:
+        pub_staff = gen_publica(eleccion.get_n_staff())
+        if resultado.parciales:
+            r_actual = get_VecEncNum(pub_staff, resultado.int_vector_resultado())
+            r_nuevo = get_VecEncNum(pub_staff, suma)
+            resultado.vector_resultado = sumar_par(r_actual, r_nuevo)
+            resultado.save()
+            n_parciales = resultado.parciales
+            resultado.parciales = 1 + n_parciales
+            resultado.save()
+            if resultado.parciales == eleccion.n_candidatos():
+                resultado.final = True
+                resultado.save()
+        else:
+            # Se actualiza por primera ves el vector resultado
+            resultado.vector_resultado = get_vector_resultado(pub_staff, suma)
+            resultado.save()
+            resultado.parciales = 1
+            resultado.save()
+        return True
+    else:
+        return False
+
+
 def generar_Cprivada(ingreso, color, cuenta, eleccion):
-    return True
+    #
+    pass
 
 # ________________________________________________________________________________________
 

@@ -11,7 +11,7 @@ from .utils import (es_candidato,
                     verificar_user_clave,
                     crear_resultado, generar_parciales,
                     privada_iniciada,
-                    generar_Cprivada)
+                    actualizar_resultado)
 from ..utils import group_required, get_user
 from ..gest_preparacion.models import Eleccion
 from ..gest_preparacion.utils import get_eleccion
@@ -201,7 +201,8 @@ class IniPrivada_II(FormView):
     success_url = reverse_lazy('gest_cifrado:gest_cifrado')
 
     def dispatch(self, request, *args, **kwargs):
-        if verificar_user_clave(get_eleccion(kwargs['pk']), get_user(request.user)):
+        self.eleccion = get_eleccion(kwargs['pk'])
+        if verificar_user_clave(self.eleccion, get_user(request.user)):
             # El usuario no posee clave inicializada
             return redirect('bienvenida:bienvenida')
         else:
@@ -211,14 +212,14 @@ class IniPrivada_II(FormView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            if generar_Cprivada(form.cleaned_data.get('clave'),
-                                tuple(int(x) for x in form.cleaned_data.get('color')),
-                                get_user(request.user),
-                                get_eleccion(kwargs['pk'])):
+            if actualizar_resultado(form.cleaned_data.get('clave'),
+                                    tuple(int(x) for x in form.cleaned_data.get('color')),
+                                    get_user(request.user),
+                                    self.eleccion):
                 # return redirect(self.object.get_absolute_url())
                 return redirect('bienvenida:bienvenida')
             else:
-                return redirect(self.success_url)
+                return redirect(self.eleccion.get_absolute_url())
         else:
             context = self.get_context_data(**kwargs)
             context['form'] = form

@@ -54,6 +54,10 @@ class Resultado(Base):
         # return [self.name, self.description, self.get_editable_display()]
         pass
 
+    # ______________________
+    def int_vector_resultado(self):
+        return [int(v) for v in self.vector_resultado]
+
     def __str__(self):
         return "{} de {}".format(self.vector_resultado, self.parciales)
 
@@ -81,6 +85,10 @@ class Parcial(Base):
     def get_field_values(self):
         # return [self.name, self.description, self.get_editable_display()]
         pass
+
+    # ____________________________________________
+    def int_suma(self):
+        return [int(v) for v in self.suma]
 
     def __str__(self):
         return "{} de {}".format(self.suma, self.descifrado)
