@@ -137,8 +137,7 @@ def get_EncNum(publica, vector_cifrado):
     return [EncryptedNumber(publica, int(v)) for v in vector_cifrado]
 
 
-def get_suma_parcial(n, votos):
-    pub = paillier.PaillierPublicKey(n)
+def get_suma_parcial(pub, votos):
     # se recupera el vector y combierte a tipo INTEGGER
     EncNums = [get_EncNum(pub, voto.vector_cifrado) for voto in votos]
     length_v = len(EncNums[0])
@@ -146,7 +145,7 @@ def get_suma_parcial(n, votos):
 
 
 def generar_parcial(clave, votos, resultado):
-    suma = get_suma_parcial(int(clave.n), votos)
+    suma = get_suma_parcial(paillier.PaillierPublicKey(int(clave.n)), votos)
     Parcial.objects.create(suma=suma, resultado=resultado, clave=clave)
     [actualizar_voto(v) for v in votos]
 
@@ -207,7 +206,8 @@ def desencriptar_suma(ingreso, color, cuenta, eleccion):
         # <pri> es la clave privada
         pri = gen_privada(pub, p, q)
         # retorna una lista de enteros no nulos
-        suma = [pri.decrypt(v) for v in get_VecEncNum(pub, parcial.int_suma())]
+        # suma = [pri.decrypt(v) for v in get_VecEncNum(pub, parcial.int_suma())]
+        suma = [pri.raw_decrypt(v) for v in parcial.int_suma()]
         parcial.descifrado = True
         parcial.save()
         return suma
@@ -227,7 +227,7 @@ def actualizar_resultado(ingreso, color, cuenta, eleccion):
             pub_staff = gen_publica(int(clave.n))
             p, q = gen_PQ(ingreso, color)
             r_actual = get_VecEncNum(pub_staff, resultado.int_vector_resultado())
-            pri = gen_privada(pub, p, q)
+            pri = gen_privada(pub_staff, p, q)
             resultado.vector_resultado = [pri.decrypt(v) for v in r_actual]
             resultado.save()
             eleccion.etapa = 6

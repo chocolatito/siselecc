@@ -70,7 +70,9 @@ def get_boleta(urna, id_boleta):
 
 # _
 def cifrar(vector, eleccion, autoridad):
-    clave = Clave.objects.filter(eleccion=eleccion).exclude(cuenta=autoridad).order_by('?').first()
+    # Eleccion deberia definir un metodo que excluya la clave de staff
+    clave = Clave.objects.filter(eleccion=eleccion).exclude(
+        cuenta=autoridad).order_by('?').first()
     publica = paillier.PaillierPublicKey(int(clave.n))
     # tipo_vector = type(vector)
     vector_cifrado = [str(publica.encrypt(x).ciphertext()) for x in vector]
