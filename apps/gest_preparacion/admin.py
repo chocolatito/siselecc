@@ -8,7 +8,7 @@ class EleccionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('titulo', 'id', 'fecha', 'hora_inicio', 'hora_fin', 'etapa', 'slug')
 
 
-class MesaAdmin(admin.ModelAdmin):
+class MesaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('id', 'estado_mesa', 'cuenta', 'eleccion',)
 
 
