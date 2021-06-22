@@ -11,6 +11,7 @@ et-xmlfile==1.1.0
 MarkupPy==1.14
 odfpy==1.4.1
 openpyxl==3.0.7
+phe==1.4.0
 psycopg2==2.8.6
 python-dateutil==2.8.1
 python-environ==0.4.54
