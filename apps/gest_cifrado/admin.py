@@ -11,15 +11,15 @@ admin.site.register(SecuenciaPrimo, SecuenciaPrimoAdmin)
 """
 
 
-class ClaveAdmin(admin.ModelAdmin):
+class ClaveAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ['eleccion', 'cuenta']
 
 
-class ResultadoAdmin(admin.ModelAdmin):
+class ResultadoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ['eleccion', 'final', ]
 
 
-class ParcialAdmin(admin.ModelAdmin):
+class ParcialAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ['resultado', 'descifrado', 'fecha_hora', 'clave']
 
 

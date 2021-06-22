@@ -12,8 +12,12 @@ class MesaAdmin(admin.ModelAdmin):
     list_display = ('id', 'estado_mesa', 'cuenta', 'eleccion',)
 
 
+class CandidatoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('id',)
+
+
 admin.site.register(Eleccion, EleccionAdmin)
 admin.site.register(Padron)
 admin.site.register(Mesa, MesaAdmin)
 admin.site.register(PadronElector)
-admin.site.register(Candidato)
+admin.site.register(Candidato, CandidatoAdmin)
