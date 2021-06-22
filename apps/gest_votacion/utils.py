@@ -54,7 +54,7 @@ def retirar_elector(pad_elec, urna):
 # ________________________________________________________________________________________
 def es_autoridad(mesa, user):
     """Utilizado en las vistas: IniMesa, MesaIni, MesaOpe y AutorizarElector"""
-    return mesa.cuenta == get_user(user.username)
+    return mesa.cuenta == get_user(user)
 
 
 # _
