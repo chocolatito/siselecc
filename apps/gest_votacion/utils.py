@@ -17,8 +17,7 @@ def get_urna(mesa):
         return Urna.objects.create(codigo_inicio='123456789', mesa=mesa)
 
 
-# ________________________________________________________________________________________
-
+# _______________________________________________________________________________________
 def actualizar_urna(urna, estado):
     urna.estado_urna = estado
     urna.save()
