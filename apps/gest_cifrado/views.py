@@ -91,7 +91,9 @@ class IniPublica_II(FormView):
     success_url = reverse_lazy('gest_cifrado:gest_cifrado')
 
     def dispatch(self, request, *args, **kwargs):
-        if verificar_user_clave(get_eleccion(kwargs['pk']), get_user(request.user)):
+        self.object = get_eleccion(kwargs['pk'])
+        self.user = get_user(request.user)
+        if verificar_user_clave(self.object, get_user(request.user)):
             # El usuario no posee clave inicializada
             return super().dispatch(request, *args, **kwargs)
         else:
@@ -103,9 +105,7 @@ class IniPublica_II(FormView):
         if form.is_valid():
             if generar_Cpublica(form.cleaned_data.get('clave'),
                                 tuple(int(x) for x in form.cleaned_data.get('color')),
-                                get_user(request.user),
-                                get_eleccion(kwargs['pk'])):
-                # return redirect(self.object.get_absolute_url())
+                                self.user, self.object):
                 return redirect('bienvenida:bienvenida')
             else:
                 return redirect(self.success_url)
@@ -142,7 +142,8 @@ class IniConteo(DetailView):
         if 'btn-iniciar' in request.POST:
             #
             resultado = crear_resultado(self.object)
-            claves = self.object.clave_set.exclude(cuenta=self.object.mesa.cuenta)
+            # claves = self.object.clave_set.exclude(cuenta=self.object.mesa.cuenta)
+            claves = self.object.get_claves_candidatos()
             # se deben obtener las sumas parciales
             if generar_parciales(resultado, claves):
                 self.object.etapa = 5
@@ -182,11 +183,16 @@ class IniPrivada_I(DetailView):
                 print(f'No es Candidatos\n___> {request.user.username}\n')
         elif request.POST['btn'] == 'autoridad':
             if self.object.mesa.cuenta.username == request.user.username:
-                print(f'Autoridad\n___> {request.user.username}\n')
-                print('SE DEBE REDIRECCIONAR A UN FORMULARIO PARA INGRESAR LA CLAVE')
-                return redirect('gest_cifrado:ini-privada-ii', pk=self.object.id)
+                # Es autoridad
+                if self.object.resultado.parciales == self.object.n_candidatos():
+                    # todos los candidatos ya han iniciado sus claves de descifrado
+                    # SE DEBE REDIRECCIONAR A UN FORMULARIO PARA INGRESAR LA CLAVE
+                    return redirect('gest_cifrado:ini-privada-ii', pk=self.object.id)
+                else:
+                    return redirect('bienvenido:bienvenido')
             else:
-                print(f'No es Autoridad\n___> {request.user.username}\n')
+                # NO Es autoridad
+                return redirect('bienvenido:bienvenido')
         return redirect(request.META['HTTP_REFERER'])
 
     def get_context_data(self, **kwargs):
@@ -212,10 +218,9 @@ class IniPrivada_II(FormView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            if actualizar_resultado(form.cleaned_data.get('clave'),
-                                    tuple(int(x) for x in form.cleaned_data.get('color')),
-                                    get_user(request.user),
-                                    self.eleccion):
+            clave = form.cleaned_data.get('clave')
+            color = tuple(int(x) for x in form.cleaned_data.get('color'))
+            if actualizar_resultado(clave, color, get_user(request.user), self.eleccion):
                 # return redirect(self.object.get_absolute_url())
                 return redirect('bienvenida:bienvenida')
             else:

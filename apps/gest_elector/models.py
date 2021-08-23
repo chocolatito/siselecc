@@ -58,4 +58,4 @@ class Elector(Base):
         pass
 
     def __str__(self):
-        return "{} - {}, {}".format(self.dni, self.nombres, self.apellidos)
+        return f'{self.dni} - {self.nombres} {self.apellidos}'

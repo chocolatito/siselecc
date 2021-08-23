@@ -8,7 +8,6 @@ from .models import CuentaElector
 # Register your models here.
 #
 
-
 class CustonUserAdmin(ImportExportModelAdmin, UserAdmin):
     list_display = ('username', 'email', 'is_staff')
 

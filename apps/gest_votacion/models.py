@@ -32,7 +32,7 @@ class Urna(Base):
         verbose_name_plural = "Urnas"
 
 # _Iniciada urna
-    def get_absolute_url_ini(self):
+    def get_ini_url(self):
         return reverse('gest_votacion:ini-urna')
 
 # _Urna libre
@@ -51,7 +51,7 @@ ESTADO_VOTO = [(0, "EMITIDO"), (1, "SUMADO"), ]
 
 
 class Voto(Base):
-    vector_cifrado = models.JSONField(verbose_name="Vector resultado")
+    vector_cifrado = models.JSONField(verbose_name="Vector cifrado")
     hash_voto = models.CharField(verbose_name='Hash voto',
                                  max_length=100, unique=True)
     estado_voto = models.IntegerField('Estado de voto',
@@ -70,9 +70,8 @@ class Voto(Base):
         # return reverse('eleccion:cargo-detail', args=[str(self.id)])
         pass
 
-    def get_field_values(self):
-        # return [self.name, self.description, self.get_editable_display()]
-        pass
+    def get_int_vector(self):
+        return [int(v) for v in self.vector_cifrado]
 
     def __str__(self):
         return f'{self.id} - {self.vector_cifrado}'

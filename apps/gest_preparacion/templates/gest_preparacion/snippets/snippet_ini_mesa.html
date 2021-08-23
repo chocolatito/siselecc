@@ -5,13 +5,13 @@
       <div class="widget-content-left">
         {% if mesa.estado_mesa == 2 %}
         <div class="widget-heading">
-          <a class='text-dark' href='{{mesa.get_absolute_url_ini}}'>
+          <a class='text-dark' href='{{mesa.get_ini_url}}'>
             Iniciar Terminal de Mesa de Votación #
           </a>
         </div>
         {% elif mesa.estado_mesa == 3 or mesa.estado_mesa == 4 %}
         <div class="widget-heading">
-          <a class='text-danger' href='{{mesa.get_absolute_url_mesa_ini}}'>
+          <a class='text-danger' href='{{mesa.get_mesa_ini_url}}'>
             Ir a Terminal de Mesa de Votación #
           </a>
         </div>

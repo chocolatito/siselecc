@@ -12,19 +12,17 @@ from ..gest_elector.models import Elector
 # Create your models here.
 from ..utils import vname_f
 
-ELECCION_ETAPA = [(0, "PREPARACIÓN"), (1, "PROGRAMADA"), (2, "LISTA"),
-                  (3, "EN CURSO"), (4, "CERRADA"),
-                  (5, "CONTEO INICIADO"), (6, "CONTEO FINALIZADO")]
+ETAPAS = [(0, "PREPARACIÓN"), (1, "PROGRAMADA"), (2, "LISTA"),
+          (3, "EN CURSO"), (4, "CERRADA"),
+          (5, "CONTEO INICIADO"), (6, "CONTEO FINALIZADO")]
 
 
 class Eleccion(Base):
     titulo = models.CharField('Titulo', max_length=100)
-    fecha = models.DateField('Fecha de realización',
-                             default=datetime.date.today)
+    fecha = models.DateField('Fecha de realización', default=datetime.date.today)
     hora_inicio = models.TimeField('Hora de inicio', blank=True, null=True)
     hora_fin = models.TimeField('Hora de cierre', blank=True, null=True)
-    etapa = models.IntegerField('Etapa de elección',
-                                choices=ELECCION_ETAPA, default=0)
+    etapa = models.IntegerField('Etapa de elección', choices=ETAPAS, default=0)
     slug = models.SlugField(max_length=50, unique=True)
     # Relationships
     cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
@@ -38,13 +36,13 @@ class Eleccion(Base):
         return reverse('gest_preparacion:detalle', args=[str(self.id)])
     # _
 
-    def get_absolute_url_ini_conteo(self):
+    def get_ini_conteo_url(self):
         return reverse('gest_cifrado:ini-conteo', args=[str(self.id)])
 
-    def get_absolute_url_cifrado(self):
+    def get_cifrado_url(self):
         return reverse('gest_cifrado:ini-publica-i', args=[str(self.id)])
 
-    def get_absolute_url_descifrado(self):
+    def get_descifrado_url(self):
         return reverse('gest_cifrado:ini-privada-i', args=[str(self.id)])
 
     # ____________________________________________________________________________________
@@ -95,17 +93,27 @@ class Eleccion(Base):
             return False
 
     # ____________________________________________________________________________________
+    # Querysets basados en relaciones
     def candidatos(self):
         return self.candidato_set.filter(estado_postulacion=True)
 
     def n_candidatos(self):
         return self.candidatos().count()
 
+    def get_claves_candidatos(self):
+        cuenta = self.mesa.cuenta
+        return self.clave_set.exclude(cuenta=cuenta)
+
+    def get_clave_autoridad(self):
+        cuenta = self.mesa.cuenta
+        return self.clave_set.get(cuenta=cuenta)
+
     def get_n_staff(self):
         cuenta = self.mesa.cuenta
         return int(self.clave_set.get(cuenta=cuenta).n)
 
 
+# _Candidato
 class Candidato(Base):
     estado_postulacion = models.BooleanField(verbose_name="Estado de postulación",
                                              default=True)
@@ -130,19 +138,17 @@ class Candidato(Base):
         return [self.elector.dni, self.elector.nombres, self.elector.apellidos, ]
 
     def __str__(self):
-        return "{} - {},{}".format(self.elector.dni,
-                                   self.elector.nombres,
-                                   self.elector.apellidos)
+        return f'{self.elector.dni} / {self.elector.nombres} {self.elector.apellidos}'
 
 
 # https://docs.djangoproject.com/en/3.1/topics/db/models/#extra-fields-on-many-to-many-relationships
 
-PADRON_ESTADO_PADRON = [(0, "ABIERTO"), (1, "PREPARADO"), (2, "EN OPERACIÓN"), (3, "CERRADO"), ]
+ESTADO_PADRON = [(0, "ABIERTO"), (1, "PREPARADO"), (2, "EN OPERACIÓN"), (3, "CERRADO"), ]
 
 
+# _Padron
 class Padron(Base):
-    estado_padron = models.IntegerField('Etapa de padrón',
-                                        choices=PADRON_ESTADO_PADRON, default=0)
+    estado_padron = models.IntegerField('Etapa de padrón', choices=ESTADO_PADRON, default=0)
     # slug = models.SlugField(unique=True)
     # Relationships
     eleccion = models.OneToOneField(Eleccion, on_delete=models.CASCADE)
@@ -161,12 +167,13 @@ class Padron(Base):
         return reverse('gest_preparacion:adm-padron', args=[self.id])
 
     def __str__(self):
-        return "{}".format(self.id)
+        return f'{self.id}-{self.eleccion}'
 
 
 ESTADO_PADRONELECTOR = [(0, "AUSENTE"), (1, "AUTORIZADO"), (2, "RETIRADO"), ]
 
 
+# _PadronElector
 class PadronElector(Base):
     padron = models.ForeignKey(Padron, on_delete=models.CASCADE)
     elector = models.ForeignKey(Elector, on_delete=models.CASCADE)
@@ -192,6 +199,7 @@ ESTADO_MESA = [(0, "CREADA"), (1, "CON AUTORIDAD"),
                (6, "CERRADA"), ]
 
 
+# _Mesa
 class Mesa(Base):
     estado_mesa = models.IntegerField('Estado de mesa', choices=ESTADO_MESA, default=0)
     # slug = models.SlugField(unique=True)
@@ -209,11 +217,11 @@ class Mesa(Base):
         return reverse('gest_preparacion:adm-mesa', args=[self.id])
 
 # _Iniciada mesa
-    def get_absolute_url_ini(self):
+    def get_ini_url(self):
         return reverse('gest_votacion:ini-mesa', args=[self.id])
 
 # _Mesa iniciada
-    def get_absolute_url_mesa_ini(self):
+    def get_mesa_ini_url(self):
         return reverse('gest_votacion:mesa-ini', args=[self.id])
 
 # _Mesa operativa
@@ -230,8 +238,6 @@ class Mesa(Base):
 
 # _______________________________________________________
 # PRE/POST SAVE
-
-
 def set_slug_Eleccion(sender, instance, *args, **kwargs):
     if instance.id and instance.titulo and instance.fecha and not instance.slug:
         instance.slug = slugify(

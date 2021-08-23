@@ -31,6 +31,7 @@ class AdmProgramacion(UpdateView):
     def post(self, request, *args, **kwargs):
         form = EleccionForm(request.POST, instance=self.object)
         if form.is_valid():
+            # Diferencia entre HttpResponseRedirect() y redirect()
             return HttpResponseRedirect(actualizar_etapa(form.save()).get_absolute_url())
         self.object = None
         context = self.get_context_data(**kwargs)

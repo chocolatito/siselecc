@@ -84,11 +84,20 @@ def todas_las_claves(e):
         return False
 
 
+def get_primo(indice, sec):
+    # ****************************
+    # En produccion es 'secuencia'
+    # En desarrollo es 'sec'
+    # ****************************
+    # int(SecuenciaPrimo.objects.get(indice=indice).secuencia['secuencia'][sec])
+    return int(SecuenciaPrimo.objects.get(indice=indice).secuencia['sec'][sec])
+
+
 def calcular_indices(ingreso, segmento):
-    valor = ingreso*segmento
-    indice = ((valor-1) // 240100) * 240100
-    indiceSec = (valor-1) % 240100
-    return int(SecuenciaPrimo.objects.get(indice=indice).secuencia['secuencia'][indiceSec])
+    valor = (ingreso*segmento) - 1
+    indice = (valor // 240100) * 240100
+    sec = valor % 240100
+    return get_primo(indice, sec)
 
 
 def get_valor_clave(clave):
@@ -134,18 +143,17 @@ def suma_individual(enc):
 
 
 def get_EncNum(publica, vector_cifrado):
-    return [EncryptedNumber(publica, int(v)) for v in vector_cifrado]
+    return [EncryptedNumber(publica, v) for v in vector_cifrado]
 
 
-def get_suma_parcial(pub, votos):
+def gen_suma_parcial(pub, votos, len_v):
     # se recupera el vector y combierte a tipo INTEGGER
-    EncNums = [get_EncNum(pub, voto.vector_cifrado) for voto in votos]
-    length_v = len(EncNums[0])
-    return [suma_individual([enc[i] for enc in EncNums]) for i in range(length_v)]
+    EncNums = [get_EncNum(pub, voto.get_int_vector()) for voto in votos]
+    return [suma_individual([enc[i] for enc in EncNums]) for i in range(len_v)]
 
 
 def generar_parcial(clave, votos, resultado):
-    suma = get_suma_parcial(paillier.PaillierPublicKey(int(clave.n)), votos)
+    suma = gen_suma_parcial(gen_publica(int(clave.n)), votos, resultado.get_len_vector())
     Parcial.objects.create(suma=suma, resultado=resultado, clave=clave)
     [actualizar_voto(v) for v in votos]
 
@@ -170,7 +178,7 @@ def sumar_par(alfa, beta):
     return [suma_individual([ab[i] for ab in [alfa, beta]]) for i in range(len(alfa))]
 
 
-def get_vector_resultado(publica, vector):
+def gen_vector_resultado(publica, vector):
     return [str(v.ciphertext()) for v in get_VecEncNum(publica, vector)]
 
 
@@ -187,7 +195,7 @@ def gen_PQ(alfa, beta):
 
 
 def get_VecEncNum(publica, vector):
-    return [EncryptedNumber(publica, v) for v in vector]
+    return [publica.encrypt(v) for v in vector]
 
 
 def gen_publica(n):
@@ -206,7 +214,6 @@ def desencriptar_suma(ingreso, color, cuenta, eleccion):
         # <pri> es la clave privada
         pri = gen_privada(pub, p, q)
         # retorna una lista de enteros no nulos
-        # suma = [pri.decrypt(v) for v in get_VecEncNum(pub, parcial.int_suma())]
         suma = [pri.raw_decrypt(v) for v in parcial.int_suma()]
         parcial.descifrado = True
         parcial.save()
@@ -216,6 +223,10 @@ def desencriptar_suma(ingreso, color, cuenta, eleccion):
         return []
 
 
+def desc_intv(privada, int_vector):
+    return [privada.raw_decrypt(v) for v in int_vector]
+
+
 def actualizar_resultado(ingreso, color, cuenta, eleccion):
     resultado = eleccion.resultado
     if resultado.final:
@@ -223,23 +234,26 @@ def actualizar_resultado(ingreso, color, cuenta, eleccion):
         hash = hashlib.md5(f'{ingreso}+{color}'.encode()).hexdigest()
         clave = eleccion.clave_set.get(cuenta=cuenta)
         if clave.hash == hash:
-            # <pub> es la clave publica
+            # <pub_staff>: clave publica la autoridad de mesa
+            # <p>,<q>: números primos
+            # <pri_staff>: clave publica la autoridad de mesa
             pub_staff = gen_publica(int(clave.n))
             p, q = gen_PQ(ingreso, color)
-            r_actual = get_VecEncNum(pub_staff, resultado.int_vector_resultado())
-            pri = gen_privada(pub_staff, p, q)
-            resultado.vector_resultado = [pri.decrypt(v) for v in r_actual]
-            resultado.save()
+            pri_staff = gen_privada(pub_staff, p, q)
+            resultado.vector_resultado = desc_intv(pri_staff, resultado.int_vector())
             eleccion.etapa = 6
             eleccion.save()
             return True
         else:
             return []
     suma = desencriptar_suma(ingreso, color, cuenta, eleccion)
+    print(f'***********\nSUMA: {suma}')
     if suma:
         pub_staff = gen_publica(eleccion.get_n_staff())
+        print(f'\nPUBLICA STAFF: {pub_staff.n}')
         if resultado.parciales:
-            r_actual = get_VecEncNum(pub_staff, resultado.int_vector_resultado())
+            # r_actual = get_VecEncNum(pub_staff, resultadoint_vector))
+            r_actual = get_EncNum(pub_staff, resultado.int_vector())
             r_nuevo = get_VecEncNum(pub_staff, suma)
             resultado.vector_resultado = sumar_par(r_actual, r_nuevo)
             resultado.save()
@@ -250,8 +264,9 @@ def actualizar_resultado(ingreso, color, cuenta, eleccion):
                 resultado.final = True
                 resultado.save()
         else:
+            print('# Se actualiza por primera ves el vector resultado')
             # Se actualiza por primera ves el vector resultado
-            resultado.vector_resultado = get_vector_resultado(pub_staff, suma)
+            resultado.vector_resultado = gen_vector_resultado(pub_staff, suma)
             resultado.save()
             resultado.parciales = 1
             resultado.save()
@@ -259,10 +274,6 @@ def actualizar_resultado(ingreso, color, cuenta, eleccion):
     else:
         return False
 
-
-def generar_Cprivada(ingreso, color, cuenta, eleccion):
-    #
-    pass
 
 # ________________________________________________________________________________________
 

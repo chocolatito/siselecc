@@ -8,7 +8,6 @@ from ..gest_elector.models import Elector
 
 CUENTA_TIPO = [(0, "STAFF"), (1, "ELECTOR")]
 
-
 class Cuenta(Base):
     tipo = models.IntegerField(verbose_name='Tipo', choices=CUENTA_TIPO, default=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Usuario",

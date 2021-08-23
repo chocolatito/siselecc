@@ -4,8 +4,6 @@ from django.urls import reverse
 from ..BaseModel import Base
 # Create your models here.
 
-# EDITABLE_CHOICES = [(0, 'Editable'), (1, 'No Editable')]
-
 
 class Cargo(Base):
     nombre = models.CharField(verbose_name='Nombre del Cargo',
@@ -28,6 +26,10 @@ class Cargo(Base):
         return [(self._meta.get_field('nombre').verbose_name.title(), self.nombre),
                 (self._meta.get_field('descripcion').verbose_name.title(), self.descripcion),
                 (self._meta.get_field('editable').verbose_name.title(), self.editable), ]
+
+    def elecciones(self):
+        """retorna las elecciones en las que se elige representante para el cargo"""
+        return self.eleccion_set.all()
 
     def __str__(self):
         return "{}".format(self.nombre)

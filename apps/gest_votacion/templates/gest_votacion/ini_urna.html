@@ -6,8 +6,16 @@
 <form method='post'>
   {% csrf_token %}
   <div class="form-group">
-    <label>Código de Inicio</label>
-    <input type="password" name='codigo' class="form-control" required>
+    <label>Clave</label>
+    <input type="password" name='clave' class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label>Color</label>
+    <select name="color" class="form-control" id="id_color">
+      <option value="23">Verde</option>
+      <option value="13">Azul</option>
+      <option value="12">Rojo</option>
+    </select>
   </div>
   <button type="submit" class="btn btn-primary">Iniciar</button>
 </form>

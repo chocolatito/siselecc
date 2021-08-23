@@ -31,4 +31,4 @@ class Boleta(Base):
             return "Voto en Blanco"
 
     def __str__(self):
-        return "{} de {} - Vector={}".format(self.indice, self.n, self.vector_candidato)
+        return f'{self.indice} de {self.n} / {self.vector_candidato}'

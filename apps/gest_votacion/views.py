@@ -35,7 +35,7 @@ class IniMesa(DetailView):
                 return super().dispatch(request, *args, **kwargs)
             elif self.object.estado_mesa == 3:
                 # SI la mesa esta INICIADA
-                return redirect(self.object.get_absolute_url_mesa_ini())
+                return redirect(self.object.get_mesa_ini_url())
         else:
             # La mesa puede estar LISTA, OPERATIVA, CERRADA, CREADA, CON AUTORIDAD
             return redirect('bienvenida:bienvenida')
@@ -46,7 +46,7 @@ class IniMesa(DetailView):
         self.object.estado_mesa = 3
         self.object.save()
         # redireccionar a la vista de mesa iniciada
-        return redirect(self.object.get_absolute_url_mesa_ini())
+        return redirect(self.object.get_mesa_ini_url())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -72,7 +72,7 @@ class MesaIni(DetailView):
                 return redirect(self.object.get_absolute_url_mesa_ope())
             elif self.object.estado_mesa == 2:
                 # LA MESA ESTA PREPARADA
-                return redirect(self.object.get_absolute_url_ini())
+                return redirect(self.object.get_ini_url())
             else:
                 # LA MESA PUEDE ESTAR CERRADA, CREADA, CON AUTORIDAD
                 return redirect('bienvenida:bienvenida')
@@ -112,10 +112,10 @@ class MesaOpe(DetailView):
                 return super().dispatch(request, *args, **kwargs)
             elif self.object.estado_mesa == 3:
                 # LA MESA ESTA INICIADA
-                return redirect(self.object.get_absolute_url_mesa_ini())
+                return redirect(self.object.get_mesa_ini_url())
             elif self.object.estado_mesa == 2:
                 # LA MESA ESTA PREPARADA
-                return redirect(self.object.get_absolute_url_ini())
+                return redirect(self.object.get_ini_url())
             else:
                 # LA MESA PUEDE ESTAR CERRADA, CREADA o CON AUTORIDAD
                 return redirect('bienvenida:bienvenida')
@@ -164,12 +164,14 @@ class AutorizarElector(DetailView):
 
     def post(self, request, *args, **kwargs):
         if self.estado_urna == 1:
-            print('HAY QUE AUTORIZAR')
+            # La urna esta libre
             autorizar_elector(self.object, self.mesa.urna)
+            return redirect(request.META['HTTP_REFERER'])
         elif self.estado_urna == 6:
             retirar_elector(self.object, self.mesa.urna)
             return redirect(self.mesa.get_absolute_url_mesa_ope())
-        return redirect(request.META['HTTP_REFERER'])
+        # HAY UN ERROR
+        return redirect('bienvenida:bienvenida')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -186,7 +188,14 @@ class IniUrna(TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        urna = inciar_urna(request.POST['codigo'])
+        """ Los ingresos no se validan porque:
+        * La autoridad deberia conocer la informacion incorrecta
+        * Solo la autoridad es responsable de iniciar la urna
+        * No se debe proporcionar informacion a un usuario indebido
+        """
+        # urna = inciar_urna(request.POST['codigo'])
+        urna = inciar_urna(request.POST['clave'],
+                           tuple(int(x) for x in request.POST["color"]))
         if urna:
             print('\nSE REDIRECCIONA A URNA LIBRE\n')
             return redirect(urna.get_absolute_url_urna_ope())
@@ -209,20 +218,18 @@ class UrnaOpe(DetailView):
         # ver hora
         if self.object.estado_urna == 0:
             # LA URNA NO HA SIDO INICIADA
-            return redirect(self.object.get_absolute_url_ini())
+            return redirect(self.object.get_ini_url())
         else:
-            if self.object.estado_urna in [1, 2, 5, 6]:
+            # FALTA REDIRECCIONAR CUANDO LA URNA ESTA CERRADA
+            if self.object.estado_urna in [1, 2, 3, 4, 5, 6]:
                 # LA URNA PUEDE TENER UN ESTADO
                 # LIBRE, ESPERANDO ELECTOR, OPERACION COMPLETADA o ELECTOR RETIRADO
-                return super().dispatch(request, *args, **kwargs)
-            elif self.object.estado_urna == 3:
-                # LA URNA ESTA EN OPERATIVA
-                self.boletas = self.object.mesa.eleccion.boleta_set.all()
-                return super().dispatch(request, *args, **kwargs)
-            elif self.object.estado_urna == 4:
-                # LA URNA ESTA EN CONFIRMACIÓN
-                self.boleta = get_boleta(self.object, kwargs['id_boleta'])
-                # self.boleta = self.object.mesa.eleccion.boleta_set.get(id=kwargs['id_boleta'])
+                if self.object.estado_urna == 3:
+                    # LA URNA ESTA EN OPERATIVA
+                    self.boletas = self.object.mesa.eleccion.boleta_set.all()
+                elif self.object.estado_urna == 4:
+                    # LA URNA ESTA EN CONFIRMACIÓN
+                    self.boleta = get_boleta(self.object, kwargs['id_boleta'])
                 return super().dispatch(request, *args, **kwargs)
             else:
                 return redirect('bienvenida:bienvenida')

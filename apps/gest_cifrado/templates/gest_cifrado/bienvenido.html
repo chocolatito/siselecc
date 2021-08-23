@@ -13,7 +13,7 @@
         <ul class="list-group">
         {% for object in  programadas.all %}
           <li class="list-group-item text-dark">
-            <a href="{{object.get_absolute_url_cifrado}}"><b>{{object}}</b></a>
+            <a href="{{object.get_cifrado_url}}"><b>{{object}}</b></a>
           </li>
         {% endfor %}
         </ul>
@@ -37,7 +37,7 @@
         <ul class="list-group">
         {% for object in  cerradas.all %}
           <li class="list-group-item text-dark">
-            <a href="{{object.get_absolute_url_descifrado}}"><b>{{object}}</b></a>
+            <a href="{{object.get_descifrado_url}}"><b>{{object}}</b></a>
           </li>
         {% endfor %}
         </ul>

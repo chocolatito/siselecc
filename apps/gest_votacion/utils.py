@@ -1,3 +1,4 @@
+import hashlib
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 #
@@ -14,7 +15,8 @@ def get_urna(mesa):
     except ObjectDoesNotExist:
         mesa.estado_mesa = 3
         mesa.save()
-        return Urna.objects.create(codigo_inicio='123456789', mesa=mesa)
+        hash = mesa.eleccion.get_clave_autoridad().hash
+        return Urna.objects.create(codigo_inicio=hash, mesa=mesa)
 
 
 # _______________________________________________________________________________________
@@ -27,12 +29,13 @@ def actualizar_urna(urna, estado):
     return urna
 
 
-def inciar_urna(codigo):
+def inciar_urna(ingreso, color):
+    codigo = hashlib.md5(f'{ingreso}+{color}'.encode()).hexdigest()
     try:
-        print('\nSe actualiza la urna\n')
+        # Si el codigo es correcto, se actualiza la urna
         return actualizar_urna(Urna.objects.get(codigo_inicio=codigo), 1)
     except ObjectDoesNotExist:
-        print('\nCODIGO INCORRECTO\n')
+        # CODIGO INCORRECTO
         return None
 # ________________________________________________________________________________________
 

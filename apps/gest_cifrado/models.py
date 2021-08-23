@@ -55,8 +55,11 @@ class Resultado(Base):
         pass
 
     # ______________________
-    def int_vector_resultado(self):
+    def int_vector(self):
         return [int(v) for v in self.vector_resultado]
+
+    def get_len_vector(self):
+        return (1+self.eleccion.n_candidatos())
 
     def __str__(self):
         return "{} de {}".format(self.vector_resultado, self.parciales)
