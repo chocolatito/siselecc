@@ -240,9 +240,13 @@ def actualizar_resultado(ingreso, color, cuenta, eleccion):
             pub_staff = gen_publica(int(clave.n))
             p, q = gen_PQ(ingreso, color)
             pri_staff = gen_privada(pub_staff, p, q)
+            #
             resultado.vector_resultado = desc_intv(pri_staff, resultado.int_vector())
+            resultado.save()
+            #
             eleccion.etapa = 6
             eleccion.save()
+            #
             return True
         else:
             return []
