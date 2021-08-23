@@ -89,8 +89,8 @@ def get_primo(indice, sec):
     # En produccion es 'secuencia'
     # En desarrollo es 'sec'
     # ****************************
-    # int(SecuenciaPrimo.objects.get(indice=indice).secuencia['secuencia'][sec])
-    return int(SecuenciaPrimo.objects.get(indice=indice).secuencia['sec'][sec])
+    # int(SecuenciaPrimo.objects.get(indice=indice).secuencia['sec'][sec])
+    return int(SecuenciaPrimo.objects.get(indice=indice).secuencia['secuencia'][sec])
 
 
 def calcular_indices(ingreso, segmento):
