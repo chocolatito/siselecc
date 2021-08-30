@@ -28,10 +28,10 @@ def carrar_votacion(id):
     eleccion.save()
     # CERRADA
     eleccion.mesa.estado_mesa = 6
-    eleccion.save()
+    eleccion.mesa.save()
     # CERRADA
     eleccion.mesa.urna.estado_urna = 7
-    eleccion.save()
+    eleccion.mesa.urna.save()
     # CERRADO
     eleccion.padron.estado_padron = 3
-    eleccion.save()
+    eleccion.padron.save()
