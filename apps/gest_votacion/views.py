@@ -103,6 +103,10 @@ class MesaOpe(DetailView):
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         # ver hora
+        if self.object.estado_mesa == 6:
+            # ELECCION CERRADA
+            return redirect('bienvenida:bienvenida')
+        # ELECCION EN CURSO
         if es_autoridad(self.object, request.user):
             if self.object.estado_mesa in [4, 5]:
                 # LA MESA ESTA LISTA u OPERATIVA
@@ -151,6 +155,9 @@ class AutorizarElector(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if self.object.padron == 3:
+            # ELECCION CERRADA
+            return redirect('bienvenida:bienvenida')
         self.mesa = self.object.padron.eleccion.mesa
         self.estado_urna = self.mesa.urna.estado_urna
         # FALTA CONTROLAR QUE EL ELECTOR NO TENGA ESTADO 2
@@ -166,6 +173,9 @@ class AutorizarElector(DetailView):
         if self.estado_urna == 1:
             # La urna esta libre
             autorizar_elector(self.object, self.mesa.urna)
+            return redirect(request.META['HTTP_REFERER'])
+        elif self.estado_urna in [2, 3, 4, 5]:
+            # El elector esta votando
             return redirect(request.META['HTTP_REFERER'])
         elif self.estado_urna == 6:
             retirar_elector(self.object, self.mesa.urna)
@@ -219,6 +229,9 @@ class UrnaOpe(DetailView):
         if self.object.estado_urna == 0:
             # LA URNA NO HA SIDO INICIADA
             return redirect(self.object.get_ini_url())
+        elif self.object.estado_urna == 7:
+            # LA URNA CERRADA
+            return redirect('bienvenida:bienvenida')
         else:
             # FALTA REDIRECCIONAR CUANDO LA URNA ESTA CERRADA
             if self.object.estado_urna in [1, 2, 3, 4, 5, 6]:

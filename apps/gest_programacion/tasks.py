@@ -26,12 +26,12 @@ def carrar_votacion(id):
     eleccion = Eleccion.objects.get(id=id)
     eleccion.etapa = 4
     eleccion.save()
-    #
+    # CERRADA
     eleccion.mesa.estado_mesa = 6
     eleccion.save()
-    #
+    # CERRADA
     eleccion.mesa.urna.estado_urna = 7
     eleccion.save()
-    #
+    # CERRADO
     eleccion.padron.estado_padron = 3
     eleccion.save()
