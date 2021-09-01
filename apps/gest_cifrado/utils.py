@@ -5,6 +5,7 @@ from phe import paillier
 from phe.paillier import EncryptedNumber
 #
 from django_q.models import Schedule
+from django.core.exceptions import ObjectDoesNotExist
 from .models import SecuenciaPrimo
 from .models import Clave, Resultado, Parcial
 from ..gest_usuario.models import CuentaElector
@@ -175,12 +176,12 @@ def privada_iniciada(eleccion, user):
     clave = eleccion.clave_set.get(cuenta=user)
     try:
         parcial = clave.parcial
-    except clave.parcial.DoesNotExist:
-        parcial = None
+    except ObjectDoesNotExist:
+        parcial = False
     if parcial:
         return clave.parcial.descifrado
     else:
-        return False
+        return parcial
 
 
 # ________________________________________________________________________________________
