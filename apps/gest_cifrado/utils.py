@@ -153,9 +153,11 @@ def gen_suma_parcial(pub, votos, len_v):
 
 
 def generar_parcial(clave, votos, resultado):
-    suma = gen_suma_parcial(gen_publica(int(clave.n)), votos, resultado.get_len_vector())
-    Parcial.objects.create(suma=suma, resultado=resultado, clave=clave)
-    [actualizar_voto(v) for v in votos]
+    if votos:
+        # Si existe al menos un voto cifrado con la <clave>
+        suma = gen_suma_parcial(gen_publica(int(clave.n)), votos, resultado.get_len_vector())
+        Parcial.objects.create(suma=suma, resultado=resultado, clave=clave)
+        [actualizar_voto(v) for v in votos]
 
 
 def generar_parciales(resultado, claves):
