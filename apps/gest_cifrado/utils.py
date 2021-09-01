@@ -172,10 +172,14 @@ def generar_parciales(resultado, claves):
 def privada_iniciada(eleccion, user):
     """Retorna un <True> o <False>"""
     clave = eleccion.clave_set.get(cuenta=user)
-    return clave.parcial.descifrado
+    if clave.parcial:
+        return clave.parcial.descifrado
+    else:
+        return False
+
+        # ________________________________________________________________________________________
 
 
-# ________________________________________________________________________________________
 def sumar_par(alfa, beta):
     return [suma_individual([ab[i] for ab in [alfa, beta]]) for i in range(len(alfa))]
 

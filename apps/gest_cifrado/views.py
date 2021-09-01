@@ -57,7 +57,7 @@ class IniPublica_I(DetailView):
         elif self.object.etapa == 2:
             return redirect(self.object.get_absolute_url())
         else:
-            return redirect('bienvenido:bienvenido')
+            return redirect('bienvenida:bienvenida')
 
     def post(self, request, *args, **kwargs):
         if request.POST['btn'] == 'candidato':
@@ -136,7 +136,7 @@ class IniConteo(DetailView):
             else:
                 return redirect(self.object.get_absolute_url())
         else:
-            return redirect('bienvenido:bienvenido')
+            return redirect('bienvenida:bienvenida')
 
     def post(self, request, *args, **kwargs):
         if 'btn-iniciar' in request.POST:
@@ -167,7 +167,7 @@ class IniPrivada_I(DetailView):
         if self.object.etapa == 5:
             return super().dispatch(request, *args, **kwargs)
         else:
-            return redirect('bienvenido:bienvenido')
+            return redirect('bienvenida:bienvenida')
 
     def post(self, request, *args, **kwargs):
         if request.POST['btn'] == 'candidato':
@@ -189,10 +189,10 @@ class IniPrivada_I(DetailView):
                     # SE DEBE REDIRECCIONAR A UN FORMULARIO PARA INGRESAR LA CLAVE
                     return redirect('gest_cifrado:ini-privada-ii', pk=self.object.id)
                 else:
-                    return redirect('bienvenido:bienvenido')
+                    return redirect('bienvenida:bienvenida')
             else:
                 # NO Es autoridad
-                return redirect('bienvenido:bienvenido')
+                return redirect('bienvenida:bienvenida')
         return redirect(request.META['HTTP_REFERER'])
 
     def get_context_data(self, **kwargs):
