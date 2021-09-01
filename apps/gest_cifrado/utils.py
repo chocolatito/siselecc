@@ -171,13 +171,19 @@ def generar_parciales(resultado, claves):
 # ________________________________________________________________________________________
 def privada_iniciada(eleccion, user):
     """Retorna un <True> o <False>"""
+    # user siempre corresponde a un candidato o a la autoridad de mesa
     clave = eleccion.clave_set.get(cuenta=user)
-    if clave.parcial:
+    try:
+        parcial = clave.parcial
+    except clave.parcial.DoesNotExist:
+        parcial = None
+    if parcial:
         return clave.parcial.descifrado
     else:
         return False
 
-        # ________________________________________________________________________________________
+
+# ________________________________________________________________________________________
 
 
 def sumar_par(alfa, beta):
