@@ -153,6 +153,8 @@ class IniConteo(DetailView):
                 resultado.final = True
                 resultado.vector_resultado = ['0', '0', '0']
                 resultado.save()
+                self.object.etapa = 6
+                self.object.save()
         return redirect(self.object.get_absolute_url())
 
     def get_context_data(self, **kwargs):
