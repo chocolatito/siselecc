@@ -119,7 +119,7 @@ class MesaOpe(DetailView):
                         return super().dispatch(request, *args, **kwargs)
                     else:
                         # Se debe cerrar la mesa y urna y eleccion
-                        carrar_votacion(self.object.elecciion.id)
+                        carrar_votacion(self.object.eleccion.id)
                         return redirect('bienvenida:bienvenida')
             elif self.object.estado_mesa == 3:
                 # LA MESA ESTA INICIADA
