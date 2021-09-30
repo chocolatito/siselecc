@@ -39,8 +39,6 @@ def get_fraccion(indice, ruta):
     f = open(ruta, 'r')
     #
     f.close()
-
-
 def generar_secuencias():
     ruta = dirname(__file__) + '\\total\\'
     [get_fraccion(x, ruta+f'{x}.txt') for x in range(0, 72030000, 240100)]"""
@@ -61,7 +59,7 @@ def es_candidato(user, candidatos):
 
 def todas_las_claves(e):
     """ e: Eleccion"""
-    if e.clave_set.all().count() == e.candidatos().count()+1:
+    if e.clave_set.all().count() == e.candidatos().count() + 1:
         e.etapa = 2
         e.save()
         # programar el inicio https://youtu.be/KXP84ijiLbg?t=880
@@ -95,14 +93,14 @@ def get_primo(indice, sec):
 
 
 def calcular_indices(ingreso, segmento):
-    valor = (ingreso*segmento) - 1
+    valor = (ingreso * segmento) - 1
     indice = (valor // 240100) * 240100
     sec = valor % 240100
     return get_primo(indice, sec)
 
 
 def get_valor_clave(clave):
-    return reduce(lambda x, y: x*y, [int(REFERENCIA[x]) for x in clave])
+    return reduce(lambda x, y: x * y, [int(REFERENCIA[x]) for x in clave])
 
 
 def generar_N(ingreso, segmento):
@@ -127,6 +125,7 @@ def verificar_user_clave(eleccion, cuenta):
 
 # ________________________________________________________________________________________
 def crear_resultado(eleccion):
+    #
     return Resultado.objects.create(eleccion=eleccion)
 
 
@@ -140,7 +139,7 @@ def suma_individual(enc):
     # <reduce()> retora un <paillier.EncryptedNumber>
     # <paillier.EncryptedNumber.ciphertext()> retora un <int>
     # <str> retora un tipo string
-    return str(reduce(lambda x, y: x+y, enc).ciphertext())
+    return str(reduce(lambda x, y: x + y, enc).ciphertext())
 
 
 def get_EncNum(publica, vector_cifrado):
@@ -156,14 +155,16 @@ def gen_suma_parcial(pub, votos, len_v):
 def generar_parcial(clave, votos, resultado):
     if votos:
         # Si existe al menos un voto cifrado con la <clave>
-        suma = gen_suma_parcial(gen_publica(int(clave.n)), votos, resultado.get_len_vector())
+        suma = gen_suma_parcial(gen_publica(
+            int(clave.n)), votos, resultado.get_len_vector())
         Parcial.objects.create(suma=suma, resultado=resultado, clave=clave)
         [actualizar_voto(v) for v in votos]
 
 
 def generar_parciales(resultado, claves):
     if claves:
-        [generar_parcial(clave, clave.voto_set.all(), resultado) for clave in claves]
+        [generar_parcial(clave, clave.voto_set.all(), resultado)
+         for clave in claves]
         return True
     else:
         return False
@@ -254,7 +255,8 @@ def actualizar_resultado(ingreso, color, cuenta, eleccion):
             p, q = gen_PQ(ingreso, color)
             pri_staff = gen_privada(pub_staff, p, q)
             #
-            resultado.vector_resultado = desc_intv(pri_staff, resultado.int_vector())
+            resultado.vector_resultado = desc_intv(
+                pri_staff, resultado.int_vector())
             resultado.save()
             #
             eleccion.etapa = 6

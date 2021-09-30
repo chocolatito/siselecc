@@ -142,12 +142,17 @@ class IniConteo(DetailView):
         if 'btn-iniciar' in request.POST:
             #
             resultado = crear_resultado(self.object)
-            # claves = self.object.clave_set.exclude(cuenta=self.object.mesa.cuenta)
-            claves = self.object.get_claves_candidatos()
-            # se deben obtener las sumas parciales
-            if generar_parciales(resultado, claves):
-                self.object.etapa = 5
-                self.object.save()
+            if self.object.mesa.urna.voto_set.all():
+                # La eleccion posee al menos 1 voto
+                claves = self.object.get_claves_candidatos()
+                # se deben obtener las sumas parciales
+                if generar_parciales(resultado, claves):
+                    self.object.etapa = 5
+                    self.object.save()
+            else:
+                resultado.final = True
+                resultado.vector_resultado = ['0', '0', '0']
+                resultado.save()
         return redirect(self.object.get_absolute_url())
 
     def get_context_data(self, **kwargs):
