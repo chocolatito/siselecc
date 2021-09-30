@@ -14,7 +14,7 @@ from .utils import (get_urna,
                     get_boleta,
                     emitir_voto)
 from ..gest_preparacion.models import Mesa, PadronElector
-from ..gest_preparacion.tasks import carrar_votacion
+from ..gest_programacion.tasks import carrar_votacion
 from ..utils import group_required
 
 # Create your views here.
