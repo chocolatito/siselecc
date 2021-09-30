@@ -115,7 +115,7 @@ class MesaOpe(DetailView):
                     # LA MESA ESTA OPERATIVA
                     self.padronelector = get_padronelector(self.object)
                     # PADRON, EXISTEN ELECTORES QUE AUSENTES???
-                    if self.padronelector.filter(estado_padronelector_in=[0, 1]):
+                    if self.padronelector.filter(estado_padronelector__in=[0, 1]):
                         return super().dispatch(request, *args, **kwargs)
                     else:
                         # Se debe cerrar la mesa y urna y eleccion
