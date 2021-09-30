@@ -24,14 +24,15 @@ def carrar_votacion(id):
     https://mattsegal.dev/simple-scheduled-tasks.html
     """
     eleccion = Eleccion.objects.get(id=id)
-    eleccion.etapa = 4
-    eleccion.save()
-    # CERRADA
-    eleccion.mesa.estado_mesa = 6
-    eleccion.mesa.save()
-    # CERRADA
-    eleccion.mesa.urna.estado_urna = 7
-    eleccion.mesa.urna.save()
-    # CERRADO
-    eleccion.padron.estado_padron = 3
-    eleccion.padron.save()
+    if eleccion.etapa == 3:
+        eleccion.etapa = 4
+        eleccion.save()
+        # CERRADA
+        eleccion.mesa.estado_mesa = 6
+        eleccion.mesa.save()
+        # CERRADA
+        eleccion.mesa.urna.estado_urna = 7
+        eleccion.mesa.urna.save()
+        # CERRADO
+        eleccion.padron.estado_padron = 3
+        eleccion.padron.save()

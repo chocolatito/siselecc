@@ -14,6 +14,7 @@ from .utils import (get_urna,
                     get_boleta,
                     emitir_voto)
 from ..gest_preparacion.models import Mesa, PadronElector
+from ..gest_preparacion.tasks import carrar_votacion
 from ..utils import group_required
 
 # Create your views here.
@@ -113,7 +114,13 @@ class MesaOpe(DetailView):
                 if self.object.estado_mesa == 5:
                     # LA MESA ESTA OPERATIVA
                     self.padronelector = get_padronelector(self.object)
-                return super().dispatch(request, *args, **kwargs)
+                    # PADRON, EXISTEN ELECTORES QUE AUSENTES???
+                    if self.padronelector.filter(estado_padronelector_in=[0, 1]):
+                        return super().dispatch(request, *args, **kwargs)
+                    else:
+                        # Se debe cerrar la mesa y urna y eleccion
+                        carrar_votacion(self.object.elecciion.id)
+                        return redirect('bienvenida:bienvenida')
             elif self.object.estado_mesa == 3:
                 # LA MESA ESTA INICIADA
                 return redirect(self.object.get_mesa_ini_url())
