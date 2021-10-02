@@ -19,7 +19,7 @@
   </div>
   <div class="form-group">
     <label>Elección</label>
-    <select name="eleccion" class="form-control" id="id_urna">
+    <select name="id_urna" class="form-control" id="id_urna">
       {% for mesa in mesas %}
         <option value={{mesa.urna.id}}>{{mesa.eleccion}}</option>
       {% endfor %}
