@@ -10,7 +10,7 @@
     Revisar - Sera necesario un scroll
     https://www.w3schools.com/bootstrap4/bootstrap_scrollspy.asp
   {% endcomment %}
-  {% for eleccion in object.eleccion_set %}
+  {% for eleccion in object.objects.eleccion_set %}
     <div class="list-group">
       <a href={% url eleccion.get_absolute_url %} class="list-group-item list-group-item-action">
         {{eleccion}}
