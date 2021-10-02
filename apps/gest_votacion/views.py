@@ -203,7 +203,12 @@ class IniUrna(TemplateView):
     template_name = 'gest_votacion/ini_urna.html'
 
     def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+        # deben existir al menos una Mesa LISTA
+        self.mesas = Mesa.objects.filter(estado_mesa__in=[3, 4, 5])
+        if self.mesas:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('bienvenida:bienvenida')
 
     def post(self, request, *args, **kwargs):
         """ Los ingresos no se validan porque:
@@ -224,6 +229,7 @@ class IniUrna(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title_of_the_document'] = 'Iniciar Urna'
         context['page_title_heading'] = 'Iniciar Urna'
+        context['mesas'] = self.mesas
         return context
 
 

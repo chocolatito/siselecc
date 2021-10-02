@@ -91,9 +91,9 @@ class Eleccion(Base):
                 return False
         else:
             return False
-
     # ____________________________________________________________________________________
     # Querysets basados en relaciones
+
     def candidatos(self):
         return self.candidato_set.filter(estado_postulacion=True)
 
