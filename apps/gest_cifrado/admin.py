@@ -6,7 +6,7 @@ from .models import Clave, Resultado, Parcial, SecuenciaPrimo
 
 class SecuenciaPrimoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ['indice']
-    list_per_page = 10
+    list_per_page = 50
 
 
 admin.site.register(SecuenciaPrimo, SecuenciaPrimoAdmin)
