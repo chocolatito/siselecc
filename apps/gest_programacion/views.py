@@ -22,10 +22,12 @@ class AdmProgramacion(UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.es_programable():
+        # ESTA PREPARADA?
+        if self.object.es_programable() == 5:
             # FALTAN MENOS DE UN DIA PARA REALIZAR LA ELECCION
             return super().dispatch(request, *args, **kwargs)
         else:
+            # aun/ya es temprano/tarde
             return redirect(self.object.get_absolute_url())
 
     def post(self, request, *args, **kwargs):

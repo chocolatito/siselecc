@@ -150,7 +150,8 @@ class EleccionDetailView(DetailView):
         context['url_actualizar'] = 'gest_preparacion:actualizar'
         context['padron'] = Padron.objects.get(eleccion=self.object)
         context['mesa'] = Mesa.objects.get(eleccion=self.object)
-        context['candidato'] = Candidato.objects.filter(eleccion=self.object)
+        # DEBERIA SER ncandidatos
+        context['candidato'] = self.object.candidatos().count()
         context['snippet_accion_detail'] = 'gest_preparacion/snippets/snippet_accion_detail.html'
         return context
 

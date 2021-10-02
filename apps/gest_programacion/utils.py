@@ -45,3 +45,10 @@ def actualizar_etapa(eleccion):
     return eleccion
 
 # ________________________________
+
+
+def esta_preparada(eleccion):
+    # Padron
+    # Autoridad
+    # Candidatos
+    pass

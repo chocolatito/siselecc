@@ -83,12 +83,24 @@ class Eleccion(Base):
         if self.es_proxima():
             fecha_anterior = self.fecha - datetime.timedelta(days=1)
             if fecha_anterior <= datetime.datetime.now().date():
-                if self.candidato_set.filter(estado_postulacion=True).count() >= 2:
-                    return True
+                # La Eleccion puede programarce
+                if self.padron.vacio():
+                    # El Padron no posee electores
+                    return 2
                 else:
-                    return False
+                    if self.mesa.estado_mesa == 1:
+                        if self.candidatos().count() >= 2:
+                            # La eleccion es programable
+                            return 5
+                        else:
+                            # Se necesitan mas de un candidato postulado
+                            return 4
+                    else:
+                        # La Mesa no posee Autoridad
+                        return 3
             else:
-                return False
+                # Talta 24hs para poder programar la eleccion
+                return 1
         else:
             return False
     # ____________________________________________________________________________________
@@ -165,6 +177,14 @@ class Padron(Base):
 
     def get_absolute_url(self):
         return reverse('gest_preparacion:adm-padron', args=[self.id])
+
+    # ___________________________________
+    # PADRON VACIO
+    def vacio(self):
+        if self.padronelector_set.all():
+            return True
+        else:
+            return False
 
     def __str__(self):
         return f'{self.id}-{self.eleccion}'
