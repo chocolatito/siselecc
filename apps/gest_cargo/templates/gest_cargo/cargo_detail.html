@@ -6,6 +6,17 @@
 {% else %}
   <h1>Este cargo no se puede editar</h1>
   <h3>Se utilizo en las siguientes elecciones:</h3>
+  {% comment %}
+    Revisar - Sera necesario un scroll
+    https://www.w3schools.com/bootstrap4/bootstrap_scrollspy.asp
+  {% endcomment %}
+  {% for eleccion in object.eleccion_set %}
+    <div class="list-group">
+      <a href={% url eleccion.get_absolute_url %} class="list-group-item list-group-item-action">
+        {{eleccion}}
+      </a>
+    </div>
+  {% endfor %}
 {% endif %}
 {% endblock %}
 {% comment %}
