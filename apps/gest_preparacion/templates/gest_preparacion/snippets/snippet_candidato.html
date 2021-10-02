@@ -4,7 +4,7 @@
     <div class="widget-content-wrapper">
       <div class="widget-content-left">
         {% if candidato %}
-        <div class="widget-heading text-dark">
+        <div class="widget-heading">
           <a class='text-dark' href="{% url 'gest_preparacion:adm-candidato' object.id %}">
             Administrar candidatos #
           </a>
@@ -13,8 +13,8 @@
           <b>Total de candidatos postulados: {{candidato}}. {% if candidato < 2 %}Se necesita, almenos dos candidatos{% endif %}</b>
         </div>
         {% else %}
-        <div class="widget-heading text-dark">
-          <a class='text-dark' href="{% url 'gest_preparacion:adm-candidato' object.id %}">
+        <div class="widget-heading">
+          <a class='text-danger' href="{% url 'gest_preparacion:adm-candidato' object.id %}">
             >> NO HAY CANDIDATOS POSTULADOS >> POSTULAR
           </a>
         </div>
