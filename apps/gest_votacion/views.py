@@ -68,7 +68,7 @@ class MesaIni(DetailView):
             if self.object.estado_mesa == 3:
                 # LA MESA ESTA INICIADA
                 return super().dispatch(request, *args, **kwargs)
-            else self.object.estado_mesa == 4:
+            elif self.object.estado_mesa == 4:
                 # LA MESA ESTA LISTA
                 return redirect(self.object.get_mesa_ini_url())
             elif self.object.estado_mesa == 5:
