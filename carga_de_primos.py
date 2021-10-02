@@ -9,7 +9,7 @@ from apps.gest_cifrado.models import SecuenciaPrimo
 
 def escribir_objeto(indice):
     print(indice)
-    f = open(f'/home/debpps/secuencia_num_primos/{(indice)}.txt', 'r')
+    f = open(f'/home/debpps/secuencia_num_primos/300txt/{(indice)}.txt', 'r')
     SecuenciaPrimo.objects.create(indice=indice,
                                   secuencia={
                                       'indice': indice,
