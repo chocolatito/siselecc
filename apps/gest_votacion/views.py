@@ -215,14 +215,18 @@ class IniUrna(TemplateView):
         * La autoridad deberia conocer la informacion incorrecta
         * Solo la autoridad es responsable de iniciar la urna
         * No se debe proporcionar informacion a un usuario indebido
+        ***
         """
-        # urna = inciar_urna(request.POST['codigo'])
-        urna = inciar_urna(request.POST['clave'],
-                           tuple(int(x) for x in request.POST["color"]))
-        if urna:
+        # La urna siempre deberia existir
+        urna = Urna.objects.get(id=int(request.POST['id_urna']))
+
+        if inciar_urna(request.POST['clave'],
+                       tuple(int(x) for x in request.POST["color"]),
+                       urna):
             print('\nSE REDIRECCIONA A URNA LIBRE\n')
             return redirect(urna.get_absolute_url_urna_ope())
         else:
+            # ERROR
             return redirect(request.META['HTTP_REFERER'])
 
     def get_context_data(self, **kwargs):

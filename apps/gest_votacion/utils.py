@@ -22,21 +22,21 @@ def get_urna(mesa):
 # _______________________________________________________________________________________
 def actualizar_urna(urna, estado):
     urna.estado_urna = estado
+    # urna.hora_inicio = HORA ACTUAL
     urna.save()
     mesa = urna.mesa
     mesa.estado_mesa = 4
     mesa.save()
-    return urna
+    return True
 
 
-def inciar_urna(ingreso, color):
+def inciar_urna(ingreso, color, urna):
     codigo = hashlib.md5(f'{ingreso}+{color}'.encode()).hexdigest()
-    try:
-        # Si el codigo es correcto, se actualiza la urna
-        return actualizar_urna(Urna.objects.get(codigo_inicio=codigo), 1)
-    except ObjectDoesNotExist:
+    if urna.codigo_inicio == codigo:
+        return actualizar_urna(urna, 1)
+    else:
         # CODIGO INCORRECTO
-        return None
+        return False
 # ________________________________________________________________________________________
 
 
