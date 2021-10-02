@@ -182,9 +182,9 @@ class Padron(Base):
     # PADRON VACIO
     def vacio(self):
         if self.padronelector_set.all():
-            return True
-        else:
             return False
+        else:
+            return True
 
     def __str__(self):
         return f'{self.id}-{self.eleccion}'
