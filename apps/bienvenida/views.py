@@ -1,7 +1,6 @@
 # from django.shortcuts import render
 from django.views.generic import TemplateView
 from ..gest_preparacion.models import Eleccion
-# from ..gest_cifrado.utils import generar_secuencias  # eliminar
 
 # Create your views here.
 
