@@ -45,7 +45,7 @@
       </div>
       <div class="card-body">
       {% if proximas %}
-      {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=proximas %}
+      {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=proximas.all %}
       {% comment %}DATA TABLE DE {{proximas}}
       {% endcomment %}
       {% else %}
