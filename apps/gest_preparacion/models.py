@@ -92,7 +92,7 @@ class Eleccion(Base):
                     # El Padron no posee electores
                     return 2
                 else:
-                    if self.mesa.estado_mesa == 1:
+                    if self.mesa.estado_mesa in [1, 2]:
                         if self.candidatos().count() >= 2:
                             # La eleccion es programable
                             return 5
