@@ -15,9 +15,11 @@
       {% for value in object.get_field_values %}
       <td>{{value}}</td>
       {% endfor %}
-      <td class="text-center">
+      <td>
         {% if object.etapa == 6 %}
         <a class="btn btn-success" href="#">Ver Resultado</a>
+        {% else %}
+        <a class="btn btn-primary" href="#">Ver Detalles</a>
         {% endif %}
       </td>
     </tr>

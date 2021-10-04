@@ -22,8 +22,8 @@ class Bienvenida(TemplateView):
         context['en_curso'] = Eleccion.objects.filter(etapa=3)
         context['cerradas'] = Eleccion.objects.filter(etapa__in=[4, 5, 6])
         context['thead_values'] = ['Titulo',
-                                   'Fecha de realización',
-                                   'Horarios de Inicio-Fin',
-                                   'Etapa de Eleccion',
+                                   'Fecha',
+                                   'Horarios',
+                                   'Etapa',
                                    'Acciones', ]
         return context
