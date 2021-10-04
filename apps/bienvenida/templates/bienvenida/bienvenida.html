@@ -25,7 +25,7 @@
       </div>
       <div class="card-body">
         {% if cerradas %}
-        {% comment %}  DATA TABLE DE {{cerradas}}  {% endcomment %}
+        {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=cerradas.all %}
         {% else %}
           <div class="jumbotron jumbotron-fluid">
             <div class="container">
@@ -38,6 +38,8 @@
     </div>
   </div>
   <!-- ./Ultimas elecciones realizadas -->
+
+  <!-- Proximas elecciones -->
   <div class="col d-flex justify-content-center">
     <div class="card">
       <div class="card-header">
@@ -45,7 +47,7 @@
       </div>
       <div class="card-body">
       {% if proximas %}
-      {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=proximas.all %}
+      {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data2' object_list=proximas.all %}
       {% comment %}DATA TABLE DE {{proximas}}
       {% endcomment %}
       {% else %}
@@ -59,6 +61,7 @@
       </div>
     </div>
   </div>
+  <!-- ./Proximas elecciones -->
 </div>
 </div>
 {% endblock %}
