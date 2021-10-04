@@ -31,7 +31,11 @@
 
   </div>
   <div class="col d-flex justify-content-center">
-    <h1>Proximas elecciones</h1>
+    <div class="card">
+      <div class="card-header">
+        <h1>Proximas elecciones</h1>
+      </div>
+      <div class="card-body">
       {% if proximas %}
       {% comment %}DATA TABLE DE {{proximas}}{% endcomment %}
       {% else %}
@@ -42,6 +46,8 @@
           </div>
         </div>
       {% endif %}
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
