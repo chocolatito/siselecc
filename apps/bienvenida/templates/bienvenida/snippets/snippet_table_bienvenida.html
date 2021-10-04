@@ -1,0 +1,27 @@
+{% load static %}
+<table class="mb-0 table table-bordered" id="{{id_data}}">
+  <!--thead-->
+  <thead>
+    <tr>
+      {% for th in thead_values %}<th>{{th}}</th>{% endfor %}
+    </tr>
+  </thead>
+  <!-- ./thead-->
+
+  <!--body-->
+  <tbody>
+    {% for object in object_list %}
+    <tr>
+      {% for value in object.get_field_values %}
+      <td>{{value}}</td>
+      {% endfor %}
+      <td class="text-center">
+        {% if object.etapa == 6 %}
+        <a class="btn btn-success" href="#">Ver Resultado</a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <!-- ./body-->
+</table>

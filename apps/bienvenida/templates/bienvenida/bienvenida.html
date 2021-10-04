@@ -45,7 +45,9 @@
       </div>
       <div class="card-body">
       {% if proximas %}
-      {% comment %}DATA TABLE DE {{proximas}}{% endcomment %}
+      {% comment %}DATA TABLE DE {{proximas}}
+      {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=proximas %}
+      {% endcomment %}
       {% else %}
         <div class="jumbotron jumbotron-fluid">
           <div class="container">
