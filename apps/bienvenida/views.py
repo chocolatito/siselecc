@@ -21,5 +21,5 @@ class Bienvenida(TemplateView):
         # Elecciones programadas, en curso y cerradas
         context['proximas'] = Eleccion.objects.filter(etapa__in=[1, 2])
         context['en_curso'] = Eleccion.objects.filter(etapa=3)
-        context['cerradas'] = Eleccion.objects.filter(etapa_in=[4, 5, 6])
+        context['cerradas'] = Eleccion.objects.filter(etapa__in=[4, 5, 6])
         return context
