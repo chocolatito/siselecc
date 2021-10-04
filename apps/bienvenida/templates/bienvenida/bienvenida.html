@@ -16,20 +16,27 @@
 
 {% block rows %}
 <div class="row">
+  <!-- Ultimas elecciones realizadas -->
   <div class="col d-flex justify-content-center">
-    <h1>Ultimas elecciones realizadas</h1>
-      {% if cerradas %}
-      {% comment %}  DATA TABLE DE {{cerradas}}  {% endcomment %}
-      {% else %}
-        <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h2 class="display-4">Aun no hay elecciones que completen la votación</h1>
-            <p class="lead">. . .</p>
+    <div class="card">
+      <div class="card-header">
+        <h1>Ultimas elecciones realizadas</h1>
+      </div>
+      <div class="card-body">
+        {% if cerradas %}
+        {% comment %}  DATA TABLE DE {{cerradas}}  {% endcomment %}
+        {% else %}
+          <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h2 class="display-4">Aun no hay elecciones que completen la votación</h1>
+              <p class="lead">. . .</p>
+            </div>
           </div>
-        </div>
-      {% endif %}
-
+        {% endif %}
+      </div>
+    </div>
   </div>
+  <!-- ./Ultimas elecciones realizadas -->
   <div class="col d-flex justify-content-center">
     <div class="card">
       <div class="card-header">
