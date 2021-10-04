@@ -52,6 +52,10 @@ class Eleccion(Base):
                 self.get_strftime(),
                 self.get_etapa_display()]
 
+    def get_field_values_bienvenida(self):
+        return [self.titulo,
+                self.fecha.strftime('%d-%m-%Y'), ]
+
     def get_strftime(self):
         if self.etapa:
             return f'{self.hora_inicio.strftime("%H:%M")} - {self.hora_fin.strftime("%H:%M")}'

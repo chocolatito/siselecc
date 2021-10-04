@@ -23,7 +23,5 @@ class Bienvenida(TemplateView):
         context['cerradas'] = Eleccion.objects.filter(etapa__in=[4, 5, 6])
         context['thead_values'] = ['Titulo',
                                    'Fecha',
-                                   'Horarios',
-                                   'Etapa',
                                    'Acciones', ]
         return context
