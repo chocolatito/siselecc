@@ -25,7 +25,9 @@
       </div>
       <div class="card-body">
         {% if cerradas %}
-        {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=cerradas.all %}
+        <div class="table-responsive">
+          {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=cerradas.all %}
+        </div>
         {% else %}
           <div class="jumbotron jumbotron-fluid">
             <div class="container">
