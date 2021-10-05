@@ -13,10 +13,8 @@
           <b>Una vez programado los horarios, finalizara la preparación</b>
         </div>
         {% else %}
-        <div class="widget-heading">
-          <a class='text-danger' href="#">
+        <div class="widget-heading text-danger">
             >> AUN NO SE PUEDE PROGRAMAR
-          </a>
         </div>
         <div class="widget-subheading">
           <b>{% if object.es_programable == 1 %} Se podra programar desde el dia anterior a la fecha de la elección {% endif %}</b>
