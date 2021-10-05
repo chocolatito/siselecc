@@ -12,7 +12,7 @@ def get_porcentaje(parcial, total):
 
 def get_escrutinio(boletas, v_res, total_votos):
     escrutinio = [(b.candidato, v_res[b.indice], get_porcentaje(
-        v_res[b.indice])//total_votos) for b in boletas]
+        v_res[b.indice]//total_votos)) for b in boletas]
     # ORDENAR
     escrutinio.append(('En Blanco', v_res[0], get_porcentaje(v_res[0]//total_votos)))
     # sort by second element of tuple
