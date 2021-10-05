@@ -58,7 +58,7 @@ class DetallesProxima(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.etapa in [4, 5, 6]:
+        if self.object.etapa in [1, 2]:
             # Generar el resultado
             return super().dispatch(request, *args, **kwargs)
         else:
