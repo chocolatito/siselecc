@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
-from .utils import get_escrutinio
+from .utils import get_escrutinio, get_total_votos
 from ..gest_preparacion.models import Eleccion
 # Create your views here.
 
@@ -47,7 +47,9 @@ class Resultado(DetailView):
         # Gestionar contex
         # title
         # page_title_heading
-        context['escrutinio'] = get_escrutinio(self.boletas, self.v_resultado)
+        context['escrutinio'] = get_escrutinio(self.boletas,
+                                               self.v_resultado,
+                                               get_total_votos(self.v_resultado))
         context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
         return context
 
