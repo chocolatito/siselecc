@@ -33,7 +33,7 @@ class Resultado(DetailView):
     template_name = 'bienvenida/resultado.html'
 
     def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object
+        self.object = self.get_object()
         if self.object.etapa == 6:
             self.boletas = self.object.boleta_set.exclude(indice=0)
             self.v_resultado = self.object.resultado.vector_resultado
