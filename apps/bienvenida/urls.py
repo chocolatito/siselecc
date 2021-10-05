@@ -8,6 +8,6 @@ from . import views
 app_name = 'bienvenida'
 urlpatterns = [
     path('', views.Bienvenida.as_view(), name='bienvenida'),
-    path('proxima/<int:pk>', views.Resultado.as_view(), name='proxima'),
+    path('proxima/<int:pk>', views.DetallesProxima.as_view(), name='proxima'),
     path('resultado/<int:pk>', views.Resultado.as_view(), name='resultado'),
 ]
