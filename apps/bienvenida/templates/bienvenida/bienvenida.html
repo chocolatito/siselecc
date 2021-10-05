@@ -15,8 +15,8 @@
 {%endblock%}
 
 {% block rows %}
-<div class="container-fluid">
 <div class="row">
+  <div class="container-fluid">
   <!-- Ultimas elecciones realizadas col-6 d-flex justify-content-center-->
   <div class="col">
     <div class="card">
@@ -49,7 +49,9 @@
       </div>
       <div class="card-body">
       {% if proximas %}
-      {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data2' object_list=proximas.all %}
+      <div class="table-responsive">
+        {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data2' object_list=proximas.all %}
+      </div>
       {% comment %}DATA TABLE DE {{proximas}}
       {% endcomment %}
       {% else %}
