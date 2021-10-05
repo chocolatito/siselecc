@@ -7,7 +7,7 @@ def get_total_votos(v_resultado):
 
 
 def get_porcentaje(parcial, total):
-    return str(int(parcial)//total)
+    return str((int(parcial)//total) * 100)
 
 
 def get_escrutinio(boletas, v_res, total_votos):
