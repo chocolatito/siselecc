@@ -48,4 +48,5 @@ class Resultado(DetailView):
         # title
         # page_title_heading
         context['escrutinio'] = get_escrutinio(self.boletas, self.v_resultado)
+        context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
         return context
