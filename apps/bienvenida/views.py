@@ -50,3 +50,24 @@ class Resultado(DetailView):
         context['escrutinio'] = get_escrutinio(self.boletas, self.v_resultado)
         context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
         return context
+
+
+class DetallesProxima(DetailView):
+    model = Eleccion
+    template_name = 'bienvenida/detalle_proxima.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.etapa in [4, 5, 6]:
+            # Generar el resultado
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('bienvenida:bienvenida')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Gestionar contex
+        # title
+        # page_title_heading
+        context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
+        return context
