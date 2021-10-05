@@ -45,8 +45,8 @@ class Resultado(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Gestionar contex
-        # title
-        # page_title_heading
+        context['title'] = 'Resultados'
+        context['page_title_heading'] = f'{self.object} - Resultados'
         context['escrutinio'] = get_escrutinio(self.boletas,
                                                self.v_resultado,
                                                get_total_votos(self.v_resultado))
