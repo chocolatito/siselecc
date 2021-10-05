@@ -159,6 +159,9 @@ class Candidato(Base):
     def get_field_values_candidato(self):
         return [self.elector.dni, self.elector.nombres, self.elector.apellidos, ]
 
+    def full_name(self):
+        return f'{self.elector.apellidos}, {self.elector.nombres}'
+
     def __str__(self):
         return f'{self.elector.dni} / {self.elector.nombres} {self.elector.apellidos}'
 

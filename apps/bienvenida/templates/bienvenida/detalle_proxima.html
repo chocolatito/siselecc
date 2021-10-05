@@ -4,7 +4,7 @@
   <h1>Candidatos postulados:</h1>
   {% for candidato in object.candidatos.all %}
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">{{candidato}}</li>
+    <li class="list-group-item">{{candidato.full_name}}</li>
   </ul>
   {% endfor %}
   <ul class="list-group list-group-flush">
@@ -13,26 +13,11 @@
             <div class="widget-content-outer">
                 <div class="widget-content-wrapper">
                     <div class="widget-content-left">
-                        <div class="widget-heading">Total Orders</div>
-                        <div class="widget-subheading">Last year expenses</div>
+                        <div class="widget-heading">{{candidato.full_name}}</div>
+                        <div class="widget-subheading"> . . . </div>
                     </div>
                     <div class="widget-content-right">
-                        <div class="widget-numbers text-success">1896</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </li>
-    <li class="list-group-item">
-        <div class="widget-content p-0">
-            <div class="widget-content-outer">
-                <div class="widget-content-wrapper">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Clients</div>
-                        <div class="widget-subheading">Total Clients Profit</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-primary">$12.6k</div>
+                        <div class="widget-numbers text-success"># {{candidato.pk}}</div>
                     </div>
                 </div>
             </div>
