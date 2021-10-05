@@ -109,7 +109,7 @@ class Eleccion(Base):
                         # La Mesa no posee Autoridad
                         return 3
             else:
-                # Talta 24hs para poder programar la eleccion
+                # Falta mas de 24hs para poder programar la eleccion
                 return 1
         else:
             return False

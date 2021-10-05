@@ -19,7 +19,7 @@
           </a>
         </div>
         <div class="widget-subheading">
-          <b>FALTA . . . ALGO: {{object.es_programable}}</b>
+          <b>{% if object.es_programable == 1 %} Se podra programar desde el dia anterior a la fecha de la elección {% endif %}</b>
         </div>
         {% endif %}
       </div>
