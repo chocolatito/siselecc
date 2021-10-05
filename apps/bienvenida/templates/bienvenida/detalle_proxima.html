@@ -1,8 +1,13 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 {% block div_card-body %}
-  <h1>RESULTADO DE LAS ELECCIONES</h1>
-  <h3>Total de asistencias ##:</h3>
+  <h1>Candidatos postulados:</h1>
+  {% for candidato in object.candidatos.all %}
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">candidato</li>
+  </ul>
+  {% endfor %}
+
 {% endblock %}
 {% comment %}
 {% endcomment %}
