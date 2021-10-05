@@ -45,6 +45,9 @@ class Eleccion(Base):
     def get_descifrado_url(self):
         return reverse('gest_cifrado:ini-privada-i', args=[str(self.id)])
 
+    def get_resultado_url(self):
+        return reverse('bienvenida:resultado', args=[str(self.id)])
+
     # ____________________________________________________________________________________
     def get_field_values(self):
         return [self.titulo,

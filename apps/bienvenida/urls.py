@@ -8,4 +8,5 @@ from . import views
 app_name = 'bienvenida'
 urlpatterns = [
     path('', views.Bienvenida.as_view(), name='bienvenida'),
+    path('resultado/<int:pk>', views.Resultado.as_view(), name='resultado'),
 ]

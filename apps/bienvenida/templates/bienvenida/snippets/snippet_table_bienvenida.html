@@ -17,7 +17,7 @@
       {% endfor %}
       <td>
         {% if object.etapa == 6 %}
-        <a class="btn btn-success" href="#">Ver Resultado</a>
+        <a class="btn btn-success" href={{object.get_resultado_url}}>Ver Resultado</a>
         {% else %}
         <a class="btn btn-primary" href="#">Ver Detalles</a>
         {% endif %}

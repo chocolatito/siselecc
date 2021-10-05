@@ -220,6 +220,7 @@ def desencriptar_suma(ingreso, color, cuenta, eleccion):
     """Se asume que <cuenta> corresponde a un candidato de la elección"""
     hash = hashlib.md5(f'{ingreso}+{color}'.encode()).hexdigest()
     clave = eleccion.clave_set.get(cuenta=cuenta)
+    # - - - - - Que pasa si clave, no posee parcial???
     parcial = clave.parcial
     if clave.hash == hash:
         # <pub> es la clave publica
