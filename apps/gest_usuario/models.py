@@ -8,6 +8,7 @@ from ..gest_elector.models import Elector
 
 CUENTA_TIPO = [(0, "STAFF"), (1, "ELECTOR")]
 
+
 class Cuenta(Base):
     tipo = models.IntegerField(verbose_name='Tipo', choices=CUENTA_TIPO, default=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Usuario",
@@ -40,6 +41,12 @@ class CuentaElector(Base):
         ordering = ['creacion']
         verbose_name = "CuentaElector"
         verbose_name_plural = "CuentasElector"
+
+    def get_field_values_cuenta(self):
+        return [self.elector.dni,
+                self.elector.correo,
+                self.cuenta,
+                self.estado_confirmacion, ]
 
     def __str__(self):
         # deberia devolver la cuenta de usuario

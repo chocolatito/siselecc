@@ -96,7 +96,7 @@ class CuentaElectorListView(ListView):
         context['title'] = 'Cuenta de Electores'
         context['page_title_heading'] = 'Cuentas de Elector'
         context['message_no_queryset'] = 'No hay electores registrados con cuenta'
-        context['thead_values'] = ['DNI', 'Cuenta', 'Correo', 'Confirmación', 'Elector', ]
+        context['thead_values'] = ['DNI', 'Correo', 'Cuenta', 'Confirmación', 'Elector', ]
         context['url_listado_E'] = 'gest_elector:listado'
         context['url_listado_CE'] = 'gest_elector:listado'
         # context['url_detalle'] = 'gest_elector:detalle'
