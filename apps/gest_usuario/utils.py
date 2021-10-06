@@ -42,11 +42,14 @@ def get_elector_list(id_list):
 def gen_cuenta_elector(usuario, elector):
     object = CuentaElector(cuenta=usuario, elector=elector)
     object.save()
+    # EL PASSWORD DEBE MEJORARSE
+    send_email(usuario.username, usuario.username, elector.correo)
     print(object)
 
 
 def gen_cuenta(elector):
     group = Group.objects.get(name='elector')
+    # EL PASSWORD DEBE MEJORARSE
     user = User.objects.create_user(str(elector.dni), elector.correo, str(elector.dni))
     user.groups.add(group)
     elector.cuenta_u = True
