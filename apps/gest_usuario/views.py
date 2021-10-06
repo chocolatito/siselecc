@@ -72,7 +72,7 @@ class ElectorSinCuentaListView(ListView):
         context['message_no_queryset'] = 'No hay electores registrados sin cuenta'
         context['thead_values'] = ['DNI', 'Nombre/s', 'Apellido/s', ]
         context['url_listado_E'] = 'gest_elector:listado'
-        context['url_listado_CE'] = 'gest_elector:listado'
+        context['url_listado_CE'] = 'gest_usuario:cuenta-elector'
         # context['url_detalle'] = 'gest_elector:detalle'
         # context['url_actualizar'] = 'gest_elector:actualizar'
         return context
