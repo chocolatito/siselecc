@@ -3,43 +3,23 @@
 
 
 {% block card-header %}
-<form method="post">
-  {% csrf_token %}
+
 <div class="card-header bg-light text-center">
   {#% include 'utils/snippets/new-act-deact.html' %#}
   <div role="group" class="btn-group">
-    <!--Generar Cuenta/s-->
-      <button type="submit" class="btn btn-success">Generar Cuenta/s</button>
-
-    <!-- ./Generar Cuenta/s-->
+    <a class='btn btn-primary' href="#">blablabla</a>
+    <a class='btn btn-secondary' href="#">blablabla</a>
   </div>
 </div>
 {% endblock %}
 
 {% block snippet_table %}
 {% include 'gest_usuario/snippets/snippet_table_EC.html' %}
-</form>
 {% endblock %}
 
 {% block snippet_no_objetc_list %}
 {% include 'gest_usuario/snippets/no_objetc_list.html' %}
 {% endblock %}
 
-
-{% block  script %}
-<script>
-  // Si se hace click sobre el input de tipo checkbox con id checkall_enabled
-  $('#checkall_enabled').click(function() {
-      // Si esta seleccionado (si la propiedad checked es igual a true)
-      if ($(this).prop('checked')) {
-          // Selecciona cada input que tenga la nombre .elector_enabled
-          $('input[name$="elector_enabled"]').prop('checked', true);
-      } else {
-          // Deselecciona cada input que tenga la clase .checar
-          $('input[name$="elector_enabled"]').prop('checked', false);
-      }
-  });
-</script>
-{% endblock %}
 {% comment %}
 {% endcomment %}
