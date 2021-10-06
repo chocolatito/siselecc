@@ -4,18 +4,6 @@
   <thead>
     <tr>
       {% for th in thead_values %}<th>{{th}}</th>{% endfor %}
-      <th class="text-center">
-        <form method="post">
-          {% csrf_token %}
-          <div class="position-relative form-check">
-            <label class="form-check-label">
-              <input type="checkbox" id="checkall_enabled" class="form-check-input">
-              Seleccionar Todo
-            </label>
-
-          </div>
-        </form>
-      </th>
     </tr>
   </thead>
   <!-- ./thead-->
@@ -28,12 +16,7 @@
       <td>{{value}}</td>
       {% endfor %}
     <td class="text-center">
-      <a class='btn btn-primary' href={{object.elector.get_absolute_url}}>Ver Elector</a>
-    </td>
-    <td class="text-center">
-      <!--'Acción' cell-->
-        <input type="checkbox" name="elector_enabled" value="{{object.id}}">
-      <!--/'Acción' cell-->
+      <a class='btn btn-primary' href={{object.elector.get_absolute_url}}>Ver</a>
     </td>
     </tr>
     {% endfor %}
