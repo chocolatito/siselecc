@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from .models import CuentaElector
 from ..gest_elector.models import Elector
-from ...siselecc.settings import (EMAIL_HOST,
-                                  EMAIL_PORT,
-                                  EMAIL_HOST_USER,
-                                  EMAIL_HOST_PASSWORD,)
+from siselecc.settings import (EMAIL_HOST,
+                               EMAIL_PORT,
+                               EMAIL_HOST_USER,
+                               EMAIL_HOST_PASSWORD,)
 
 
 # http://chuwiki.chuidiang.org/index.php?title=Enviar_y_leer_email_con_python_y_gmail
