@@ -15,7 +15,6 @@ def gen_cuenta_elector(usuario, elector):
 
 
 def gen_cuenta(elector):
-    """LLamado desde la CBV ElectorSinCuentaListView"""
     group = Group.objects.get(name='elector')
     user = User.objects.create_user(str(elector.dni), elector.correo, str(elector.dni))
     user.groups.add(group)
@@ -26,4 +25,5 @@ def gen_cuenta(elector):
 
 
 def gen_cuentas_e(elector_id_list):
+    """LLamado desde la CBV ElectorSinCuentaListView"""
     [gen_cuenta(elector) for elector in get_elector_list(elector_id_list)]

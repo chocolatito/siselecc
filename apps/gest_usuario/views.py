@@ -7,6 +7,7 @@ from django.contrib.auth.views import LoginView
 from django.views.generic.list import ListView
 
 from .utils import gen_cuentas_e
+from .models import CuentaElector
 from ..gest_elector.models import Elector
 
 # Create your views here.
@@ -46,6 +47,7 @@ def logout_view(request):
 decorators = [login_required(login_url='gest_usuario:login'), ]
 
 
+# path: gen-cue-elector/ | gen-cu-elector
 @ method_decorator(decorators, name='dispatch')
 class ElectorSinCuentaListView(ListView):
     model = Elector
@@ -69,6 +71,32 @@ class ElectorSinCuentaListView(ListView):
         context['page_title_heading'] = 'Elector sin Cuenta'
         context['message_no_queryset'] = 'No hay electores registrados sin cuenta'
         context['thead_values'] = ['DNI', 'Nombre/s', 'Apellido/s', ]
+        context['url_listado_E'] = 'gest_elector:listado'
+        context['url_listado_CE'] = 'gest_elector:listado'
+        # context['url_detalle'] = 'gest_elector:detalle'
+        # context['url_actualizar'] = 'gest_elector:actualizar'
+        return context
+
+
+# path: cuenta-elector/ | cuenta-elector
+@ method_decorator(decorators, name='dispatch')
+class CuentaElectorListView(ListView):
+    model = CuentaElector
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    template_name = 'gest_usuario/cuenta_elector_list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return redirect(request.META['HTTP_REFERER'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Cuenta de Electores'
+        context['page_title_heading'] = 'Cuentas de Elector'
+        context['message_no_queryset'] = 'No hay electores registrados con cuenta'
+        context['thead_values'] = ['DNI', 'Cuenta', 'Correo', 'Confirmación', 'Elector', ]
         context['url_listado_E'] = 'gest_elector:listado'
         context['url_listado_CE'] = 'gest_elector:listado'
         # context['url_detalle'] = 'gest_elector:detalle'
