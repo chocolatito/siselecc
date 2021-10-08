@@ -39,6 +39,7 @@ class ElectorCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['submit_button'] = 'Registrar'
+        context['cancel_url'] = 'gest_elector:listado'
         context['card_title'] = 'Agregar un Elector'
         return context
 
@@ -57,6 +58,7 @@ class ElectorUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_title'] = "Editar datos del cargo"
+        context['cancel_url'] = 'gest_elector:listado'
         context['submit_button'] = 'Actualizar'
         return context
 
