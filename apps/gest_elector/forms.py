@@ -16,6 +16,8 @@ class ElectorForm(ModelForm):
         for form in self.visible_fields():
             form.field.widget.attrs['class'] = 'form-control'
 
+
+"""
     def clean_dni(self):
         dni = self.cleaned_data.get('dni')
         if Elector.objects.filter(dni=dni):
@@ -36,3 +38,4 @@ class ElectorForm(ModelForm):
         if commit:
             object.save()
         return object
+"""

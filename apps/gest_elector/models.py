@@ -13,7 +13,7 @@ mim_max = [MinValueValidator(9999999, message='Numero menor a un 10 millones'),
 
 
 class Elector(Base):
-    dni = models.PositiveIntegerField(verbose_name="DNI", validators=mim_max)
+    dni = models.PositiveIntegerField(verbose_name="DNI", validators=mim_max, unique=True)
     nombres = models.CharField(verbose_name="Nombre/s",
                                max_length=100, null=False, blank=False)
     apellidos = models.CharField(verbose_name="Apellido/s",
