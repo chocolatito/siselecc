@@ -16,8 +16,8 @@ class Bienvenida(TemplateView):
     template_name = "bienvenida/bienvenida.html"
 
     def dispatch(self, request, *args, **kwargs):
-        # return super().dispatch(request, *args, **kwargs)
-        return HttpResponse(request.META.get('HTTP_X_FORWARDED_FOR', None))
+        return super().dispatch(request, *args, **kwargs)
+        # return HttpResponse(request.META.get('HTTP_X_FORWARDED_FOR', None))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
