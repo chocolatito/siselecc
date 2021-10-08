@@ -32,11 +32,10 @@
           </div>
           {% endfor %}
       </div >
-      <div class="card-footer">
+      <div class="card-footer justify-content-center">
         <div class="position-relative row form-check">
-          <div class="col-sm-10 offset-sm-2">
-            <button class="btn btn-secondary">{{submit_button}}</button>
-          </div>
+          <button class="btn btn-secondary">{{submit_button}}</button>
+          <a href={% url cancel_url %} class="btn btn-danger">Cancelar</a>
         </div>
       </div>
     </div>

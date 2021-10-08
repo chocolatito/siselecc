@@ -117,6 +117,7 @@ class IniPublica_II(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['submit_button'] = 'Ingresar'
+        context['cancel_url'] = 'gest_cifrado:ini-publica-i'
         context['card_title'] = 'Crea una clave para inicializar el cifrado'
         return context
 
@@ -240,5 +241,6 @@ class IniPrivada_II(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['submit_button'] = 'Ingresar'
+        context['cancel_url'] = 'gest_cifrado:ini-privada-i'
         context['card_title'] = 'Crea una clave para inicializar el descifrado'
         return context
