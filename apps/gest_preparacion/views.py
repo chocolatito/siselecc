@@ -55,6 +55,7 @@ class EleccionCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['submit_button'] = 'Registrar'
+        context['cancel_button'] = 'Cancelar'
         context['card_title'] = 'Agregar una Eleccion'
         return context
 
