@@ -27,9 +27,8 @@ class ElectorCreateView(CreateView):
     success_url = reverse_lazy('bienvenida:bienvenida')
 
     def post(self, request, *args, **kwargs):
-        form = ElectorForm(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
-            # form.save(): return model.object
             return HttpResponseRedirect(form.save().get_absolute_url())
         self.object = None
         context = self.get_context_data(**kwargs)
