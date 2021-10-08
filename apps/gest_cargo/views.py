@@ -27,7 +27,7 @@ class CargoCreateView(CreateView):
     success_url = reverse_lazy('gest_cargo:listado')
 
     def post(self, request, *args, **kwargs):
-        form = CargoForm(request.POST)
+        form = self.form_class(request.POST)
         if form.is_valid():
             self.object = form.save()
             return HttpResponseRedirect(self.object.get_absolute_url())

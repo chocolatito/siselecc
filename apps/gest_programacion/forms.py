@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import time  # datetime
 from django.forms import NumberInput, TimeField
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
