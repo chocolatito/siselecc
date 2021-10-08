@@ -167,7 +167,10 @@ class PadronDetailView(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+        if self.objec.etapa == 0:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect(self.objec.get_absolute_url())
 
     def post(self, request, *args, **kwargs):
         print(f"\n\n{request.POST.getlist('no_incluidos')}\n\n")
@@ -202,7 +205,10 @@ class MesaDetailView(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+        if self.objec.etapa == 0:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect(self.objec.get_absolute_url())
 
     def post(self, request, *args, **kwargs):
         if request.POST:
@@ -228,7 +234,10 @@ class AdministrarCandidatos(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+        if self.objec.etapa == 0:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect(self.objec.get_absolute_url())
 
     def post(self, request, *args, **kwargs):
         if 'disponible' in request.POST:

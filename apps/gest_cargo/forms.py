@@ -20,11 +20,11 @@ class CargoForm(ModelForm):
         nombre = self.cleaned_data.get('nombre')
         if self.instance.pk:
             if Cargo.objects.exclude(pk=self.instance.pk).filter(nombre__iexact=nombre):
-                raise ValidationError('YA EXISTE UN CARGO REGISTRADO CON ESE NOMBRE')
+                raise ValidationError('Ya existe un Cargo registrado con ese nombre')
             else:
                 return nombre
         else:
             if Cargo.objects.filter(nombre__iexact=nombre):
-                raise ValidationError('YA EXISTE UN CARGO REGISTRADO CON ESE NOMBRE')
+                raise ValidationError('Ya existe un Cargo registrado con ese nombre')
             else:
                 return nombre
