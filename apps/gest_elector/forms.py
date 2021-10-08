@@ -30,12 +30,9 @@ class ElectorForm(ModelForm):
         else:
             return correo
 
-
-"""
     def save(self, commit=True):
         object = super().save(commit=False)
         print(f'\nEl nuevo objeto:\t{object.dni}')
         if commit:
             object.save()
         return object
-"""
