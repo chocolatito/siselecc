@@ -17,14 +17,13 @@ import debug_toolbar
 # ___________________
 from django.contrib import admin
 # para Django Toolbar
-from django.conf import settings
+# from django.conf import settings
 #
 from django.urls import path, include
 #
 
 urlpatterns = [
     path('', include('apps.bienvenida.urls')),
-    path('__debug__/', include(debug_toolbar.urls)),  # Solo para desarrollo
     path('accounts/', include('apps.gest_usuario.urls')),
     path('gestor-cargo/', include('apps.gest_cargo.urls')),
     path('gestor-cifrado/', include('apps.gest_cifrado.urls')),
@@ -33,4 +32,5 @@ urlpatterns = [
     path('gestor-programacion/', include('apps.gest_programacion.urls')),
     path('gestor-votacion/', include('apps.gest_votacion.urls')),
     path('admin/', admin.site.urls),
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
