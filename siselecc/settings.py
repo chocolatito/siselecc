@@ -84,6 +84,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -91,8 +93,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 # Configure your Q cluster
@@ -170,4 +170,4 @@ EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
 
 # Para django toolbar
-INTERNAL_IPS = tuple(env.list('ALLOWED_HOSTS', default=[]))
+INTERNAL_IPS = ALLOWED_HOSTS
