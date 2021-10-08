@@ -19,9 +19,12 @@ class CargoForm(ModelForm):
     def clean_nombre(self):
         nombre = self.cleaned_data.get('nombre')
         if self.instance.pk:
-            if Cargo.objects.filter(nombre__iexact=nombre):
+            if Cargo.objects.exclude(pk=self.instance.pk).filter(nombre__iexact=nombre):
                 raise ValidationError('YA EXISTE UN CARGO REGISTRADO CON ESE NOMBRE')
             else:
                 return nombre
         else:
-            return nombre
+            if Cargo.objects.filter(nombre__iexact=nombre):
+                raise ValidationError('YA EXISTE UN CARGO REGISTRADO CON ESE NOMBRE')
+            else:
+                return nombre
