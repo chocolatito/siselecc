@@ -1,13 +1,18 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.utils.decorators import method_decorator
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
-from .utils import gen_cuentas_e
+
+from .forms import ClaveForm
+from .utils import gen_cuentas_e, actualizar_cuentaelector
 from .models import CuentaElector
+from ..utils import group_required, get_user, estado_confirmacion_no_required
 from ..gest_elector.models import Elector
 
 # Create your views here.
@@ -43,11 +48,14 @@ def logout_view(request):
 
 # ____________________________________________
 # _Elector
-# decorators = [login_required, group_required('staff',)]
-decorators = [login_required(login_url='gest_usuario:login'), ]
-
+decorators = [login_required(login_url='gest_usuario:login'), group_required('staff'), ]
+decorators_elector = [login_required(login_url='gest_usuario:login'),
+                      group_required('elector'),
+                      estado_confirmacion_no_required()]
 
 # path: gen-cue-elector/ | gen-cu-elector
+
+
 @ method_decorator(decorators, name='dispatch')
 class ElectorSinCuentaListView(ListView):
     model = Elector
@@ -100,4 +108,40 @@ class CuentaElectorListView(ListView):
         context['url_listado_CE'] = 'gest_elector:listado'
         # context['url_detalle'] = 'gest_elector:detalle'
         # context['url_actualizar'] = 'gest_elector:actualizar'
+        return context
+
+
+@method_decorator(decorators_elector, name='dispatch')
+class ConfirmarCuenta(FormView):
+    form_class = ClaveForm
+    template_name = 'utils/create.html'
+    # success_url = '#'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user = get_user(request.user)
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            clave = form.cleaned_data.get('clave')
+            self.user.set_password(clave)
+            self.user.save()
+            update_session_auth_hash(request, self.user)
+            actualizar_cuentaelector(self.user.cuentaelector)
+            # https://simpleisbetterthancomplex.com/tips/2016/08/04/django-tip-9-password-change-form.html
+            return redirect('bienvenida:bienvenida')
+        else:
+            context = self.get_context_data(**kwargs)
+            # messages.error(request, 'Please correct the error below.')
+            context['form'] = form
+            return render(request, self.template_name, context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_button'] = 'Ingresar'
+        # context['cancel_url'] = 'gest_cifrado:ini-privada-i'
+        # esta url necesita argumento pk
+        context['cancel_url'] = 'bienvenida:bienvenida'
+        context['card_title'] = 'Crea una clave para inicializar el descifrado'
         return context

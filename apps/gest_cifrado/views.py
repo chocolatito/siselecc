@@ -12,7 +12,7 @@ from .utils import (es_candidato,
                     crear_resultado, generar_parciales,
                     privada_iniciada,
                     actualizar_resultado)
-from ..utils import group_required, get_user
+from ..utils import group_required, get_user, estado_confirmacion_required
 from ..gest_preparacion.models import Eleccion
 from ..gest_preparacion.utils import get_eleccion
 from ..gest_votacion.utils import es_autoridad
@@ -22,12 +22,14 @@ from ..gest_votacion.utils import es_autoridad
 # _Conteo
 # _Privada
 
-
 decorators = [login_required(login_url='gest_usuario:login'),
-              group_required('staff', 'elector')]
+              group_required('staff')]
+decorators_elector = [login_required(login_url='gest_usuario:login'),
+                      group_required('staff', 'elector'),
+                      estado_confirmacion_required()]
 
 
-@method_decorator(decorators, name='dispatch')
+@method_decorator(decorators_elector, name='dispatch')
 class GestorCifradoView(TemplateView):
     template_name = 'gest_cifrado/bienvenido.html'
 
@@ -44,7 +46,7 @@ class GestorCifradoView(TemplateView):
 
 
 # _Publica
-@ method_decorator(decorators, name='dispatch')
+@ method_decorator(decorators_elector, name='dispatch')
 class IniPublica_I(DetailView):
     model = Eleccion
     template_name = 'gest_cifrado/ini_publica_i.html'
@@ -84,7 +86,7 @@ class IniPublica_I(DetailView):
         return context
 
 
-@ method_decorator(decorators, name='dispatch')
+@ method_decorator(decorators_elector, name='dispatch')
 class IniPublica_II(FormView):
     form_class = ClaveForm
     template_name = 'utils/create.html'
@@ -164,7 +166,7 @@ class IniConteo(DetailView):
 
 
 # _Privada
-@ method_decorator(decorators, name='dispatch')
+@ method_decorator(decorators_elector, name='dispatch')
 class IniPrivada_I(DetailView):
     model = Eleccion
     template_name = 'gest_cifrado/ini_privada_i.html'
@@ -208,7 +210,7 @@ class IniPrivada_I(DetailView):
         return context
 
 
-@ method_decorator(decorators, name='dispatch')
+@ method_decorator(decorators_elector, name='dispatch')
 class IniPrivada_II(FormView):
     form_class = ClaveForm
     template_name = 'utils/create.html'

@@ -1,6 +1,28 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 {% block div_card-body %}
+
+<div class="mb-3 card text-white" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+  <div class="card-header"></div>
+  <div class="card-body">
+    {% if object.cuenta_u %}
+      {% if object.cuentaelector.estado_confirmacion %}
+      <h5 class="text-white card-title">El elector posee la cuenta confirmada</h5>
+      <h5>Detalles de confirmación:</h5>
+      Fue candidato en las siguientes elecciones:
+      {% else %}
+      <h5 class="text-white card-title">El elector posee cuenta confirmada sin conmfirmar</h5>
+      Este elector no poduede se postulado como candidato de una elección
+      {% endif %}
+    {% else %}
+      <h5 class="text-white card-title">Este elector no posee cuenta de usuario</h5>
+      La cuenta es necesaria para postularse como candidato para el cargo de una elección
+    {% endif %}
+  </div>
+  <div class="card-footer justify-content-center mt-3">
+    <a href={{accion_url}} class="btn btn-block btn-light">{{accion_text}}</a>
+  </div>
+</div>
 {% endblock %}
 {% comment %}
 {% endcomment %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy  # , reverse
 from django.utils.decorators import method_decorator
@@ -9,14 +9,17 @@ from django.views.generic.list import ListView
 
 from .forms import ElectorForm
 from .models import Elector
-from ..utils import set_active, get_queryset_by_state, set_active_field
+from ..utils import (set_active,
+                     get_queryset_by_state,
+                     set_active_field,
+                     group_required)
 # Create your views here.
 
 
 # ____________________________________________
 # _Elector
-# decorators = [login_required, group_required('staff',)]
-decorators = [login_required(login_url='gest_usuario:login'), ]
+decorators = [login_required(login_url='gest_usuario:login'),
+              group_required('staff')]
 
 
 @ method_decorator(decorators, name='dispatch')
@@ -96,9 +99,12 @@ class ElectorListView(ListView):
         context['url_agregar'] = 'gest_elector:agregar'
         context['url_detalle'] = 'gest_elector:detalle'
         context['url_actualizar'] = 'gest_elector:actualizar'
+        if 'estado' in self.request.GET:
+            context['estado'] = self.request.GET['estado']
         return context
 
 
+# gest_elector:detalle
 @method_decorator(decorators, name='dispatch')
 class ElectorDetailView(DetailView):
     model = Elector
@@ -110,6 +116,7 @@ class ElectorDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         try:
+            # cambiar el estado del registro
             set_active_field(self.object, 'True' == request.POST['active'])
         except KeyError:
             print('Where is my flag?')
@@ -121,6 +128,17 @@ class ElectorDetailView(DetailView):
         context['title'] = 'Detalle del Elector'
         context['page_title_heading'] = self.object.__str__()
         context['url_actualizar'] = 'gest_elector:actualizar'
+        if self.object.cuenta_u:
+            if self.object.cuentaelector.estado_confirmacion:
+                context['accion_url'] = '#'
+                context['accion_text'] = 'Detalle de cuenta'
+            else:
+                context['accion_url'] = '#'
+                context['accion_text'] = 'Detalle de cuenta'
+        else:
+            context['accion_url'] = reverse('gest_usuario:gen-cu-elector')
+            context['accion_text'] = 'Generar una cuenta'
+
         # context['title'] = self.object.__str__()
         #context['eleccion_set'] = self.object.eleccion_set.all()
         #context['active_url'] = 'eleccion:active_elector'

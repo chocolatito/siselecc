@@ -1,4 +1,5 @@
 import smtplib
+from datetime import datetime
 from email.mime.text import MIMEText
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
@@ -59,3 +60,11 @@ def gen_cuenta(elector):
 def gen_cuentas_e(elector_id_list):
     """LLamado desde la CBV ElectorSinCuentaListView"""
     [gen_cuenta(elector) for elector in get_elector_list(elector_id_list)]
+
+
+# ________________________
+def actualizar_cuentaelector(electorcuenta):
+    # incluir una bloque try
+    electorcuenta.estado_confirmacion = True
+    electorcuenta.confirmacion = datetime.now()
+    electorcuenta.save()

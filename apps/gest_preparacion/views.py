@@ -124,7 +124,8 @@ class EleccionListView(ListView):
         context['url_detalle'] = 'gest_preparacion:detalle'
         context['url_actualizar'] = 'gest_preparacion:actualizar'
         context['snippet_accion_table'] = 'gest_preparacion/snippets/snippet_accion_table.html'
-
+        if 'estado' in self.request.GET:
+            context['estado'] = self.request.GET['estado']
         return context
 
 

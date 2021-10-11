@@ -80,7 +80,7 @@ INSTALLED_APPS = [
     # A multiprocessing task queue for Django
     'django_q',
     # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
-    'debug_toolbar',
+    # 'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -169,5 +169,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
 
-# Para django toolbar
-INTERNAL_IPS = ['*', ]
+# Para django toolbar > local.py
+# INTERNAL_IPS

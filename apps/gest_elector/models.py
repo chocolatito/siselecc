@@ -39,8 +39,8 @@ class Elector(Base):
         return [(vname_f(self._meta, 'dni'), self.dni),
                 (vname_f(self._meta, 'nombres'), self.nombres),
                 (vname_f(self._meta, 'apellidos'), self.apellidos),
-                (vname_f(self._meta, 'correo'), self.correo),
-                (vname_f(self._meta, 'cuenta_u'), self.cuenta_u), ]
+                (vname_f(self._meta, 'correo'), self.correo), ]
+        # (vname_f(self._meta, 'cuenta_u'), self.cuenta_u),
 
     # __
 

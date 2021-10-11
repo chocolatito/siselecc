@@ -88,6 +88,12 @@
                       <!-- ./BOTONES AGRUPADOS-->
                       {% endcomment %}
                       {% endblock %}
+                      {% if user.cuentaelector %}
+                        {% if not user.cuentaelector.estado_confirmacion %}
+                          <div tabindex="-1" class="dropdown-divider"></div>
+                          <a href="{% url 'gest_usuario:confirmar' %}" class="dropdown-item">Confirmar Cuenta</a>
+                        {% endif %}
+                      {% endif %}
                       <div tabindex="-1" class="dropdown-divider"></div>
                       <a href="{% url 'gest_usuario:logout' %}" class="dropdown-item">Logout</a>
                     </div>

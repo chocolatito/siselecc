@@ -1,23 +1,44 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 {% block div_card-body %}
-{% if object.editable %}
-<h1>ESTE CARGO AUN NO SE USO EN ELECCIONES</h1>
-{% else %}
-  <h1>Cargo no editable</h1>
-  <h3>se utilizo en las siguientes elecciones:</h3>
-  {% comment %}
+<div class="mb-3 card text-white" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+  {% if object.editable %}
+  <div class="card-header">
+    NO SE REGISTRAN ELECCIONES PARA ESTE CARGO
+  </div>
+  <div class="card-body">
+  Pueden actualizarse la información la información rederida a
+  <ul>
+    <li>Nombre Del Cargo</li>
+    <li>Descripción</li>
+  </ul>
+  </div>
+  <div class="card-footer">
+  IMPORTANTE: Cunado se registran elecciones para un cargo determinado, este no podra editarse.
+  </div>
+  {% else %}
+  <div class="card-header">
+    Cargo no editable
+  </div>
+  <div class="card-body">
+    <p>Se se registran siguientes elecciones para este cargo:</p>
+    {% comment %}
     Revisar - Sera necesario un scroll
     https://www.w3schools.com/bootstrap4/bootstrap_scrollspy.asp
-  {% endcomment %}
-  {% for eleccion in object.eleccion_set.all %}
+    {% endcomment %}
     <div class="list-group">
+    {% for eleccion in object.eleccion_set.all %}
       <a href={{eleccion.get_absolute_url}} class="list-group-item list-group-item-action">
         {{eleccion}}
       </a>
-    </div>
-  {% endfor %}
-{% endif %}
+    {% endfor %}
+  </div>
+  </div>
+  <div class="card-footer">
+
+  </div>
+  {% endif %}
+</div>
 {% endblock %}
 {% comment %}
 {% endcomment %}

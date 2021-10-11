@@ -97,6 +97,8 @@ class CargoListView(ListView):
         context['url_detalle'] = 'gest_cargo:detalle'
         context['url_actualizar'] = 'gest_cargo:actualizar'
         context['snippet_accion_table'] = 'gest_cargo/snippets/snippet_accion_table.html'
+        if 'estado' in self.request.GET:
+            context['estado'] = self.request.GET['estado']
         return context
 
 
