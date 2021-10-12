@@ -31,6 +31,12 @@ REFERENCIA = {'a': '1', 'b': '2', 'c': '3', 'd': '4', 'e': '5',
 # ________________________________________________________________________________________
 # SecuenciaPrimo.objects.create(indice=indice, secuencia={'indice': indice, 'sec': re.findall('\d+', f.read())})
 """
+SecuenciaPrimo.objects.create(indice=indice, secuencia={'indice': indice, 'sec': re.findall('\d+', f.read())})
+
+from apps.gest_cifrado.models import SecuenciaPrimo as sp
+[for object in sp.objects.all()]
+secuencia = object.secuencia.pop('sec')
+object.secuencia.['secuencia']=secuencia
 import re
 from os.path import dirname
 from .models import SecuenciaPrimo

@@ -17,7 +17,7 @@ class MesaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 
 class CandidatoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ('id',)
+    list_display = ('id', 'elector', 'eleccion')
 
 
 admin.site.register(Eleccion, EleccionAdmin)

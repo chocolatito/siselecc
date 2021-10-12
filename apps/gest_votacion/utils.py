@@ -1,5 +1,6 @@
 import hashlib
 from datetime import datetime
+from random import shuffle
 from django.core.exceptions import ObjectDoesNotExist
 #
 from phe import paillier
@@ -71,7 +72,14 @@ def get_boleta(urna, id_boleta):
     return urna.mesa.eleccion.boleta_set.get(id=id_boleta)
 
 
+def get_boletas(mesa):
+    lista_boletas = list(mesa.eleccion.boleta_set.all())
+    shuffle(lista_boletas)
+    return lista_boletas
+
 # _
+
+
 def cifrar(vector, eleccion, autoridad):
     # Eleccion deberia definir un metodo que excluya la clave de staff
     clave = Clave.objects.filter(eleccion=eleccion).exclude(

@@ -9,7 +9,7 @@
             Iniciar Terminal de Mesa de Votación #
           </a>
         </div>
-        {% elif mesa.estado_mesa == 3 or mesa.estado_mesa == 4 %}
+        {% elif mesa.estado_mesa == 3 or mesa.estado_mesa == 4 or mesa.estado_mesa == 5 %}
         <div class="widget-heading">
           <a class='text-danger' href='{{mesa.get_mesa_ini_url}}'>
             Ir a Terminal de Mesa de Votación #

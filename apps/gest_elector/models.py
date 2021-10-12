@@ -57,5 +57,8 @@ class Elector(Base):
         # return [self.dni, self.names, self.surnames]
         pass
 
+    def full_names(self):
+        return f'{self.apellidos}, {self.nombres}'
+
     def __str__(self):
         return f'{self.dni} - {self.nombres} {self.apellidos}'

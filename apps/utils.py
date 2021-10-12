@@ -27,6 +27,15 @@ def vname_f(_meta, field):
     return _meta.get_field(field).verbose_name.title()
 
 
+def login_forbidden():
+    def is_loged(u):
+        if not u.is_authenticated:
+            return True
+    return user_passes_test(is_loged, redirect_field_name='bienvenida:bienvenida')
+
+# _______________________________
+
+
 def group_required(*group_names):
     """Requires user membership in at least one of the groups passed in.
     https://stackoverflow.com/questions/36177769/django-groups-and-permissions
@@ -45,7 +54,13 @@ def estado_confirmacion_required():
     """
     def has_estado_confirmacion(u):
         if u.is_authenticated:
-            if bool(u.cuentaelector.estado_confirmacion) | u.is_superuser:
+            try:
+                if u.cuentaelector:
+                    if bool(u.cuentaelector.estado_confirmacion) | u.is_superuser:
+                        return True
+                    else:
+                        return False
+            except:
                 return True
         return False
     # SE DEBE PROCEDER A CONFIRMAR LA CUENTA

@@ -26,7 +26,7 @@ class Boleta(Base):
 
     def get_info_alternativa(self):
         if self.candidato:
-            return self.candidato.__str__()
+            return f'{self.candidato.full_name()}'
         else:
             return "Voto en Blanco"
 

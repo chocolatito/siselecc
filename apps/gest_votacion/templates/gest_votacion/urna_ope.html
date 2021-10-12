@@ -1,36 +1,53 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
+{% block cabecado %}
+{% endblock %}
 
 {% block rows %}
 {% block div_card-body %}
-<form  method="post">
+<form method="post">
   {% csrf_token %}
   {% if object.estado_urna in estados_pasivos %}
-  <h1>URNA LIBRE</h1>
-  <button type="submit" name="btn" class='btn btn-primary'>Actualizar</button>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header justify-content-center">
+        URNA LIBRE
+      </div>
+      <div class="card-body bg-light">
+      </div>
+      <div class="card-footer bg-primary justify-content-center">
+        <button type="submit" name="btn" class='btn btn-light btn-lg'>
+          <h4><b>Actualizar</b></h4>
+        </button>
+      </div>
+    </div>
+  </div>
+
   {% elif object.estado_urna == 3 %}
   <h1>Alternativas de votación</h1>
-  <div class="row">
-    <form method="post">
-      {% csrf_token %}
-    {% for boleta in boletas %}
-      <div class="col">
-        <div class="card">
-        <div class="card-header">
-          #
+  <div class="container-fluid">
+    <div class="row">
+      <form method="post">
+        {% csrf_token %}
+        {% for boleta in boletas %}
+        <div class="col">
+          <div class="card">
+            <div class="card-header justify-content-center bg-dark text-light">
+              #{{boleta.pk}}
+            </div>
+            <div class="card-body justify-content-center">
+              <h4><b>{{boleta.get_info_alternativa}}</b></h4>
+            </div>
+            <div class="card-footer justify-content-center bg-light">
+              <button type="submit" name="btn-boleta" value='{{boleta.id}}' class='btn btn-primary btn-lg'>
+                Votar
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="card-body">
-          {{boleta.get_info_alternativa}}
-        </div>
-        <div class="card-footer">
-          <button type="submit" name="btn-boleta" value='{{boleta.id}}' class='btn btn-primary'>
-            Votar
-          </button>
-        </div>
-      </div>
-      </div>
-    {% endfor %}
-    </form>
+        {% endfor %}
+      </form>
+    </div>
   </div>
   {% elif object.estado_urna == 4 %}
   <h1>Confirmar voto por: {{boleta.get_info_alternativa}}</h1>
@@ -55,7 +72,17 @@
   </form>
   {% else %}
   <h1>ESPERANDO ELECTOR</h1>
-{% endif %}
+  {% endif %}
 </form>
 {% endblock %}
+{% endblock %}
+
+
+{% block  script %}
+<script type="text/javascript">
+// https://franyerverjel.com/blog/como-deshabilitar-el-click-derecho-de-una-web
+	document.oncontextmenu = function(){return false}
+</script>
+{% endblock %}
+{% block footer %}
 {% endblock %}

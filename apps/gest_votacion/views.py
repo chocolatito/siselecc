@@ -5,7 +5,8 @@ from django.views.generic.detail import DetailView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from .models import Urna
-from .utils import (get_urna,
+from .utils import (get_boletas,
+                    get_urna,
                     inciar_urna,
                     autorizar_elector,
                     retirar_elector,
@@ -15,7 +16,7 @@ from .utils import (get_urna,
                     emitir_voto)
 from ..gest_preparacion.models import Mesa, PadronElector
 from ..gest_programacion.tasks import carrar_votacion
-from ..utils import group_required
+from ..utils import group_required, login_forbidden
 
 # Create your views here.
 decorators = [login_required(login_url='gest_usuario:login'), group_required('staff',)]
@@ -157,6 +158,7 @@ class MesaOpe(DetailView):
         return context
 
 
+@method_decorator(decorators, name='dispatch')
 class AutorizarElector(DetailView):
     model = PadronElector
     template_name = 'gest_votacion/autorizar.html'
@@ -199,6 +201,7 @@ class AutorizarElector(DetailView):
 
 
 # _Urna
+@method_decorator([login_forbidden(), ], name='dispatch')
 class IniUrna(TemplateView):
     template_name = 'gest_votacion/ini_urna.html'
 
@@ -237,6 +240,7 @@ class IniUrna(TemplateView):
         return context
 
 
+@method_decorator([login_forbidden(), ], name='dispatch')
 class UrnaOpe(DetailView):
     model = Urna
     template_name = 'gest_votacion/urna_ope.html'
@@ -257,10 +261,11 @@ class UrnaOpe(DetailView):
                 # LIBRE, ESPERANDO ELECTOR, OPERACION COMPLETADA o ELECTOR RETIRADO
                 if self.object.estado_urna == 3:
                     # LA URNA ESTA EN OPERATIVA
-                    self.boletas = self.object.mesa.eleccion.boleta_set.all()
+                    self.boletas = get_boletas(self.object.mesa)
                 elif self.object.estado_urna == 4:
                     # LA URNA ESTA EN CONFIRMACIÓN
                     self.boleta = get_boleta(self.object, kwargs['id_boleta'])
+                self.eleccion = self.object.mesa.eleccion
                 return super().dispatch(request, *args, **kwargs)
             else:
                 return redirect('bienvenida:bienvenida')
@@ -301,7 +306,7 @@ class UrnaOpe(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Urna LIBRE'
-        context['page_title_heading'] = 'Urna LIBRE'
+        context['page_title_heading'] = f'Urna LIBRE - {self.eleccion}'
         if self.object.estado_urna == 3:
             context['boletas'] = self.boletas
         elif self.object.estado_urna == 4:

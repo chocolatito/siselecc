@@ -21,6 +21,8 @@
     <!-- _____________________________________________________________________________________ -->
     <!--app-header-->
     {# CABECERA PRINCIPAL - PERMITE LA INTERACCION CON LA BARRA LATERAL #}
+
+    {% block cabecado %}
     <div class="app-header header-shadow bg-royal header-text-light">
       {% include "body_app-header-logo-menu.html" %}
       <!--app-header__content-->
@@ -128,6 +130,7 @@
       {% endblock %}
       <!-- ./app-header__content-->
     </div>
+    {% endblock %}
     <!--./app-header-->
 
     <!-- _____________________________________________________________________________________ -->
@@ -333,6 +336,7 @@
 
           <!--app-wrapper-footer-->
           {# FOOTER #}
+          {% block footer %}
           <div class="app-wrapper-footer">
             <div class="app-footer">
               <div class="app-footer__inner bg-light header-text-dark">
@@ -358,11 +362,8 @@
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="javascript:void(0);" class="nav-link">
-                        <div class="badge badge-success mr-1 ml-0">
-                          <small>NEW</small>
-                        </div>
-                        Footer Link 4
+                      <a href="{% url 'gest_votacion:ini-urna' %}" class="nav-link">
+                        ini-u-# 'IS NO AUTH' ##########
                       </a>
                     </li>
                   </ul>
@@ -370,6 +371,7 @@
               </div>
             </div>
           </div>
+          {% endblock %}
           <!-- ./app-wrapper-footer-->
         </div>
         <!-- ./app-main__outer-->
