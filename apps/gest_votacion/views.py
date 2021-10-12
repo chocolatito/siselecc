@@ -90,7 +90,7 @@ class MesaIni(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Mesa de Votación'
-        context['page_title_heading'] = 'Mesa de Votación'
+        context['page_title_heading'] = f'Mesa de Votación / {self.object.eleccion}'
         context['urna'] = get_urna(self.object)
         if context['urna'].estado_urna:
             context['padron'] = []
