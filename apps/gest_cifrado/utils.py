@@ -227,21 +227,25 @@ def desencriptar_suma(ingreso, color, cuenta, eleccion):
     hash = hashlib.md5(f'{ingreso}+{color}'.encode()).hexdigest()
     clave = eleccion.clave_set.get(cuenta=cuenta)
     # - - - - - Que pasa si clave, no posee parcial???
-    parcial = clave.parcial
-    if clave.hash == hash:
-        # <pub> es la clave publica
-        pub = gen_publica(int(clave.n))
-        p, q = gen_PQ(ingreso, color)
-        # <pri> es la clave privada
-        pri = gen_privada(pub, p, q)
-        # retorna una lista de enteros no nulos
-        suma = [pri.raw_decrypt(v) for v in parcial.int_suma()]
-        parcial.descifrado = True
-        parcial.save()
-        return suma
-    else:
-        # La clave ingresada por el usuario es incorrecta
+    try:
+        parcial = clave.parcial
+    except:
         return []
+    if parcial:
+        if clave.hash == hash:
+            # <pub> es la clave publica
+            pub = gen_publica(int(clave.n))
+            p, q = gen_PQ(ingreso, color)
+            # <pri> es la clave privada
+            pri = gen_privada(pub, p, q)
+            # retorna una lista de enteros no nulos
+            suma = [pri.raw_decrypt(v) for v in parcial.int_suma()]
+            parcial.descifrado = True
+            parcial.save()
+            return suma
+        else:
+            # La clave ingresada por el usuario es incorrecta
+            return []
 
 
 def desc_intv(privada, int_vector):
