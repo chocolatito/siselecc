@@ -71,8 +71,9 @@ class ElectorSinCuentaListView(ListView):
 
     def post(self, request, *args, **kwargs):
         if request.POST.getlist('elector_enabled'):
-            gen_cuentas_e(request.POST.getlist('elector_enabled'),
-                          reverse('gest_usuario:confirmar'))
+            if gen_cuentas_e(request.POST.getlist('elector_enabled'),
+                             reverse('gest_usuario:confirmar')):
+                return redirect('bienvenida:bienvenida')
         return redirect(request.META['HTTP_REFERER'])
 
     def get_context_data(self, **kwargs):
