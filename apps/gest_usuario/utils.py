@@ -14,12 +14,12 @@ from siselecc.settings import (EMAIL_HOST,
 # http://chuwiki.chuidiang.org/index.php?title=Enviar_y_leer_email_con_python_y_gmail
 def send_email(username, clave, link, email_to):
     # Establecemos conexion con el servidor smtp de gmail
-    mailServer = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
+    mailServer = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT, 'debpps')
     mailServer.ehlo()
     mailServer.starttls()
     mailServer.ehlo()
-    # mailServer.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
-    mailServer.auth_plain(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+    mailServer.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+    # mailServer.auth_plain(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
     # Construimos el mensaje simple
     mensaje = MIMEText(f"Usuario::{username} Clave actual: {clave} Enlace: {link}.")
     mensaje['From'] = EMAIL_HOST_USER
