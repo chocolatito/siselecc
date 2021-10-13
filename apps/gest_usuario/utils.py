@@ -27,7 +27,7 @@ def send_email(username, clave, email_to):
         mensaje['To'] = email_to
         mensaje['Subject'] = "Confirmar cuenta de usuario"
         # Envio del mensaje
-        # mailServer.sendmail(EMAIL_HOST_USER, email_to, mensaje.as_string())
+        mailServer.sendmail(EMAIL_HOST_USER, email_to, mensaje.as_string())
         return True
     except Exception as e:
         print(e)

@@ -1,5 +1,5 @@
 #from django.utils import timezone
-
+from datetime import datetime
 from ..gest_preparacion.models import Eleccion
 
 # Separa la actualizacion para apertura y cierre porque tambien actualiza otros objetos
@@ -32,6 +32,7 @@ def carrar_votacion(id):
         eleccion.mesa.save()
         # CERRADA
         eleccion.mesa.urna.estado_urna = 7
+        eleccion.mesa.urna.hora_cierre = datetime.now().strftime("%H:%M:%S")
         eleccion.mesa.urna.save()
         # CERRADO
         eleccion.padron.estado_padron = 3
