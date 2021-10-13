@@ -19,9 +19,9 @@
         {% if object.etapa == 6 %}
         <a class="btn btn-success" href={{object.get_resultado_url}}>Ver Resultado</a>
         {% elif object.etapa == 5 or object.etapa == 4 %}
-        <a class="btn btn-primary" href={{object.get_proxima_url}}>Ver Detalles</a>
-        {% else %}
         <a class="btn btn-primary" href={{object.get_cerrada_url}}>Ver Detalles</a>
+        {% else %}
+        <a class="btn btn-primary" href={{object.get_proxima_url}}>Ver Detalles</a>
         {% endif %}
       </td>
     </tr>
