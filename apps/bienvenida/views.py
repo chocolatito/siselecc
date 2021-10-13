@@ -10,6 +10,7 @@ class Bienvenida(TemplateView):
     template_name = "bienvenida/bienvenida.html"
 
     def dispatch(self, request, *args, **kwargs):
+        #
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
