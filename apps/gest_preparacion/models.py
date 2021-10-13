@@ -23,7 +23,7 @@ class Eleccion(Base):
     hora_inicio = models.TimeField('Hora de inicio', blank=True, null=True)
     hora_fin = models.TimeField('Hora de cierre', blank=True, null=True)
     etapa = models.IntegerField('Etapa de elección', choices=ETAPAS, default=0)
-    slug = models.SlugField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     # Relationships
     cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
 
@@ -310,6 +310,7 @@ class Mesa(Base):
 # _______________________________________________________
 # PRE/POST SAVE
 def set_slug_Eleccion(sender, instance, *args, **kwargs):
+    # Falta controlar la longitud del slug
     if instance.id and instance.titulo and instance.fecha and not instance.slug:
         instance.slug = slugify(
             f'{instance.fecha}__{instance.id}_{instance.titulo}')
