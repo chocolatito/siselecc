@@ -5,7 +5,6 @@
 {% block title %}{{title}}{% endblock %}
 <!-- ./head-->
 
-
 <!--body-->
 {% block page-title-heading %}
 {{page_title_heading}}
@@ -38,18 +37,14 @@
   </div>
   <div class="col">
   {% block div_card-body %}
-  <div class="col mb-3 card text-white card-body" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
-    <h5 class="text-white card-title">Special Title Treatment</h5>
-    With supporting text below as a natural lead-in to additional content.
-  </div>
   {% endblock %}
   </div>
 </div>
-{% block news_rows %} {% endblock %}
+
+{% block news_rows %}
 {% endblock %}
 
-
-
+{% endblock %}
 
 
 <!-- ./body-->

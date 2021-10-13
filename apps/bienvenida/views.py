@@ -20,6 +20,7 @@ class Bienvenida(TemplateView):
         context['en_curso'] = Eleccion.objects.filter(etapa=3)
         context['cerradas'] = Eleccion.objects.filter(etapa__in=[4, 5, 6])
         context['thead_values'] = ['Titulo', 'Fecha', 'Acciones', ]
+        context['thead_values_encurso'] = ['Titulo', 'Fecha', 'Inicio-Cierre', ]
         return context
 
 
@@ -45,6 +46,29 @@ class Resultado(DetailView):
         context['escrutinio'] = get_escrutinio(self.boletas,
                                                self.v_resultado,
                                                get_total_votos(self.v_resultado))
+        context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
+        return context
+
+
+class DetallesCerrada(DetailView):
+    model = Eleccion
+    template_name = 'bienvenida/detalle_cerrada.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.etapa in [4, 5]:
+            # Generar el resultado
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('bienvenida:bienvenida')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Gestionar contex
+        # title
+        # page_title_heading
+        context['padron'] = self.object.padron
+        context['urna'] = self.object.mesa.urna
         context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
         return context
 

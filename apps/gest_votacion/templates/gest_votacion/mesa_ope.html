@@ -7,6 +7,12 @@
 <script src="{% static 'DataTables-v1/datatables.min.js'%}"></script>
 {% endblock %}
 
+
+{% if padronelector %}
+  {% block app-sidebar %}{% endblock %}
+{% endif %}
+
+
 {% block rows %}
 {% block div_card-body %}
 {% if padronelector %}

@@ -6,11 +6,7 @@ VALIDATOR = [RegexValidator('^[a-zA-Z0-9|ñ|Ñ|.|,|_|-|$|@]{8}$',
                             message='Caracteres no permitidos',
                             code='formato_incorrecto'), ]
 
-COLORES = [
-    (23, 'Verde'),
-    (13, 'Azul'),
-    (12, 'Rojo'),
-]
+COLORES = [(23, 'Verde'), (13, 'Azul'), (12, 'Rojo'), ]
 
 
 class ClaveForm(forms.Form):

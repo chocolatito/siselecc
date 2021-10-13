@@ -14,6 +14,7 @@ from siselecc.settings import (EMAIL_HOST,
 # http://chuwiki.chuidiang.org/index.php?title=Enviar_y_leer_email_con_python_y_gmail
 def send_email(username, clave, email_to):
     try:
+
         # Establecemos conexion con el servidor smtp de gmail
         mailServer = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
         mailServer.ehlo()

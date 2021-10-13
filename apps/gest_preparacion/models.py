@@ -48,6 +48,9 @@ class Eleccion(Base):
     def get_proxima_url(self):
         return reverse('bienvenida:proxima', args=[str(self.id)])
 
+    def get_cerrada_url(self):
+        return reverse('bienvenida:cerrada', args=[str(self.id)])
+
     def get_resultado_url(self):
         return reverse('bienvenida:resultado', args=[str(self.id)])
 
@@ -61,6 +64,11 @@ class Eleccion(Base):
     def get_field_values_bienvenida(self):
         return [self.titulo,
                 self.fecha.strftime('%d-%m-%Y'), ]
+
+    def get_field_values_encurso(self):
+        return [self.titulo,
+                self.fecha.strftime('%d-%m-%Y'),
+                self.get_strftime, ]
 
     def get_strftime(self):
         if self.etapa:
@@ -198,6 +206,36 @@ class Padron(Base):
             return False
         else:
             return True
+
+    def empadronados(self):
+        if self.padronelector_set.all():
+            return self.padronelector_set.all().count()
+        else:
+            return 0
+
+    def presentes(self):
+        if self.padronelector_set.all():
+            return self.padronelector_set.filter(estado_padronelector=2).count()
+        else:
+            return 0
+
+    def presentes_por_cien(self):
+        if self.presentes():
+            return (self.presentes() // self.empadronados()) * 100
+        else:
+            return 0
+
+    def ausentes(self):
+        if self.padronelector_set.all():
+            return self.padronelector_set.filter(estado_padronelector=0).count()
+        else:
+            return 0
+
+    def ausentes_por_cien(self):
+        if self.ausentes():
+            return (self.ausentes() // self.empadronados()) * 100
+        else:
+            return 0
 
     def __str__(self):
         return f'{self.id}-{self.eleccion}'

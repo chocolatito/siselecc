@@ -6,28 +6,30 @@
 <div class="card card-body" style="background-color: rgb(51, 51, 51) border-color: rgb(51, 51, 51);">
   <div class="row">
     <div class="container mb-3">
-      <a class='mb-2 mr-2 btn-transition btn btn-outline-secondary btn-block' href="{{object.eleccion.get_absolute_url}}">
-        <b>Ir a Elección</b>
+      <a class='mb-2 mr-2 btn-transition btn btn-outline-secondary btn-block btn-lg' href="{{object.eleccion.get_absolute_url}}">
+        <h2><b>Volver a detalles de Elección</b></h2>
       </a>
     </div>
   </div>
   <div class="row">
-
-      <div class="col">
-        <h4>Cuando se inicia la elección</h4>
-        <p>Se genera un codigo para iniciar la terminal de votacion.</p>
-        <p> . . . . . . . . . . . . . . . . . . . . . . . .</p>
-        <p> . . . . . . . . . . . . . . . . . . . . . . . .</p>
+    <div class="col">
+      <div class="jumbotron jumbotron-fluid bg-info text-light">
+      <div class="container">
+        <h2 class="display-4">La autoridad de mesa</h2>
+        <p class="lead">Debera iniciar la terminal de votación con la clave para inicializar las claves de cifrado</p>
+        <p class="lead">Una vez iniciada la terminal de votación, la terminal de autoridad de mesa, estara "OPERATIVA"</p>
       </div>
+    </div>
+    </div>
     <div class="col">
       <form method="post">
         {% csrf_token %}
-        <button type="submit" name="btn" class='mb-2 mr-2 btn btn-primary btn-block'>
-          <b>Iniciar</b>
+        <button type="submit" name="btn" class='mb-2 mr-2 btn btn-primary btn-block btn-lg'>
+          <h4><b>Iniciar</b></h4>
         </button>
       </form>
-      <a class='mb-2 mr-2 btn btn-secondary btn-block' href="{{object.eleccion.get_absolute_url}}">
-        <b>Cancelar</b>
+      <a class='mb-2 mr-2 btn btn-danger btn-block btn-lg' href="{{object.eleccion.get_absolute_url}}">
+        <h4><b>Cancelar</b></h4>
       </a>
     </div>
   </div>

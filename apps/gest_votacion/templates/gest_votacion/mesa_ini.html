@@ -7,26 +7,41 @@
 
 <div class="container bg-white">
   <div class="row d-flex align-items-center">
-  <div class="col">
-    <div class="card mb-3 widget-content bg-premium-dark">
-      <div class="widget-content-wrapper text-white">
-        <div class="widget-content-left">
-          <div class="widget-heading">ESPERANDO EL INICIO DE LA URNA</div>
-          <div class="widget-subheading">Cuando la urna este iniciada, actualice esta pagina</div>
+    <div class="col">
+      <div class="card mb-3 widget-content bg-premium-dark">
+        <div class="widget-content-wrapper text-white">
+          <div class="widget-content-left">
+            <div class="widget-heading lead">ESPERANDO EL INICIO DE LA URNA</div>
+            <div class="widget-subheading lead">Cuando la urna este iniciada, actualice esta pagina</div>
+            <div class="widget-subheading lead">Los horarios de la eleccion son: <b>{{horarios}}</b></div>
+          </div>
+          <div class="widget-content-right">
+            <div class="widget-numbers text-warning" id="relojnumerico" onload="cargarReloj()">
+              <span>
+                <form name="form_reloj">
+                <input type="text" name="reloj" size="10" onfocus="window.document.form_reloj.reloj.blur()">
+                </form>
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="widget-content-right">
-          <div class="widget-numbers text-warning"><span>HORA DE INICIO???</span></div>
+      </div>
+      <div class="card mt-3">
+        <div class="card-header bg-light">
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="btn" class='btn btn-primary btn-block btn-lg'>
+              <h4>Actualizar</h4>
+            </button>
+          </form>
+        </div>
+        <div class="card-footer bg-light">
         </div>
       </div>
     </div>
-    <div class="">
-      <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="btn" class='btn btn-primary btn-lg btn-block'>Actualizar</button>
-      </form>
-    </div>
   </div>
-</div>
 </div>
 
 {% else %}
@@ -35,35 +50,39 @@
 {% endblock %}
 {% endblock %}
 
-{% comment %}
-{% block rows %}
-{% block div_card-body %}
-<div class="card card-body" style="background-color: rgb(51, 51, 51) border-color: rgb(51, 51, 51);">
-  <div class="row">
-    <div class="container mb-3">
-      <a class='mb-2 mr-2 btn-transition btn btn-outline-secondary btn-block' href="{{object.eleccion.get_absolute_url}}">
-        <b>Ir a Elección</b>
-      </a>
-    </div>
-  </div>
-  <div class="row">
-
-    <div class="col">
-      <h4>Cuando se inicia la elección</h4>
-      <p>Se genera un codigo para iniciar la terminal de votacion.</p>
-      <p> . . . . . . . . . . . . . . . . . . . . . . . .</p>
-      <p> . . . . . . . . . . . . . . . . . . . . . . . .</p>
-    </div>
-    <div class="col">
-      <a class='mb-2 mr-2 btn btn-primary btn-block' href="{{object.get_mesa_ini_url}}">
-        <b>Iniciar</b>
-      </a>
-      <a class='mb-2 mr-2 btn btn-secondary btn-block' href="{{object.eleccion.get_absolute_url}}">
-        <b>Cancelar</b>
-      </a>
-    </div>
-  </div>
-</div>
+{% block  script %}
+<script>
+// https://blog.nubecolectiva.com/como-crear-un-reloj-digital-numerico-con-javascript/
+function cargarReloj(){
+    // Haciendo uso del objeto Date() obtenemos la hora, minuto y segundo
+    var fechahora = new Date();
+    var hora = fechahora.getHours();
+    var minuto = fechahora.getMinutes();
+    var segundo = fechahora.getSeconds();
+    // Variable meridiano con el valor 'AM'
+    var meridiano = "AM";
+    // Si la hora es igual a 0, declaramos la hora con el valor 12
+    if(hora == 0){
+        hora = 12;
+    }
+    // Si la hora es mayor a 12, restamos la hora - 12 y mostramos la variable meridiano con el valor 'PM'
+    if(hora > 12) {
+        hora = hora - 12;
+        // Variable meridiano con el valor 'PM'
+        meridiano = "PM";
+    }
+    // Formateamos los ceros '0' del reloj
+    hora = (hora < 10) ? "0" + hora : hora;
+    minuto = (minuto < 10) ? "0" + minuto : minuto;
+    segundo = (segundo < 10) ? "0" + segundo : segundo;
+    // Enviamos la hora a la vista HTML
+    var tiempo = hora + ":" + minuto + ":" + segundo + " " + meridiano;
+    document.getElementById("relojnumerico").innerText = tiempo;
+    document.getElementById("relojnumerico").textContent = tiempo;
+    // Cargamos el reloj a los 500 milisegundos
+    setTimeout(cargarReloj, 500);
+}
+// Ejecutamos la función 'CargarReloj'
+cargarReloj();
+</script>
 {% endblock %}
-{% endblock %}
-{% endcomment %}
