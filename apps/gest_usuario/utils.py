@@ -13,20 +13,23 @@ from siselecc.settings import (EMAIL_HOST,
 
 # http://chuwiki.chuidiang.org/index.php?title=Enviar_y_leer_email_con_python_y_gmail
 def send_email(username, clave, link, email_to):
-    # Establecemos conexion con el servidor smtp de gmail
-    mailServer = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
-    mailServer.ehlo()
-    mailServer.starttls()
-    mailServer.ehlo()
-    mailServer.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
-    # Construimos el mensaje simple
-    mensaje = MIMEText(f"Usuario::{username} Clave actual: {clave} Enlace: {link}.")
-    mensaje['From'] = EMAIL_HOST_USER
-    mensaje['To'] = email_to
-    mensaje['Subject'] = "Confirmar cuenta de usuario"
-    # Envio del mensaje
-    mailServer.sendmail(EMAIL_HOST_USER, email_to, mensaje.as_string())
-    return True
+    if False and True:
+        # Establecemos conexion con el servidor smtp de gmail
+        mailServer = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
+        mailServer.ehlo()
+        mailServer.starttls()
+        mailServer.ehlo()
+        mailServer.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+        # Construimos el mensaje simple
+        mensaje = MIMEText(f"Usuario::{username} Clave actual: {clave} Enlace: {link}.")
+        mensaje['From'] = EMAIL_HOST_USER
+        mensaje['To'] = email_to
+        mensaje['Subject'] = "Confirmar cuenta de usuario"
+        # Envio del mensaje
+        mailServer.sendmail(EMAIL_HOST_USER, email_to, mensaje.as_string())
+        return True
+    else:
+        return False
 
 
 # ___________________________
