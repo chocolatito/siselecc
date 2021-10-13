@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.contrib.auth import logout
 from django.utils.decorators import method_decorator
 from django.contrib.auth import update_session_auth_hash
@@ -70,7 +71,8 @@ class ElectorSinCuentaListView(ListView):
 
     def post(self, request, *args, **kwargs):
         if request.POST.getlist('elector_enabled'):
-            gen_cuentas_e(request.POST.getlist('elector_enabled'))
+            gen_cuentas_e(request.POST.getlist('elector_enabled'),
+                          reverse('gest_usuario:cinfirmar'))
         return redirect(request.META['HTTP_REFERER'])
 
     def get_context_data(self, **kwargs):

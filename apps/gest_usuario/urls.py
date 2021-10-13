@@ -16,6 +16,6 @@ urlpatterns = [
     # accounts/gen-cue-elector/
     path('gen-cue-elector/', ElectorSinCuentaListView.as_view(), name='gen-cu-elector'),
     path('cuenta-elector/', CuentaElectorListView.as_view(), name='cuenta-elector'),
-    # cinfirmar cuenta
+    # gest_usuario:cinfirmar
     path('confirmar/', ConfirmarCuenta.as_view(), name='confirmar'),
 ]

@@ -12,7 +12,7 @@ from siselecc.settings import (EMAIL_HOST,
 
 
 # http://chuwiki.chuidiang.org/index.php?title=Enviar_y_leer_email_con_python_y_gmail
-def send_email(username, clave, email_to):
+def send_email(username, clave, link, email_to):
     try:
 
         # Establecemos conexion con el servidor smtp de gmail
@@ -22,7 +22,11 @@ def send_email(username, clave, email_to):
         mailServer.ehlo()
         mailServer.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
         # Construimos el mensaje simple
-        mensaje = MIMEText(f"{username}, {clave}")
+        mensaje = MIMEText(f"""\t Usuario::{username}
+\t Clave actual:{clave}
+\t 1. Debe ingresar al siguiente enlace{link}
+\t 2. Iniciar sesión
+\t 3. Cambiar la clave""")
         mensaje['From'] = EMAIL_HOST_USER
         mensaje['To'] = email_to
         mensaje['Subject'] = "Confirmar cuenta de usuario"
@@ -39,28 +43,29 @@ def get_elector_list(id_list):
     return [Elector.objects.get(id=id) for id in id_list]
 
 
-def gen_cuenta_elector(usuario, elector):
+def gen_cuenta_elector(usuario, elector, link):
     object = CuentaElector(cuenta=usuario, elector=elector)
     object.save()
     # EL PASSWORD DEBE MEJORARSE
-    send_email(usuario.username, usuario.username, elector.correo)
+    # reverse('# gest_usuario:cinfirmar')
+    send_email(usuario.username, usuario.username, link, elector.correo)
     print(object)
 
 
-def gen_cuenta(elector):
+def gen_cuenta(elector, link):
     group = Group.objects.get(name='elector')
     # EL PASSWORD DEBE MEJORARSE
     user = User.objects.create_user(str(elector.dni), elector.correo, str(elector.dni))
     user.groups.add(group)
     elector.cuenta_u = True
     elector.save()
-    gen_cuenta_elector(user, elector)
+    gen_cuenta_elector(user, elector, link)
     return user
 
 
-def gen_cuentas_e(elector_id_list):
+def gen_cuentas_e(elector_id_list, link):
     """LLamado desde la CBV ElectorSinCuentaListView"""
-    [gen_cuenta(elector) for elector in get_elector_list(elector_id_list)]
+    [gen_cuenta(elector, link) for elector in get_elector_list(elector_id_list)]
 
 
 # ________________________
