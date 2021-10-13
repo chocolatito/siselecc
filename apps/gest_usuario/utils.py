@@ -14,7 +14,6 @@ from siselecc.settings import (EMAIL_HOST,
 # http://chuwiki.chuidiang.org/index.php?title=Enviar_y_leer_email_con_python_y_gmail
 def send_email(username, clave, link, email_to):
     try:
-
         # Establecemos conexion con el servidor smtp de gmail
         mailServer = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
         mailServer.ehlo()
@@ -22,11 +21,7 @@ def send_email(username, clave, link, email_to):
         mailServer.ehlo()
         mailServer.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
         # Construimos el mensaje simple
-        mensaje = MIMEText(f"""\t Usuario::{username}
-\t Clave actual:{clave}
-\t 1. Debe ingresar al siguiente enlace{link}
-\t 2. Iniciar sesión
-\t 3. Cambiar la clave""")
+        mensaje = MIMEText(f"Usuario::{username} Clave actual: {clave} Enlace: {link}.")
         mensaje['From'] = EMAIL_HOST_USER
         mensaje['To'] = email_to
         mensaje['Subject'] = "Confirmar cuenta de usuario"
@@ -47,9 +42,7 @@ def gen_cuenta_elector(usuario, elector, link):
     object = CuentaElector(cuenta=usuario, elector=elector)
     object.save()
     # EL PASSWORD DEBE MEJORARSE
-    # reverse('# gest_usuario:cinfirmar')
-    send_email(usuario.username, usuario.username, link, elector.correo)
-    print(object)
+    return send_email(usuario.username, usuario.username, link, elector.correo)
 
 
 def gen_cuenta(elector, link):
@@ -59,13 +52,15 @@ def gen_cuenta(elector, link):
     user.groups.add(group)
     elector.cuenta_u = True
     elector.save()
-    gen_cuenta_elector(user, elector, link)
-    return user
+    return gen_cuenta_elector(user, elector, link)
 
 
 def gen_cuentas_e(elector_id_list, link):
     """LLamado desde la CBV ElectorSinCuentaListView"""
-    [gen_cuenta(elector, link) for elector in get_elector_list(elector_id_list)]
+    if False in [gen_cuenta(elector, link) for elector in get_elector_list(elector_id_list)]:
+        return False
+    else:
+        return True
 
 
 # ________________________
