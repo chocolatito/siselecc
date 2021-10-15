@@ -30,7 +30,10 @@ class CargoCreateView(CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             self.object = form.save()
-            return HttpResponseRedirect(self.object.get_absolute_url())
+            if request.GET.get('next'):
+                return HttpResponseRedirect(request.GET.get('next'))
+            else:
+                return HttpResponseRedirect(self.object.get_absolute_url())
         self.object = None
         context = self.get_context_data(**kwargs)
         context['form'] = form
@@ -41,6 +44,12 @@ class CargoCreateView(CreateView):
         context['submit_button'] = 'Registrar'
         context['cancel_url'] = 'gest_cargo:listado'
         context['card_title'] = 'Agregar un Cargo'
+        context['object_list'] = Cargo.objects.all()
+        if context['object_list']:
+            context['card2_title'] = 'Cargo ya registrados'
+        else:
+            context['card2_title'] = 'Primer Registro'
+            context['card_message'] = "No hay cargos registrados en el sistema"
         return context
 
 
@@ -49,7 +58,6 @@ class CargoUpdateView(UpdateView):
     model = Cargo
     form_class = CargoForm
     template_name = 'utils/create.html'
-    #success_url = reverse_lazy('gest_cargo:listado')
 
     def get_success_url(self):
         return self.object.get_absolute_url()

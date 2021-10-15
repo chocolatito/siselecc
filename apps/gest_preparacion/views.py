@@ -39,7 +39,7 @@ decorators = [login_required(login_url='gest_usuario:login'), group_required('st
 class EleccionCreateView(CreateView):
     model = Eleccion
     form_class = EleccionForm
-    template_name = 'utils/create_select.html'
+    template_name = 'gest_preparacion/create_select.html'
     success_url = reverse_lazy('bienvenida:bienvenida')
 
     def post(self, request, *args, **kwargs):
@@ -55,6 +55,7 @@ class EleccionCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['submit_button'] = 'Registrar'
+        context['agregar_url'] = 'gest_cargo:agregar'
         context['cancel_url'] = 'gest_preparacion:listado'
         context['card_title'] = 'Agregar una Eleccion'
         return context

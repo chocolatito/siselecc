@@ -1,54 +1,48 @@
 {% extends 'base.html' %}
-{% block page_title_heading %}
-{% endblock %}
-{% block rows %}
 {% comment %}
 {% endcomment %}
-<!--tab-content-->
-<div class="tab-content">
-  <div class="tab-pane tabs-animation fade active show" id="tab-content-1" role="tabpanel">
-    <!--div class=""-->
-    <form method="post">
-      {% csrf_token %}
-    <div class="main-card mb-3 card">
-      <div class="card-header bg-dark d-flex justify-content-center">
-        <h5 class="card-title text-light">{{card_title}}</h5>
-      </div>
-      <div class="card-body">
-          {% for field in form.visible_fields %}
-          {% if field.errors %}
-          <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-10">
-              <li class="list-group-item-danger list-group-item">
-                {{ field.errors|striptags }}
-              </li>
-            </div>
-          </div>
-          {% endif %}
-          <div class="position-relative row form-group">
-            <label for="" class="col-sm-2 col-form-label">
-              {{field.label}}
-            </label>
-            <div class="col-sm-10">
-              {{field}}
-              {% if field.field.widget.input_type == "select" %}
-              <a class='btn btn-secondary text-light mt-1'>Agregar</a>
-              {% endif %}
-            </div>
-          </div>
-          {% endfor %}
-      </div>
-      <div class="card-footer justify-content-center">
-        <!--div class="position-relative row form-check"-->
-        <div class="row form-check">
-          <button class="btn btn-secondary">{{submit_button}}</button>
-          <a href={% url cancel_url %} class="btn btn-danger">Cancelar</a>
+
+
+{% block container-fluid %}
+<div class="card">
+  <form class="form-group" method="post">
+    {% csrf_token %}
+    <div class="card-header bg-dark text-center">
+      <h5 class="card-title text-light">{{card_title}}</h5>
+    </div>
+    <div class="card-body">
+      {% for field in form.visible_fields %}
+      {% if field.errors %}
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+          <li class="list-group-item-danger list-group-item">
+            {{ field.errors|striptags }}
+          </li>
         </div>
       </div>
+      {% endif %}
+      <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">
+          <b>{{field.label}}</b>
+        </label>
+        <div class="col-sm-10">
+          {{field}}
+          {% if field.field.widget.input_type == "select" %}
+          <a class='btn btn-secondary text-light mt-1'>Agregar</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
     </div>
-    </form>
-  </div>
+    <div class="card-footer justify-content-center">
+      <!--div class="position-relative row form-check"-->
+      <div class="row form-check">
+        <button class="btn btn-secondary">{{submit_button}}</button>
+        <a href={% url cancel_url %} class="btn btn-danger">Cancelar</a>
+      </div>
+    </div>
+  </form>
 </div>
 <!-- ./tab-content-->
 {% endblock %}

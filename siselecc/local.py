@@ -17,6 +17,7 @@ DATABASES = {
     }
 }
 
+LOGIN_REDIRECT_URL = '/'
 
 # STATICFILES_DIRS only required for development.
 STATICFILES_DIRS = [("static")]

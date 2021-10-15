@@ -2,14 +2,16 @@
 {% block app-header__content %}
 {% endblock %}
 
-{% block rows %}
+{% block container-fluid %}
 <div class="tab-content">
   <div class="tab-pane tabs-animation fade active show" id="tab-content-1" role="tabpanel">
     <div class="main-card mb-3 card">
+      <form method="post">
+        {% csrf_token %}
+      <div class="card-header text-center">
+        <h5 class="card-title font-weight-bold">Inicio de Sesión</h5>
+      </div>
       <div class="card-body">
-        <h5 class="card-title">Grid</h5>
-        <form method="post">
-          {% csrf_token %}
           <div class="position-relative row form-group"><label for="exampleEmail" class="col-sm-2 col-form-label">Nombre de Cuenta</label>
             <div class="col-sm-10">
               <input name="username" id="exampleEmail" placeholder="Ingrese nombre de la cuenta" type="text" class="form-control">
@@ -20,13 +22,20 @@
               <input name="password" id="examplePassword" placeholder="Ingrese la contraseña" type="password" class="form-control">
             </div>
           </div>
-          <div class="position-relative row form-check">
-            <div class="col-sm-10 offset-sm-2">
-              <button type="submit" class="btn btn-secondary">Submit</button>
-            </div>
-          </div>
-        </form>
+
       </div>
+      <div class="card-footer">
+        <div class="container-fluid">
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+            <a class="btn btn-secondary" href="{% url 'bienvenida:bienvenida' %}">Cancelar</a>
+        </div>
+      </div>
+      </form>
+    </div>
+</div>
+<div class="row">
+  <div class="col bg-dark">
+    <div class="jumbotron jumbotron-fluid bg-dark">
     </div>
   </div>
 </div>

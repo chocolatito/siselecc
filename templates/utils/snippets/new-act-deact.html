@@ -1,8 +1,11 @@
-<div>
-  <a class="btn btn-secondary" href={% url url_listado %}>Todos los registros</a>
-  <a class="btn btn-success" href={% url url_listado %}?estado=activo>Solo  Activos </a>
-  <a class="btn btn-danger" href={% url url_listado %}?estado=inactivo>Solo Inactivos</a>
-</div>
-<div>
-  <a class="btn btn-primary" href={% url url_agregar %}>Nuevo Registro</a>
+
+<div class="d-flex justify-content-between">
+  <ul class="">
+    <a class="btn btn-secondary border-dark" href={% url url_listado %}>Todos los registros</a>
+    <a class="btn btn-success border-dark" href={% url url_listado %}?estado=activo>Solo  Activos </a>
+    <a class="btn btn-danger border-dark" href={% url url_listado %}?estado=inactivo>Solo Inactivos</a>
+  </ul>
+    <ul>
+      <a class="btn btn-primary border-dark" href={% url url_agregar %}>Nuevo Registro</a>
+    </ul>
 </div>

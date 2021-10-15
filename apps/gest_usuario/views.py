@@ -21,17 +21,18 @@ from ..gest_elector.models import Elector
 
 class LoginFormView(LoginView):
     template_name = 'users/login.html'
+    redirect_authenticated_user = False
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
+            print("AUTENTICADO")
             if request.GET.get('next'):
+                print(f"NEXT: {request.GET.get('next')}")
                 return HttpResponseRedirect(request.GET.get('next'))
             else:
-                print(f'Usuario: {request.user}')
-                print(f"URL: {redirect('bienvenida:bienvenida')} ...")
+                print(f'Usuario Autenticado sin NEXT: {request.user}')
                 return redirect('bienvenida:bienvenida')
-        print(f'Usuario: {request.user}')
-        print(f"URL: {redirect('bienvenida:bienvenida')} ...")
+        print(f'Usuario NO AUTENTICADO: {request.user}')
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -107,8 +108,6 @@ class CuentaElectorListView(ListView):
         context['page_title_heading'] = 'Cuentas de Elector'
         context['message_no_queryset'] = 'No hay electores registrados con cuenta'
         context['thead_values'] = ['DNI', 'Correo', 'Cuenta', 'Confirmación', 'Elector', ]
-        context['url_listado_E'] = 'gest_elector:listado'
-        context['url_listado_CE'] = 'gest_elector:listado'
         # context['url_detalle'] = 'gest_elector:detalle'
         # context['url_actualizar'] = 'gest_elector:actualizar'
         return context

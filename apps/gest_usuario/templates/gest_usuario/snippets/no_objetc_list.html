@@ -1,21 +1,16 @@
-<div class="card mb-4">
+<div class="card m-5 border border-dark">
   <!--card-header-->
   <div class="card-header d-flex justify-content-center">
-    <br>
-    <h2>{{message_no_queryset}}</h2>
+    <h1>Listado</h1>
   </div>
   <!-- ./card-header-->
   <!--card-body-->
-  <div class="card-body">
-    <div class="row">
-      <div class="col">
-        <a class="btn btn-block btn-secondary" href={% url url_listado_E %}>Listado de Elector</a>
-      </div>
-      <div class="col">
-        <a class="btn btn-block btn-primary" href={% url url_listado_CE %}>Listado de Cuentas de Elector</a>
-      </div>
-    </div>
-
+  <div class="card-body d-flex justify-content-center my-2">
+    <br> <h2>{{message_no_queryset}}</h2>
+  </div>
+  <div class="card-footer d-flex justify-content-around">
+    <a class="btn btn-lg btn-primary" href="{% url 'gest_usuario:gen-cu-elector' %}">Generar Cuentas para Electores</a>
+    <a class="btn btn-lg btn-secondary" href="{% url 'gest_elector:listado' %}">Listado de Elector</a>
   </div>
   <!-- ./card-body-->
 </div>

@@ -5,13 +5,11 @@
 {% block card-header %}
 <form method="post">
   {% csrf_token %}
-<div class="card-header bg-light text-center">
+<div class="card-header bg-light text-center bordered border-dark">
   {#% include 'utils/snippets/new-act-deact.html' %#}
-  <div role="group" class="btn-group">
-    <!--Generar Cuenta/s-->
-      <button type="submit" class="btn btn-success">Generar Cuenta/s</button>
-
-    <!-- ./Generar Cuenta/s-->
+  <h4 class="text-weight-bold">Listado de Electores sin Cuenta</h4>
+  <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success">Generar Cuenta/s</button>
   </div>
 </div>
 {% endblock %}

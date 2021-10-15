@@ -1,20 +1,21 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 {% block div_card-body %}
-<div class="mb-3 card text-white" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+
+<div class="card text-white " style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
   {% if object.editable %}
   <div class="card-header">
     NO SE REGISTRAN ELECCIONES PARA ESTE CARGO
   </div>
   <div class="card-body">
-  Pueden actualizarse la información la información rederida a
-  <ul>
-    <li>Nombre Del Cargo</li>
-    <li>Descripción</li>
-  </ul>
+    Pueden actualizarse la información la información rederida a
+    <ul>
+      <li>Nombre Del Cargo</li>
+      <li>Descripción</li>
+    </ul>
   </div>
   <div class="card-footer">
-  IMPORTANTE: Cunado se registran elecciones para un cargo determinado, este no podra editarse.
+    IMPORTANTE:<br> Cunado se registran elecciones para un cargo determinado, este no podra editarse.
   </div>
   {% else %}
   <div class="card-header">
@@ -27,18 +28,14 @@
     https://www.w3schools.com/bootstrap4/bootstrap_scrollspy.asp
     {% endcomment %}
     <div class="list-group">
-    {% for eleccion in object.eleccion_set.all %}
+      {% for eleccion in object.eleccion_set.all %}
       <a href={{eleccion.get_absolute_url}} class="list-group-item list-group-item-action">
         {{eleccion}}
       </a>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
-  </div>
-  <div class="card-footer">
-
-  </div>
+  <div class="card-footer"></div>
   {% endif %}
 </div>
 {% endblock %}
-{% comment %}
-{% endcomment %}

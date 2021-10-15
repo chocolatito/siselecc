@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!--head-->
+{% block title %}{{title}}{% endblock %}
+
+{% block link-script %}
+<link rel="stylesheet" type="text/css" href="{% static 'DataTables-v1/datatables.min.css' %}">
+<script src="{% static 'DataTables-v1/jQuery-3.3.1/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'DataTables-v1/datatables.min.js'%}"></script>
+{% endblock %}
+<!-- ./head-->
+
+<!--___________________________________________________________________________________-->
+
+<!--body-->
+{% block page-title-heading %}
+{{page_title_heading}}
+{% endblock %}
+
+{% block rows %}
+{% if object_list %}
+<div class="card">
+  {% block card-header %}
+  <div class="card-header bg-light">
+    {% include 'utils/snippets/new-act-deact.html' %}
+  </div>
+  {% endblock %}
+  <div class="card-body">
+    <div class="">
+      {% block snippet_table %}
+      {% include 'utils/snippets/snippet_table.html' %}
+      {% endblock %}
+    </div>
+  </div>
+</div>
+{% else %}
+{% block snippet_no_objetc_list %}
+{% include 'utils/snippets/no_objetc_list.html' %}
+{% endblock %}
+{% endif %}
+{% endblock %}
+
+{% block  script_DataTable %}
+<script>
+$(document).ready( function () {
+  $('#data1').DataTable();
+} );
+</script>
+{% endblock %}
+<!-- ./body-->

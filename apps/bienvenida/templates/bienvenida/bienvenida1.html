@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+<!--head-->
+{% block link-script %}
+  <link rel="stylesheet" type="text/css" href="{% static 'DataTables-v1/datatables.min.css' %}">
+  <script src="{% static 'DataTables-v1/jQuery-3.3.1/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'DataTables-v1/datatables.min.js'%}"></script>
+{% endblock %}
+<!-- ./head-->
+
+{% block nav-items-izquierda %}
+{% endblock %}
+
+{% block dropdown-menu %}
+{%endblock%}
+{% block page_title_heading %}
+{% endblock %}
+
+{% block rows %}
+<div class="container-fluid">
+<div class="row mb-2">
+  <div class="col">
+    {% if en_curso %}
+    <div class="card">
+      <div class="card-header bg-info text-light">
+        En Curso
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          {% include 'bienvenida/snippets/snippet_table_encurso.html' with object_list=en_curso.all %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+<div class="row">
+  <!-- Ultimas elecciones realizadas col-6 d-flex justify-content-center-->
+  <div class="col">
+    <div class="card">
+      <div class="card-header text-body">
+        Ultimas elecciones
+      </div>
+      <div class="card-body">
+        {% if cerradas %}
+        <div class="table-responsive">
+          {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=cerradas.all %}
+        </div>
+        {% else %}
+          <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h2 class="display-4">No hay elecciones que completen la votación</h1>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <!-- ./Ultimas elecciones realizadas -->
+
+  <!-- Proximas elecciones col-6 d-flex justify-content-center-->
+  <div class="col">
+    <div class="card">
+      <div class="card-header text-body">
+        Proximas elecciones
+      </div>
+      <div class="card-body">
+      {% if proximas %}
+      <div class="table-responsive">
+        {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data2' object_list=proximas.all %}
+      </div>
+      {% else %}
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h2 class="display-4">Aun no se registran elecciones programadas</h1>
+          </div>
+        </div>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+  <!-- ./Proximas elecciones -->
+  </div>
+</div>
+{% endblock %}
+
+{% block  script_DataTable %}
+<script>
+  $(document).ready(function() {
+    $('#data1').DataTable();
+  });
+
+  $(document).ready(function() {
+    $('#data2').DataTable();
+  });
+
+</script>
+{% endblock %}

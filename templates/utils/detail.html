@@ -7,49 +7,40 @@
 
 
 <!--body-->
-{% block page-title-heading %}
-{{page_title_heading}}
-{% endblock %}
-
-
-{% block rows %}
-<div class="row">
-  <div class="col">
-    <div class="mb-3 card text-white card-body" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
-    <h5 class="text-white card-title">DETALLES</h5>
-    <ul class="list-group">
-      {% for tuple in object.get_detali_info %}
-      <li class="list-group-item text-dark">
-        {{tuple.0}}: <b>{{tuple.1}}</b>
-      </li>
-      {% endfor %}
-    </ul>
-    <div class="text-center mt-3">
-      <div role="group" class="btn-group">
-        {% if snippet_accion_detail %}
-        {% include snippet_accion_detail %}
-        {% else %}
-        {% include 'utils/snippets/snippet_accion_detail.html' %}
-        {% endif %}
-      </div>
+{% block container-fluid %}
+<div class="d-flex justify-content-around bg-light p-3 my-3">
+  <div class="card text-white" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+    <div class="card-header">
+      <h5 class="text-white font-weight-bold card-title">DETALLES</h5>
     </div>
-
+    <div class="card-body">
+      <ul class="list-group">
+        {% for tuple in object.get_detali_info %}
+        <li class="list-group-item text-dark text-justify">
+          <b>{{tuple.0}}:</b> {{tuple.1}}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="card-footer">
+      <div role="group" class="btn-group px-4">
+      {% if snippet_accion_detail %}
+      {% include snippet_accion_detail %}
+      {% else %}
+      {% include 'utils/snippets/snippet_accion_detail.html' %}
+      {% endif %}
+    </div>
+    </div>
   </div>
-  </div>
-  <div class="col">
   {% block div_card-body %}
-  <div class="col mb-3 card text-white card-body" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
-    <h5 class="text-white card-title">Special Title Treatment</h5>
-    With supporting text below as a natural lead-in to additional content.
-  </div>
+    <div class="card">
+      <div class="text-white card-body" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+        <h5 class="text-white card-title">Special Title Treatment</h5>
+        With supporting text below as a natural lead-in to additional content.
+    </div>
+    </div>
   {% endblock %}
-  </div>
 </div>
-{% block news_rows %} {% endblock %}
 {% endblock %}
-
-
-
-
 
 <!-- ./body-->

@@ -1,391 +1,160 @@
 {% load static %}
 {% load extras %}
-<!doctype html>
-<html lang="en">
+
+<!DOCTYPE html>
+<html lang="es">
+
 <head>
-  {% include "head-meta.html" %}
-  <title>{% block title %}{{title_of_the_document}}{% endblock %}</title>
-  <link href="{% static 'main.css' %}" rel="stylesheet">
-  {% block link-script %}
-  {% endblock %}
+  <title>{% block title %}SisElecc{% endblock %}</title>
+  <!--Head META-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!---->
+
+  <!---->
+  <link href="{% static '/bootstrap-4.6.0/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static '/DataTables/datatables.min.css' %}" rel="stylesheet">
+    {% block link-script %}{% endblock %}
+  <!---->
 </head>
 
-{% comment %}
-{% block page-title-heading %}
-{% block rows %}
-{% block  script %}
-{% endcomment %}
-
 <body>
-  <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar closed-sidebar-mobile closed-sidebar">
-    <!-- _____________________________________________________________________________________ -->
-    <!--app-header-->
-    {# CABECERA PRINCIPAL - PERMITE LA INTERACCION CON LA BARRA LATERAL #}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
+    <!-- LOGO-->
+    <a class="navbar-brand" href="{% url 'bienvenida:bienvenida' %}"><b>SisElecc</b></a>
+    <!-- ./LOGO-->
 
-    {% block cabecado %}
-    <div class="app-header header-shadow bg-royal header-text-light">
-      {% include "body_app-header-logo-menu.html" %}
-      <!--app-header__content-->
-      {# Contenido de la cabezera #}
-      {% block app-header__content %}
-      {% if user.is_authenticated  %}
-      <div class="app-header__content">
-        <!--app-header-left-->
-        {# Lado izquierdo #}
-        <div class="app-header-left">
-          <ul class="header-menu nav">
-            {% block nav-items-izquierda %}
-            {% comment %}
-            <li class="nav-item">
-              <a href="javascript:void(0);" class="nav-link">
-                <i class="nav-link-icon fa fa-database"> </i>
-                nav-item
-              </a>
-            </li>
-            <li class="btn-group nav-item">
-              <a href="javascript:void(0);" class="nav-link">
-                <i class="nav-link-icon fa fa-edit"></i>
-                nav-item
-              </a>
-            </li>
-            <li class="dropdown nav-item">
-              <a href="javascript:void(0);" class="nav-link">
-                <i class="nav-link-icon fa fa-cog"></i>
-                nav-item
-              </a>
-            </li>
-            {% endcomment %}
-            {% endblock %}
-          </ul>
-        </div>
-        <!-- ./app-header-left-->
-        <!--app-header-right-->
-        {# Lado derecho #}
-        <div class="app-header-right">
-          <div class="header-btn-lg pr-0">
-            <div class="widget-content p-0">
-              <div class="widget-content-wrapper">
-                <div class="widget-content-left">
-                  <!--btn-group-->
-                  <div class="btn-group">
-                    {% block pre_dropdown-menu %}
-                    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                      <img width="42" class="rounded-circle" src="{% static 'assets/images/avatars/user.png' %}" alt="">
-                      {{user}}
-                      <i class="fa fa-angle-down ml-2 opacity-8"></i>
-                    </a>
-                    {% endblock %}
-                    <!--dropdown-menu-->
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                      {% block dropdown-menu %}
-                      {% comment %}
-                      <button type="button" tabindex="0" class="dropdown-item">Botón</button>
-                      <h6 tabindex="-1" class="dropdown-header">Encabezado sin link</h6>
-                      <!--BOTONES AGRUPADOS-->
-                      {# Agrupar botones #}
-                      <div tabindex="-1" class="dropdown-divider"></div>
-                      <button type="button" tabindex="0" class="dropdown-item">Botón agrupado</button>
-                      <button type="button" tabindex="0" class="dropdown-item">Botón agrupado</button>
-                      <button type="button" tabindex="0" class="dropdown-item">Botón agrupado</button>
-                      <!-- ./BOTONES AGRUPADOS-->
-                      {% endcomment %}
-                      {% endblock %}
-                      {% if user.cuentaelector %}
-                        {% if not user.cuentaelector.estado_confirmacion %}
-                          <div tabindex="-1" class="dropdown-divider"></div>
-                          <a href="{% url 'gest_usuario:confirmar' %}" class="dropdown-item">Confirmar Cuenta</a>
-                        {% endif %}
-                      {% endif %}
-                      <div tabindex="-1" class="dropdown-divider"></div>
-                      <a href="{% url 'gest_usuario:logout' %}" class="dropdown-item">Logout</a>
-                    </div>
-                    <!-- ./dropdown-menu-->
-                  </div>
-                  <!-- ./btn-group-->
-                </div>
-                {% comment %}
-                <div class="widget-content-left  ml-3 header-user-info">
-                  <div class="widget-heading">
-                    Alina Mclourd
-                  </div>
-                  <div class="widget-subheading">
-                    VP People Manager
-                  </div>
-                </div>
-                <div class="widget-content-right header-user-info ml-3">
-                  <button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example">
-                    <i class="fa text-white fa-calendar pr-1 pl-1"></i>
-                  </button>
-                </div>
-                {% endcomment %}
-              </div>
-            </div>
+    {% if user.is_authenticated %}
+    <div class="collapse navbar-collapse" id="navb">
+      <!-- Gestores-->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
+            Gestor de Elección</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'gest_preparacion:agregar' %}">Nuevo Registro</a>
+            <a class="dropdown-item" href="{% url 'gest_preparacion:listado' %}">Listado</a>
+            <a class="dropdown-item" href="#">Resumen</a>
           </div>
-        </div>
-        <!-- ./app-header-right-->
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
+            Gestor de Cargos</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'gest_cargo:agregar' %}">Nuevo Registro</a>
+            <a class="dropdown-item" href="{% url 'gest_cargo:listado' %}">Listado</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
+            Gestor de Electores</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'gest_elector:agregar' %}">Nuevo Registro</a>
+            <a class="dropdown-item" href="{% url 'gest_elector:listado' %}">Listado</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
+            Gestor de UsuariosE</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'gest_usuario:gen-cu-elector' %}">Generar Cuenta</a>
+            <a class="dropdown-item" href="{% url 'gest_usuario:cuenta-elector' %}">Listado</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
+            Gestor de UsuariosE</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Generar Cuenta</a>
+            <a class="dropdown-item" href="#">Listado</a>
+            <a class="dropdown-item" href="#">Resumen</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
+            Gestor de Cifrados</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Inicializar CPublica</a>
+            <a class="dropdown-item" href="#">Inicializar CPrivada</a>
+          </div>
+        </li>
+      </ul>
+      <!-- ./Gestores-->
+      <!-- ***************** -->
+      <!-- Login-->
+      <!-- ./Login-->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown">
+            <b>{{user}}</b>
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Link 1</a>
+            <a class="dropdown-item" href="#">Link 2</a>
+            <a class="dropdown-item" href="{% url 'gest_usuario:logout' %}">Cerrar Sesión</a>
+          </div>
+        </li>
+      </ul>
+      <!-- ./Login-->
+      <!-- ***************** -->
+    </div>
+    {% else %}
+    <div class="collapse navbar-collapse justify-content-end" id="navb">
+    <ul class="navbar-nav mr-2">
+      <li class="nav-item">
+          <a class="nav-link btn btn-light text-body mr-md-2" href="{% url 'gest_usuario:login' %}">
+          <b>Iniciar Sesión</b>
+        </a>
+      </li>
+    </ul>
+    </div>
+    {% endif %}
+  </nav>
+
+  <div class="container-fluid">
+    {% block container-fluid %}
+      <div class="row">
+      <div class="col-sm-4">
+        <h3>Column 1</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
       </div>
-      {% else %}
-      {% include "snippet-login.html" %}
-      {% endif %}
-      {% endblock %}
-      <!-- ./app-header__content-->
+      <div class="col-sm-4">
+        <h3>Column 2</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+      </div>
+      <div class="col-sm-4">
+        <h3>Column 3</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+      </div>
     </div>
     {% endblock %}
-    <!--./app-header-->
+  </div>
 
-    <!-- _____________________________________________________________________________________ -->
-    <!--app-main-->
-    {# Contenido de la vista #}
-    <div class="app-main">
-      <!--app-sidebar-->
-      {# BARRA LATERAL #}
-      {% if user.is_authenticated  %}
-      {% block app-sidebar %}
-      <div class="app-sidebar sidebar-shadow bg-royal sidebar-text-light">
-        {% include "body_app-sidebar-header-logo-menu.html" %}
-        {% comment %}{% endcomment %}
-        <!--scrollbar-sidebar-->
-        <div class="scrollbar-sidebar ps">
-          <!--app-sidebar__inner-->
-          {# Listado de items del munu #}
-          <div class="app-sidebar__inner">
-            <ul class="vertical-nav-menu metismenu">
-              {% block vertical-nav-menu %}
-              {% if user|has_group:"staff" %}
-              <li class="app-sidebar__heading">Listado de Items</li>
-              <li>
-                <a href="{% url 'bienvenida:bienvenida' %}" class="mm-active">
-                  <i class="metismenu-icon pe-7s-rocket"></i>
-                  Bienvenida
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="metismenu-icon pe-7s-rocket"></i>
-                  Item inactivo
-                </a>
-              </li>
-              <li class="app-sidebar__heading">Listado de Items</li>
-              <!-- li Gestor de Cargo-->
-              <li>
-                <a href="#" class="mm-active">
-                  <i class="metismenu-icon pe-7s-diamond"></i>
-                  Gestor de Cargos
-                  <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                </a>
-                <ul class="mm-collapse">
-                  <li>
-                    <a href="{% url 'gest_cargo:agregar' %}">
-                      <i class="metismenu-icon"></i>
-                      Agregar Cargo
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{% url 'gest_cargo:listado' %}">
-                      <i class="metismenu-icon"></i>
-                      Listado de Cargo
-                    </a>
-                  </li>
-                  <li>
-                    <a href="elements-dropdowns.html">
-                      <i class="metismenu-icon">
-                      </i>Sub-Item
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <!-- ./li Gestor de Cargo-->
-              <!-- li Gestor de Elector-->
-              <li>
-                <a href="#">
-                  <i class="metismenu-icon pe-7s-diamond"></i>
-                  Gestor de Elector
-                  <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                </a>
-                <ul class="mm-collapse">
-                  <li>
-                    <a href="{% url 'gest_elector:agregar' %}">
-                      <i class="metismenu-icon"></i>
-                      Agregar Elector
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{% url 'gest_elector:listado' %}">
-                      <i class="metismenu-icon"></i>
-                      Listado de Elector
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{% url 'gest_elector:listado' %}">
-                      <i class="metismenu-icon">
-                      </i>**Listado de CuentaElector**
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <!-- ./li Gestor de Elector-->
-              <!-- li Gestor de Usuario-->
-              <li>
-                <a href="#">
-                  <i class="metismenu-icon pe-7s-diamond"></i>
-                  Gestor de Usuario
-                  <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                </a>
-                <ul class="mm-collapse">
-                  <li>
-                    <a href="{% url 'gest_usuario:gen-cu-elector' %}">
-                      <i class="metismenu-icon"></i>
-                      Generar Cuentas
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <!-- ./li Gestor de Usuario-->
-              <!-- li Gestor de Preparación-->
-              <li>
-                <a href="#">
-                  <i class="metismenu-icon pe-7s-diamond"></i>
-                  Gestor de Preparación
-                  <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                </a>
-                <ul class="mm-collapse">
-                  <li>
-                    <a href="{% url 'gest_preparacion:agregar' %}">
-                      <i class="metismenu-icon"></i>
-                      Agregar
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{% url 'gest_preparacion:listado' %}">
-                      <i class="metismenu-icon"></i>
-                      Listado
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <!-- ./li Gestor de Preparación-->
-              <!-- li Gestor de Cifrado-->
-              <li>
-                <a href="{% url 'gest_cifrado:gest_cifrado' %}">
-                  <i class="metismenu-icon pe-7s-rocket"></i>
-                  Gestor de Cifrado
-                </a>
-              </li>
-              <!-- ./li Gestor de Cifrado-->
-              {% else %}
-              <!-- li Gestor de Cifrado-->
-              <li>
-                <a href="{% url 'gest_cifrado:gest_cifrado' %}">
-                  <i class="metismenu-icon pe-7s-rocket"></i>
-                  Gestor de Cifrado
-                </a>
-              </li>
-              <!-- ./li Gestor de Cifrado-->
-              {% endif %}
-              {% endblock %}
-            </ul>
-          </div>
-          <!-- ./app-sidebar__inner-->
+<!-- Footer-->
+<div class="jumbotron text-center bg-light" style="margin-bottom:2">
+  <div class="d-flex justify-content-around d-flex align-items-end">
+    <span><a href="#">UNSE</a></span>
+    <span><a href="#">FCyT</a></span>
+    <span><a href="#">Tutorial</a></span>
+    <span><a href="#">ini-u / staff</a></span>
+  </div>
+</div>
+<!-- ./Footer-->
 
-          <div class="ps__rail-x" style="left: 0px; bottom: 0px; width: 80px;">
-            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-          </div>
-          <div class="ps__rail-y" style="top: 0px; right: 0px;">
-            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
-          </div>
-        </div>
-        <!-- ./scrollbar-sidebar-->
-      </div>
-      {% endblock %}
-      {% endif %}
-      <!-- ./app-sidebar-->
+<!-- Scripts-->
 
-      <!--app-main__outer-->
-      {# CONTENEDOR - Exterior #}
-      <div class="app-main__outer">
-        <!--app-main__inner-->
-        {# CONTENEDOR - Interior #}
-        <div class="app-main__inner">
-          <!--app-page-title-->
-          {# Titulo principal #}
-          {% block page_title_heading %}
-          <div class="app-page-title">
-            <div class="page-title-wrapper">
-              <div class="page-title-heading">
-                {% block page-title-heading %}
-                {{page_title_heading}}
-                {% endblock %}
-              </div>
-            </div>
-          </div>
-          {% endblock %}
-          <!--row-->
-          {# Filas #}
 
-          {% block rows %}
-          <div class="row">
-            <div class="col d-flex justify-content-center">
-              <h1>Ultimas elecciones realizadas</h1>
-            </div>
-            <div class="col d-flex justify-content-center">
-              <h1>Proximas elecciones</h1>
-            </div>
-          </div>
-          {% endblock %}
-          <!-- ./app-main__inner-->
-
-          <!--app-wrapper-footer-->
-          {# FOOTER #}
-          {% block footer %}
-          <div class="app-wrapper-footer mt-2">
-            <div class="app-footer">
-              <div class="app-footer__inner bg-dark footer-text-light">
-                <div class="app-footer-left">
-                  <ul class="nav">
-                    <li class="nav-item">
-                      <a href="https://www.unse.edu.ar/" target="_blank" class="nav-link">
-                        UNSE
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="https://fce.unse.edu.ar" target="_blank" class="nav-link">
-                        FCyE
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="app-footer-right">
-                  <ul class="nav">
-                    <li class="nav-item">
-                      <a href="{% url 'admin:index' %}" class="nav-link">
-                        Admin dev
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="{% url 'gest_votacion:ini-urna' %}" class="nav-link">
-                        ini-u-# 'IS NO AUTH' ##########
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endblock %}
-          <!-- ./app-wrapper-footer-->
-        </div>
-        <!-- ./app-main__outer-->
-
-      </div>
-      <!-- ./app-main-->
-      <!-- ___________________________________________________________________________________________________ -->
-    </div>
-
-    <script src="{% static 'assets/scripts/main.js' %}"></script>
-    {% block  script_DataTable %}
-    {% endblock %}
-    {% block  script %}
-    {% endblock %}
+<script src="{% static '/bootstrap-4.6.0/site/static/docs/4.6/assets/js/vendor/jquery.slim.min.js' %}"></script>
+<script src="{% static '/bootstrap-4.6.0/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/DataTables/datatables.min.js' %}"></script>
+{% block  lib_DataTables %}
+{% endblock %}
+{% block  script_DataTable %}
+{% endblock %}
+<!-- ./Scripts-->
 </body>
 
 </html>
