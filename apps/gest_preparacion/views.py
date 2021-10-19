@@ -73,11 +73,12 @@ class EleccionUpdateView(UpdateView):
         if self.object.etapa == 0:
             return super().dispatch(request, *args, **kwargs)
         else:
-            print('NOSE PUEDE ACTUALIZAR')
             return redirect('bienvenida:bienvenida')
         return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
+        if self.request:
+            print(self.request)
         return self.object.get_absolute_url()
 
     def get_context_data(self, **kwargs):
@@ -157,6 +158,23 @@ class EleccionDetailView(DetailView):
         # DEBERIA SER ncandidatos
         context['candidato'] = self.object.candidatos().count()
         context['snippet_accion_detail'] = 'gest_preparacion/snippets/snippet_accion_detail.html'
+        if self.object.etapa == 0:
+            context['card_title'] = 'ELECCION EN PROCESO DE PREPARACIÓN'
+        elif self.object.etapa == 1:
+            context['card_title'] = 'ELECCION EN ETAPA PROGRAMADA'
+        elif self.object.etapa == 2:
+            context['card_title'] = 'ELECCION EN ETAPA LISTA'
+        elif self.object.etapa == 3:
+            context['card_title'] = '>ELECCION EN CURSO'
+        elif self.object.etapa == 4:
+            context['card_title'] = 'ELECCION EN ETAPA CERRADA'
+        elif self.object.etapa == 5:
+            context['card_title'] = 'RECUENTO INICIADO'
+        elif self.object.etapa == 6:
+            context['card_title'] = 'RECUENTO FINALIZADO'
+        else:
+            context['card_title'] = 'ERROR'
+
         return context
 
 
@@ -170,13 +188,14 @@ class PadronDetailView(DetailView):
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.eleccion.etapa == 0:
+            print('if self.object.eleccion.etapa == 0:')
             return super().dispatch(request, *args, **kwargs)
         else:
-            return redirect(self.object.get_absolute_url())
+            return redirect(self.object.eleccion.get_absolute_url())
 
     def post(self, request, *args, **kwargs):
-        print(f"\n\n{request.POST.getlist('no_incluidos')}\n\n")
-        print(f"\n\n{request.POST.getlist('incluidos')}\n\n")
+        print(f"\n no_incluidos\n{request.POST.getlist('no_incluidos')}")
+        print(f"\n incluidos\n{request.POST.getlist('incluidos')}\n\n")
         if request.POST['button'] == 'agregar':
             admi_elector2padron(self.object,
                                 request.POST.getlist('no_incluidos'),
@@ -210,7 +229,7 @@ class MesaDetailView(DetailView):
         if self.object.eleccion.etapa == 0:
             return super().dispatch(request, *args, **kwargs)
         else:
-            return redirect(self.object.get_absolute_url())
+            return redirect(self.object.eleccion.get_absolute_url())
 
     def post(self, request, *args, **kwargs):
         if request.POST:

@@ -32,7 +32,7 @@ class EleccionForm(ModelForm):
     def clean_hora_fin(self):
         hora_fin = self.cleaned_data.get('hora_fin')
         # if hora_fin <= time(20, 0, 0):
-        if hora_fin <= time(23, 0, 0):
+        if hora_fin <= time(23, 59, 59):
             return hora_fin
         else:
             raise ValidationError('Hora de fin debe ser menor a la 20 horas')

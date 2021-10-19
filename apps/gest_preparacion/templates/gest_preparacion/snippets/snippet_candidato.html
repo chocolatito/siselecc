@@ -1,30 +1,8 @@
 {% load static %}
-<div class="widget-content p-0">
-  <div class="widget-content-outer">
-    <div class="widget-content-wrapper">
-      <div class="widget-content-left">
-        {% if candidato %}
-        <div class="widget-heading">
-          <a class='text-dark' href="{% url 'gest_preparacion:adm-candidato' object.id %}">
-            Administrar candidatos #
-          </a>
-        </div>
-        <div class="widget-subheading">
-          <b>Total de candidatos postulados: {{candidato}}. {% if candidato < 2 %}Se necesita, almenos dos candidatos{% endif %}</b>
-        </div>
-        {% else %}
-        <div class="widget-heading">
-          <a class='text-danger' href="{% url 'gest_preparacion:adm-candidato' object.id %}">
-            >> NO HAY CANDIDATOS POSTULADOS >> POSTULAR
-          </a>
-        </div>
-        <div class="widget-subheading text-danger">
-          <b>Se necesita, almenos dos candidatos</b>
-        </div>
-        {% endif %}
-      </div>
-      <div class="widget-content-right">
-      </div>
-    </div>
-  </div>
-</div>
+{% if candidato %}
+  <p class="font-weight-bold text-dark">Nro de candidatos postulados: {{candidato}}</p>
+  <a class='btn btn-info' href="{% url 'gest_preparacion:adm-candidato' object.id %}">Administrar</a>
+{% else %}
+  <p class="font-weight-bold text-danger mr-1">NO HAY CANDIDATOS POSTULADOS</p>
+  <a class='btn btn-warning ml-1' href="{% url 'gest_preparacion:adm-candidato' object.id %}">Postular</a>
+{% endif %}

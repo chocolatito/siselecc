@@ -93,6 +93,7 @@ class MesaIni(DetailView):
         context['page_title_heading'] = f'Mesa de Votación / {self.object.eleccion}'
         context['horarios'] = self.object.eleccion.get_strftime()
         context['urna'] = get_urna(self.object)
+        context['url_listado'] = 'bienvenida:bienvenida'
         if context['urna'].estado_urna:
             context['padron'] = []
         return context

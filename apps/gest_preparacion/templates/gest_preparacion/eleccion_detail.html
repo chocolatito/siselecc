@@ -3,126 +3,83 @@
 {% block div_card-body %}
 
 {% comment %}{% endcomment %}
-{% if object.etapa == 1 %}
-<div class="card">
-  <div class="card bg-light">
-    <div class="card-header">
-      <h5 class="card-title">ELECCION EN ETAPA PROGRAMADA</h5>
-    </div>
-    <div class="card-body">
-      <ul class="list-group">
-        <!--CARGO-->
-        <li class="list-group-item">
-          {% include 'gest_preparacion/snippets/snippet_cargo.html' %}
-        </li>
-        <!-- ./CARGO-->
-        <!--PROGRAMACIÓN-->
-        <li class="list-group-item">
-          {% include 'gest_preparacion/snippets/snippet_programacion.html' %}
-        </li>
-        <!-- ./PROGRAMACIÓN-->
-        <!--INICIALIZAR CLAVE PUBLICA-->
-        <!-- ./INICIALIZAR CLAVE PUBLICA-->
-      </ul>
-    </div>
-  </div>
-</div>
-{% elif  object.etapa == 2 %}
-<div class="card bg-light">
+<div class="card text-white m-1" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
   <div class="card-header">
-    <h5 class="card-title">ELECCION EN ETAPA LISTA</h5>
-  </div>
-  <div class="card-body">
-    <ul class="list-group">
-      <!--INICIAR MESA-->
-      <li class="list-group-item">
-        {% include 'gest_preparacion/snippets/snippet_ini_mesa.html' %}
-      </li>
-      <!-- ./INICIAR MESA-->
-    </ul>
-  </div>
-</div>
-{% elif  object.etapa == 3 %}
-<div class="card bg-light">
-  <div class="card-header">
-    <h5 class="card-title">ELECCION EN CURSO</h5>
-  </div>
-  <div class="card-body">
-    <ul class="list-group">
-      <!--INICIAR MESA-->
-      <li class="list-group-item">
-        {% include 'gest_preparacion/snippets/snippet_ini_mesa.html' %}
-      </li>
-      <!-- ./INICIAR MESA-->
-    </ul>
-  </div>
-</div>
-{% elif  object.etapa == 4 %}
-<div class="card bg-light">
-  <div class="card-header">
-    <h5 class="card-title">ELECCION CERRADA</h5>
-  </div>
-  <div class="card-body">
-    <ul class="list-group">
-      <!--INICIAR CONTEO-->
-      <li class="list-group-item">
-        {% include 'gest_preparacion/snippets/snippet_ini_conteo.html' %}
-      </li>
-      <!-- ./INICIAR MESA-->
-    </ul>
-  </div>
-</div>
-{% elif  object.etapa == 5 %}
-<div class="card bg-light">
-  <div class="card-header">
-    <h5 class="card-title">RECUENTO INICIADO</h5>
-  </div>
-  <div class="card-body">
-    <ul class="list-group">
-      <!--INICIALIZAR PRIVADA-->
-      <li class="list-group-item">
-        {% include 'gest_preparacion/snippets/snippet_ini_privada.html' %}
-      </li>
-      <!-- ./INICIAR MESA-->
-    </ul>
-  </div>
-</div>
-
-{% else %}
-<div class="card bg-light">
-  <div class="card-header">
-    <h5 class="card-title">ELECCION EN PROCESO DE PREPARACIÓN</h5>
+    <h5 class="">{{card_title}}</h5>
   </div>
   <div class="card-body">
     <ul class="list-group">
       <!--CARGO-->
-      <li class="list-group-item">
+      <li class="list-group-item mt-1 d-flex justify-content-between">
         {% include 'gest_preparacion/snippets/snippet_cargo.html' %}
       </li>
       <!-- ./CARGO-->
-      <!--PADRON-->
-      <li class="list-group-item">
-        {% include 'gest_preparacion/snippets/snippet_padron.html' %}
-      </li>
-      <!-- ./PADRON-->
-      <!--MESA-->
-      <li class="list-group-item">
-        {% include 'gest_preparacion/snippets/snippet_mesa.html' %}
-      </li>
-      <!-- ./MESA-->
-      <!--CANDIDATO-->
-      <li class="list-group-item">
-        {% include 'gest_preparacion/snippets/snippet_candidato.html' %}
-      </li>
-      <!-- ./CANDIDATO-->
-
+  {% if object.etapa == 1 %}
       <!--PROGRAMACIÓN-->
-      <li class="list-group-item">
+      <li class="list-group-item mt-1 d-flex justify-content-between">
         {% include 'gest_preparacion/snippets/snippet_programacion.html' %}
       </li>
       <!-- ./PROGRAMACIÓN-->
-    </ul>
+      <!--INICIALIZAR CLAVE PUBLICA-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_ini_prublica.html' %}
+      </li>
+      <!-- ./INICIALIZAR CLAVE PUBLICA-->
+  {% elif  object.etapa == 2 %}
+      <!--INICIAR MESA-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_ini_mesa.html' %}
+      </li>
+      <!-- ./INICIAR MESA-->
+
+  {% elif  object.etapa == 3 %}
+      <!--INICIAR MESA-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_ini_mesa.html' %}
+      </li>
+      <!-- ./INICIAR MESA-->
+  {% elif  object.etapa == 4 %}
+      <!--INICIAR CONTEO-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_ini_conteo.html' %}
+      </li>
+      <!-- ./INICIAR MESA-->
+  {% elif  object.etapa == 5 %}
+    <!--INICIALIZAR PRIVADA-->
+    <li class="list-group-item mt-1 d-flex justify-content-between">
+      {% include 'gest_preparacion/snippets/snippet_ini_privada.html' %}
+    </li>
+    <!-- ./INICIAR MESA-->
+  {% elif  object.etapa == 6 %}
+  <!--INICIALIZAR PRIVADA-->
+    <li class="list-group-item mt-1 d-flex justify-content-between">
+      {% include 'gest_preparacion/snippets/snippet_resultado.html' %}
+    </li>
+  <!-- ./INICIAR MESA-->
+  {% else %}
+    <!--PADRON-->
+    <li class="list-group-item mt-1 d-flex justify-content-between">
+      {% include 'gest_preparacion/snippets/snippet_padron.html' %}
+    </li>
+    <!-- ./PADRON-->
+    <!--MESA-->
+    <li class="list-group-item mt-1 d-flex justify-content-between">
+      {% include 'gest_preparacion/snippets/snippet_mesa.html' %}
+    </li>
+    <!-- ./MESA-->
+    <!--CANDIDATO-->
+    <li class="list-group-item mt-1 d-flex justify-content-between">
+      {% include 'gest_preparacion/snippets/snippet_candidato.html' %}
+    </li>
+    <!-- ./CANDIDATO-->
+
+    <!--PROGRAMACIÓN-->
+    <li class="list-group-item mt-1 d-flex justify-content-between mt-2">
+      {% include 'gest_preparacion/snippets/snippet_programacion.html' %}
+    </li>
+    <!-- ./PROGRAMACIÓN-->
+  {% endif %}
+  </ul>
   </div>
 </div>
-{% endif %}
 {% endblock %}

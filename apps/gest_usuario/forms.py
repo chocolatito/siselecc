@@ -4,11 +4,11 @@ from django.core.exceptions import ValidationError
 
 class ClaveForm(forms.Form):
     # clave = forms.CharField(label='Clave de 8 caracteres', max_length=8)
-    clave = forms.CharField(label='Clave de 8 caracteres',
+    clave = forms.CharField(label='Nueva Clave',
                             min_length=8,
                             max_length=16,
                             widget=forms.PasswordInput)
-    repetir_clave = forms.CharField(label='Repita la clave',
+    repetir_clave = forms.CharField(label='Repitar',
                                     min_length=8,
                                     max_length=16,
                                     widget=forms.PasswordInput)

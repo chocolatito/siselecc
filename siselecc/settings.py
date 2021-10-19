@@ -65,7 +65,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #
     'apps.gest_usuario',
     'apps.gest_elector',
     'apps.gest_cargo',
@@ -78,7 +77,7 @@ INSTALLED_APPS = [
     # # for import/export data with included Django admin.
     'import_export',
     # A multiprocessing task queue for Django
-    # 'django_q',
+    'django_q',
     # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
     # 'debug_toolbar',
 ]
@@ -117,7 +116,6 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'siselecc.wsgi.application'
 
 

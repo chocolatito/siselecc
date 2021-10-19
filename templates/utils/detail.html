@@ -9,7 +9,7 @@
 <!--body-->
 {% block container-fluid %}
 <div class="d-flex justify-content-around bg-light p-3 my-3">
-  <div class="card text-white" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+  <div class="card text-white m-1" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
     <div class="card-header">
       <h5 class="text-white font-weight-bold card-title">DETALLES</h5>
     </div>
@@ -22,7 +22,7 @@
         {% endfor %}
       </ul>
     </div>
-    <div class="card-footer">
+    <div class="card-footer d-flex justify-content-center">
       <div role="group" class="btn-group px-4">
       {% if snippet_accion_detail %}
       {% include snippet_accion_detail %}

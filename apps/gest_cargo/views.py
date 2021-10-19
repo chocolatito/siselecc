@@ -9,14 +9,15 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import CargoForm
 from .models import Cargo
-from ..utils import set_active, set_active_field, get_queryset_by_state
+from ..utils import set_active, set_active_field, get_queryset_by_state, group_required
 # Create your views here.
 
 
 # ____________________________________________
 # _Cargo
-# decorators = [login_required, group_required('staff',)]
-decorators = [login_required(login_url='gest_usuario:login'), ]
+#  decorators = [login_required(login_url='gest_usuario:login'), ]
+decorators = [login_required(login_url='gest_usuario:login'),
+group_required('staff',),]
 
 
 @ method_decorator(decorators, name='dispatch')

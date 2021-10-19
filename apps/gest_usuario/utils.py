@@ -40,7 +40,8 @@ def gen_cuenta_elector(usuario, elector, link):
     object = CuentaElector(cuenta=usuario, elector=elector)
     object.save()
     # EL PASSWORD DEBE MEJORARSE
-    return send_email(usuario.username, usuario.username, link, elector.correo)
+    # return send_email(usuario.username, usuario.username, link, elector.correo)
+    return True
 
 
 def gen_cuenta(elector, link):

@@ -1,35 +1,26 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 
-{% block rows %}
-{% block div_card-body %}
+{% block container-fluid %}
 {% if urna.estado_urna == 0 %}
 
 <div class="container bg-white">
-  <div class="row d-flex align-items-center">
-    <div class="col">
-      <div class="card mb-3 widget-content bg-premium-dark">
-        <div class="widget-content-wrapper text-white">
-          <div class="widget-content-left">
-            <div class="widget-heading lead">ESPERANDO EL INICIO DE LA URNA</div>
-            <div class="widget-subheading lead">Cuando la urna este iniciada, actualice esta pagina</div>
-            <div class="widget-subheading lead">Los horarios de la eleccion son: <b>{{horarios}}</b></div>
-          </div>
-          <div class="widget-content-right">
-            <div class="widget-numbers text-warning" id="relojnumerico" onload="cargarReloj()">
-              <span>
-                <form name="form_reloj">
-                <input type="text" name="reloj" size="10" onfocus="window.document.form_reloj.reloj.blur()">
-                </form>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="card mt-3">
-        <div class="card-header bg-light">
+        <div class="card-header bg-light h1 text-center">
+          ESPERANDO EL INICIO DE LA URNA
         </div>
         <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <p class="font-weight-bold">Los horarios de la eleccion son:<br>{{horarios}}</p>
+            <div class="bg-dark text-warning font-weight-bold p-4 rounded border border-warning" id="relojnumerico" onload="cargarReloj()">
+              <span><form name="form_reloj">
+                <input type="text" name="reloj" size="10" onfocus="window.document.form_reloj.reloj.blur()">
+              </form>
+            </span>
+          </div>
+        </div>
+        </div>
+        <div class="card-footer bg-light">
           <form method="post">
             {% csrf_token %}
             <button type="submit" name="btn" class='btn btn-primary btn-block btn-lg'>
@@ -37,17 +28,11 @@
             </button>
           </form>
         </div>
-        <div class="card-footer bg-light">
-        </div>
       </div>
     </div>
-  </div>
-</div>
-
 {% else %}
 <h1>BIENVENIDO</h1>
 {% endif %}
-{% endblock %}
 {% endblock %}
 
 {% block  script %}

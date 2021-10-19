@@ -2,14 +2,15 @@ import os
 import re
 import django
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "siselecc.production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "siselecc.local")
 django.setup()
 
 from apps.gest_cifrado.models import SecuenciaPrimo
 
 def escribir_objeto(indice):
     print(indice)
-    f = open(f'/home/debpps/secuencia_num_primos/{(indice)}.txt', 'r')
+    # f = open(f'/home/debpps/secuencia_num_primos/{(indice)}.txt', 'r')
+    f = open(f'/home/chocolatito/Documentos/300txt/{(indice)}.txt', 'r')
     SecuenciaPrimo.objects.create(indice=indice,
                                   secuencia={
                                       'indice': indice,

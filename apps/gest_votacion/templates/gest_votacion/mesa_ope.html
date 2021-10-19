@@ -1,33 +1,38 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 
-{% block link-script %}
-<link rel="stylesheet" type="text/css" href="{% static 'DataTables-v1/datatables.min.css' %}">
-<script src="{% static 'DataTables-v1/jQuery-3.3.1/jquery-3.3.1.min.js' %}"></script>
-<script src="{% static 'DataTables-v1/datatables.min.js'%}"></script>
-{% endblock %}
 
 
 {% if padronelector %}
   {% block app-sidebar %}{% endblock %}
 {% endif %}
 
-
-{% block rows %}
-{% block div_card-body %}
+{% block container-fluid %}
 {% if padronelector %}
-{% include "gest_votacion/snippets/padronelector_table.html" %}
+  {% include "gest_votacion/snippets/padronelector_table.html" %}
 {% else %}
-<h1>La elección inicia a las {{inicio}}hs </h1>
-<form method="post">
-  {% csrf_token %}
-  <button type="submit" name="btn-actualizar" class='btn btn-primary btn-lg btn-block'>
-    Actualizar
-  </button>
-</form>
+<div class="card bg-light">
+  <div class="card-header bg-primary h1 text-light">
+    La elección inicia a las {{inicio}}hs
+  </div>
+  <div class="card-body">
+  </div>
+  <div class="card-footer">
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" name="btn-actualizar" class='btn btn-primary btn-lg btn-block'>
+        Actualizar
+      </button>
+    </form>
+  </div>
+</div>
 {% endif %}
 {% endblock %}
+
+{% block  lib_DataTables %}
+<script src="{% static '/DataTables/datatables.min.js' %}"></script>
 {% endblock %}
+
 {% block  script_DataTable %}
 <script>
 $(document).ready( function () {

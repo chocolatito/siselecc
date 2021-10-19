@@ -1,8 +1,7 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 
-{% block rows %}
-{% block div_card-body %}
+{% block container-fluid %}
 <form method='post'>
   {% csrf_token %}
   <div class="form-group">
@@ -28,7 +27,6 @@
   </div>
   <button type="submit" class="btn btn-primary">Iniciar</button>
 </form>
-{% endblock %}
 {% endblock %}
 
 {% comment %}

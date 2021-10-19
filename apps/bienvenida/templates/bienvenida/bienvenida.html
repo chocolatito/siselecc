@@ -3,8 +3,6 @@
 <!--head-->
 {% block link-script %}
 {% endblock %}
-<!-- ./head-->
-
 
 {% block container-fluid %}
 <div class="row mt-2">
@@ -23,10 +21,8 @@
     {% endif %}
   </div>
 </div>
-<div class="row mt-2">
-  <!-- Ultimas elecciones realizadas col-6 d-flex justify-content-center-->
-  <div class="col">
-    <div class="card bordered border-dark">
+<div class="d-flex flex-row">
+  <div class="card bg-light border-dark m-1" style="width: 100%;">
       <div class="card-header text-body">
         Ultimas elecciones
       </div>
@@ -38,18 +34,17 @@
         {% else %}
           <div class="jumbotron jumbotron-fluid">
             <div class="container">
-              <h2 class="display-4">No hay elecciones que completen la votación</h1>
+              <h2 class="display-4">No hay elecciones que completen la votación</h2>
             </div>
           </div>
         {% endif %}
       </div>
     </div>
-  </div>
+
   <!-- ./Ultimas elecciones realizadas -->
 
   <!-- Proximas elecciones col-6 d-flex justify-content-center-->
-  <div class="col">
-    <div class="card bordered border-dark">
+    <div class="card bg-light border-dark m-1" style="width: 100%;">
       <div class="card-header text-body">
         Proximas elecciones
       </div>
@@ -61,17 +56,28 @@
       {% else %}
         <div class="jumbotron jumbotron-fluid">
           <div class="container">
-            <h2 class="display-4">Aun no se registran elecciones programadas</h1>
+            <h2 class="display-4">Aun no se registran elecciones programadas</h2>
           </div>
         </div>
       {% endif %}
       </div>
     </div>
-  </div>
   <!-- ./Proximas elecciones -->
   </div>
 </div>
 {% endblock %}
-{% block  script_DataTable %}
+{% block  lib_DataTables %}
+<script src="{% static '/DataTables/datatables.min.js' %}"></script>
+{% endblock %}
 
+{% block  script_DataTable %}
+<script>
+$(document).ready( function () {
+  $('#data1').DataTable();
+} );
+
+$(document).ready( function () {
+  $('#data2').DataTable();
+} );
+</script>
 {% endblock %}

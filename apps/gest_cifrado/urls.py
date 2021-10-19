@@ -5,6 +5,9 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.urls import path
 from . import views
 
+# gest_cifrado:gest_cifrado
+
+
 app_name = 'gest_cifrado'
 urlpatterns = [
     path('', views.GestorCifradoView.as_view(), name='gest_cifrado'),

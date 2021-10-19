@@ -37,6 +37,10 @@
 {% endif %}
 {% endblock %}
 
+{% block  lib_DataTables %}
+<script src="{% static '/DataTables/datatables.min.js' %}"></script>
+{% endblock %}
+
 {% block  script_DataTable %}
 <script>
 $(document).ready( function () {

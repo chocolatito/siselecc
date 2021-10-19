@@ -23,15 +23,10 @@ def get_disponibles(excluidos, field='id'):
 def get_elector_exclude_padron(excluidos, field='id'):
     if excluidos:
         return Elector.objects.exclude(
-            Q(id__in=excluidos.values_list(field, flat=True))).filter(
-            Q(active=True) and Q(cuenta_u=True))
+            Q(id__in=excluidos.values_list(field, flat=True))).filter(active=True)
     else:
-        permitidos = Elector.objects.filter(
-            Q(active=True) and Q(cuenta_u=True) and Q(cuenta_u=True))
-        finales = [p for p in permitidos if CuentaElector.objects.get(
-            elector=p).estado_confirmacion == True]
-        print(f'\n\n-------\n{finales}')
-        return permitidos
+        # permitidos = Elector.objects.filter(active=True)
+        return Elector.objects.filter(active=True)
         # return Elector.objects.filter(Q(active=True) & Q(cuenta_u=True))
 
 

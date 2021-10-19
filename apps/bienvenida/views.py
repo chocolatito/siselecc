@@ -34,6 +34,7 @@ class Resultado(DetailView):
         if self.object.etapa == 6:
             self.boletas = self.object.boleta_set.exclude(indice=0)
             self.v_resultado = self.object.resultado.vector_resultado
+            self.is_staff = bool(request.user.groups.filter(name='staff'))
             # Generar el resultado
             return super().dispatch(request, *args, **kwargs)
         else:
@@ -48,6 +49,7 @@ class Resultado(DetailView):
                                                self.v_resultado,
                                                get_total_votos(self.v_resultado))
         context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
+        context['is_staff'] = self.is_staff
         return context
 
 
@@ -81,7 +83,8 @@ class DetallesProxima(DetailView):
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.etapa in [1, 2]:
-            # Generar el resultado
+            #
+            self.is_staff = bool(request.user.groups.filter(name='staff'))
             return super().dispatch(request, *args, **kwargs)
         else:
             return redirect('bienvenida:bienvenida')
@@ -92,4 +95,5 @@ class DetallesProxima(DetailView):
         # title
         # page_title_heading
         context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
+        context['is_staff']=self.is_staff
         return context

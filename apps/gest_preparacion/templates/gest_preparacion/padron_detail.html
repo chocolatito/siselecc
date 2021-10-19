@@ -1,79 +1,90 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
-<!--head-->
-{% block link-script %}
-  <link rel="stylesheet" type="text/css" href="{% static 'DataTables-v1/datatables.min.css' %}">
-  <script src="{% static 'DataTables-v1/jQuery-3.3.1/jquery-3.3.1.min.js' %}"></script>
-  <script src="{% static 'DataTables-v1/datatables.min.js'%}"></script>
-{% endblock %}
-<!-- ./head-->
 
-<!--body-->
-{% block rows %}
-{% block div_card-body %}
-<div class="card card-body" style="background-color: rgb(51, 51, 51) border-color: rgb(51, 51, 51);">
-  <div class="row">
-    <div class="container mb-3">
-      <a class='mb-2 mr-2 btn-transition btn btn-outline-secondary btn-block' href="{{object.eleccion.get_absolute_url}}">
-        <b>Ir a Elección</b>
-      </a>
-    </div>
+{% block container-fluid %}
+<div class="card text-white">
+  <div class="card-header" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+    <h4>Padrón: {{object}}</h4>
+    <a class='m-2 btn-transition btn btn-outline-light btn-block' href="{{object.eleccion.get_absolute_url}}">
+      <b>Volver a Elección</b>
+    </a>
   </div>
-  <div class="row">
-    <!--INCLUIDOS-->
-    <div class="col-6 card">
-      {% if object.electores.all %}
-      <form method="post">
-        {% csrf_token %}
-      <div class="card-header bg-light justify-content-around">
-        <h5 class="card-title">TABLA INCLUIDOS</h5>
-        <button type="submit" name="button" value='quitar' class='btn btn-danger'>Quitar</button>
-      </div>
-      <div class="card-body">
-        {% include 'gest_preparacion/snippets/snippet_table_padron.html' with id_data='data1' id_checkall='incluidos' object_list=object.electores.all name_imput='incluidos' %}
-      </div>
-      <div class="card-footer">
-        <p>. . .</p>
-      </div>
-      </form>
-      {% else %}
-      <div class="card-body bg-warning">
-        <h1>EL PADRON ESTA VACIO</h1>
-      </div>
-      {% endif %}
-    </div>
-    <!-- ./INCLUIDOS-->
-    <!--NO INCLUIDOS-->
-    <div class="col-6 card">
-      {% if no_incluidos.all %}
-      <form method="post">
-        {% csrf_token %}
-      <div class="card-header bg-light justify-content-around">
-        <h5 class="card-title">TABLA NO INCLUIDOS</h5>
-        <button type="submit" name="button" value='agregar' class='btn btn-primary'>Agregar</button>
-      </div>
-      <div class="card-body">
-        {% include 'gest_preparacion/snippets/snippet_table_padron.html' with id_data='data2' id_checkall='no_incluidos' object_list=no_incluidos.all name_imput='no_incluidos' %}
-      </div>
-      <div class="card-footer">
-        <p>. . .</p>
+  <div class="card-body text-dark">
+    <div class="row mt-2">
+      <div class="col">
+        <div class="card bordered border-dark">
+          {% if object.electores.all %}
+            <form method="post">
+              {% csrf_token %}
+              <div class="card-header d-flex justify-content-around">
+                <p class="font-weight-bold">TABLA DE INCLUIDOS</p>
+                <button type="submit" name="button" value='quitar' class='btn btn-danger border-dark mx-2'>Quitar</button>
+              </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              {% include 'gest_preparacion/snippets/snippet_table_padron.html' with id_data='data1' id_checkall='incluidos' object_list=object.electores.all name_imput='incluidos' %}
+            </div>
+          </div>
         </form>
+          <div class="card-footer">
+          </div>
+          {% else %}
+          <div class="card-body">
+            <div class="jumbotron jumbotron-fluid bg-warning">
+              <div class="container">
+                <h2 class="display-4">PADRON VACIO</h2>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
       </div>
-      {% else %}
-      <div class="card-header">
+      <!-- ./ELECTORES DEL PADRON -->
+
+      <!-- NO INCLUIDOS-->
+      <div class="col">
+        <div class="card bordered border-dark">
+          {% if no_incluidos.all %}
+            <form method="post">
+              {% csrf_token %}
+              <div class="card-header d-flex justify-content-around">
+                <p class="font-weight-bold">TABLA NO INCLUIDOS</p>
+                <button type="submit" name="button" value='agregar' class='btn btn-primary border-dark'>Agregar</button>
+              </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              {% include 'gest_preparacion/snippets/snippet_table_padron.html' with id_data='data2' id_checkall='no_incluidos' object_list=no_incluidos.all name_imput='no_incluidos' %}
+            </div>
+          </div>
+        </form>
+          <div class="card-footer">
+          </div>
+          {% else %}
+          <div class="card-body">
+            <div class="jumbotron jumbotron-fluid bg-warning">
+              <div class="container">
+                {% if object.vacio %}
+                <h2 class="display-4">NO HAY ELECTORES EN CONDICIONES DE VOTAR</h2>
+                {% else %}
+                <h2 class="display-4">TODO LOS ELECTORES ESTAN EN EL PADRON<h2>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
       </div>
-      <div class="card-body bg-warning">
-        <h1>TODO LOS ELECTORES ESTAN EN EL PADRON</h1>
-      </div>
-      <div class="card-footer">
-        <p>. . .</p>
-      </div>
-      {% endif %}
+      <!-- ./NO INCLUIDOS-->
     </div>
-    <!-- ./NO INCLUIDOS-->
+
   </div>
+
 </div>
+
 {% endblock %}
+
+{% block  lib_DataTables %}
+<script src="{% static '/DataTables/datatables.min.js' %}"></script>
 {% endblock %}
 
 {% block  script_DataTable %}
@@ -111,6 +122,3 @@
   });
 </script>
 {% endblock %}
-<!-- ./body-->
-{% comment %}
-{% endcomment %}

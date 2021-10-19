@@ -1,85 +1,84 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 
-{% block rows %}
-{% block div_card-body %}
-<div class="card card-body" style="background-color: rgb(51, 51, 51) border-color: rgb(51, 51, 51);">
-  <div class="row">
-    <div class="container mb-3">
-      <a class='mb-2 mr-2 btn-transition btn btn-outline-secondary btn-block' href="{{object.eleccion.get_absolute_url}}">
-        <b>Ir a Elección</b>
-      </a>
-    </div>
+{% block container-fluid %}
+<div class="card text-white bordered border-dark">
+  <div class="card-header" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+    <h4>Padrón: {{object}}</h4>
+    <a class='m-2 btn-transition btn btn-outline-light btn-block' href="{{object.eleccion.get_absolute_url}}">
+      <b>Volver a Elección</b>
+    </a>
   </div>
-  <div class="row">
-    <!--card autoridad actual-->
-    <div class="col card">
-      {% if object.cuenta %}
-      <div class="card-header">
-        <p>Autoridad Designada</p>
-      </div>
-      <div class="card-body">
-        <h1>Autoridad actual: {{object.cuenta}}</h1>
-      </div>
-      <div class="card-footer">
-      </div>
-      {% else %}
-      <div class="card-header">
-      </div>
-      <div class="card-body bg-warning">
-        <h1>No Hay Autoridad Designada</h1>
-      </div>
-      <div class="card-footer">
-      </div>
-      {% endif %}
-    </div>
-    <!-- ./card autoridad actual-->
-    <!--card cuentas disponibles-->
-    <div class="col card">
-      {% if staff_list %}
-      <div class="card-header">
-        <p>Staff disponibles</p>
-      </div>
-      <div class="card-body">
-        <ul class="list-group">
-          <form method="post">
-            {% csrf_token %}
-            {% for staff in staff_list %}
-            <li class="list-group-item text-dark justify-content-around">
-              <div class="card mb-2 widget-content bg-premium-dark">
-                <div class="widget-content-wrapper text-white">
-                  <div class="widget-content-left">
-                    <button type="submit" name="staff-btn" value='{{staff.id}}' class='btn btn-primary'>Designar</button>
-                  </div>
-                  <div class="widget-content-right">
-                    <div class="widget-heading">
-                      {{staff}}
-                    </div>
-                  </div>
-                </div>
+  <div class="card-body text-dark">
+    <div class="row mt-2">
+      <div class="col">
+        <div class="card bordered border-dark">
+          <div class="card-header d-flex justify-content-center">
+            <p class="font-weight-bold">Autoridad Designada</p>
+          </div>
+          {% if object.cuenta %}
+          <div class="card-body d-flex justify-content-around">
+            <h2>Usuario:</h2>
+            <h2><b>{{object.cuenta}}</b></h2>
+          </div>
+          <div class="card-footer">
+          </div>
+          {% else %}
+          <div class="card-body">
+            <div class="jumbotron jumbotron-fluid bg-warning">
+              <div class="container">
+                <h2 class="display-4">No Hay Autoridad Designada</h2>
               </div>
-            </li>
-            {% endfor %}
-          </form>
-        </ul>
+            </div>
+          </div>
+          {% endif %}
+        </div>
       </div>
-      <div class="card-footer">
-      </div>
-      {% else %}
-      <div class="card-header">
-      </div>
-      <div class="card-body bg-warning">
-        <h1>No Hay Staff</h1>
-      </div>
-      <div class="card-footer">
-      </div>
-      {% endif %}
-      <!-- ./card cuentas disponibles-->
+      <!-- ./ELECTORES DEL PADRON -->
 
+      <!-- NO INCLUIDOS-->
+      <div class="col">
+        <div class="card bordered border-dark">
+          {% if staff_list %}
+          <div class="card-header d-flex justify-content-around">
+            <p class="font-weight-bold">Staff disponibles</p>
+          </div>
+          <div class="card-body bg-dark">
+              <ul class="list-group">
+                <form method="post">
+                  {% csrf_token %}
+                  {% for staff in staff_list %}
+                  <li class="list-group-item text-dark d-flex justify-content-around rounded mt-1">
+                      <button type="submit" name="staff-btn" value='{{staff.id}}' class='btn btn-primary'>Designar</button>
+                      <p class="font-weight-bold">{{staff}}</p>
+                  </li>
+                  {% endfor %}
+                </form>
+              </ul>
+          </div>
+          <div class="card-footer">
+          </div>
+          {% else %}
+          <div class="card-body">
+            <div class="jumbotron jumbotron-fluid bg-warning">
+              <div class="container">
+                <h2 class="display-4">No Hay Staff</h2>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <!-- ./NO INCLUIDOS-->
     </div>
+
   </div>
+  <div class="card-footer bg-dark">
+
+  </div>
+
 </div>
-{% endblock %}
+
 {% endblock %}
 
 {% comment %}

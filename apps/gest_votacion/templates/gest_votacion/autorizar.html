@@ -3,8 +3,7 @@
 
 {% block app-sidebar %}{% endblock %}
 
-{% block rows %}
-{% block div_card-body %}
+{% block container-fluid %}
 <form method="post">
   {% csrf_token %}
   <div class="container-fluid">
@@ -37,7 +36,5 @@
 </form>
 
 {% endblock %}
-{% endblock %}
-
 {% comment %}
 {% endcomment %}

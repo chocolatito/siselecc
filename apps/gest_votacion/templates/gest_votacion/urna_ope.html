@@ -1,21 +1,24 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
-{% block cabecado %}
+{% block navbar %}
+<div class="my-4">
+
+</div>
 {% endblock %}
 
-{% block rows %}
-{% block div_card-body %}
+{% block container-fluid %}
 <form method="post">
   {% csrf_token %}
   {% if object.estado_urna in estados_pasivos %}
-  <div class="container-fluid">
-    <div class="card">
-      <div class="card-header justify-content-center">
+  <div class="container-fluid bg-light">
+    <div class="card border border-info">
+      <div class="card-header bg-dark h2 text-white font-weight-bold d-flex justify-content-center p-4">
+        Elección
+      </div>
+      <div class="card-body bg-light h1 text-body font-weight-bold d-flex justify-content-center my-5">
         URNA LIBRE
       </div>
-      <div class="card-body bg-light">
-      </div>
-      <div class="card-footer bg-primary justify-content-center">
+      <div class="card-footer bg-primary d-flex justify-content-center">
         <button type="submit" name="btn" class='btn btn-light btn-lg'>
           <h4><b>Actualizar</b></h4>
         </button>
@@ -32,15 +35,15 @@
         {% for boleta in boletas %}
         <div class="col">
           <div class="card">
-            <div class="card-header justify-content-center bg-dark text-light">
+            <div class="card-header d-flex justify-content-center bg-dark h4 text-primary font-weight-bold"style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
               #{{boleta.pk}}
             </div>
             <div class="card-body justify-content-center">
               <h4><b>{{boleta.get_info_alternativa}}</b></h4>
             </div>
-            <div class="card-footer justify-content-center bg-light">
-              <button type="submit" name="btn-boleta" value='{{boleta.id}}' class='btn btn-primary btn-lg'>
-                Votar
+            <div class="card-footer d-flex justify-content-center bg-light border border-dark">
+              <button type="submit" name="btn-boleta" value='{{boleta.id}}' class='btn btn-primary border border-dark px-4'>
+                <span class="font-weight-bold">Votar</span>
               </button>
             </div>
           </div>
@@ -50,31 +53,51 @@
     </div>
   </div>
   {% elif object.estado_urna == 4 %}
-  <h1>Confirmar voto por: {{boleta.get_info_alternativa}}</h1>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" name="btn-confirmar" value='{{boleta.id}}' class='btn btn-primary'>
-      Confirmar
-    </button>
-    <button type="submit" name="btn-cancelar" class='btn btn-warning'>
-      Cambiar Voto
-    </button>
-  </form>
+  <div class="card border border-info">
+    <div class="card-header bg-dark h2 text-white font-weight-bold d-flex justify-content-center p-4">
+      Confirmar voto por:
+    </div>
+    <div class="card-body bg-light text-center text-body font-weight-bold my-5">
+      <h1>{{boleta.get_info_alternativa}}</h1>
+      {% if boleta.candidato %}
+        <h1 class="text-primary">Id Nro {{boleta.candidato.pk }}</h1>
+      {% endif %}
+    </div>
+    <div class="card-footer bg-primary d-flex justify-content-around">
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="btn-confirmar" value='{{boleta.id}}' class='btn btn-light btn-lg font-weight-bold border border-dark'>
+          Confirmar
+        </button>
+        <button type="submit" name="btn-cancelar" class='btn btn-warning btn-lg font-weight-bold border border-dark'>
+          Cambiar Voto
+        </button>
+      </form>
+    </div>
+  </div>
 
   {% elif object.estado_urna == 5 %}
-  <h1>Voto emitido correctamente</h1>
-  <h4>Presione Aceptar para finalizar la operación</h4>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" name="btn" class='btn btn-success'>
-      Aceptar
-    </button>
-  </form>
+  <div class="card border border-info">
+    <div class="card-header bg-dark h2 text-white font-weight-bold d-flex justify-content-center p-4">
+      Voto emitido correctamente
+    </div>
+    <div class="card-body bg-light text-center text-body font-weight-bold my-5">
+      <h4>Presione Aceptar para finalizar la operación</h4>
+    </div>
+      <div class="card-footer d-flex justify-content-around border border-dark">
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" name="btn" class='btn btn-success btn-lg'>
+            Aceptar
+          </button>
+        </form>
+      </div>
+  </div>
+
   {% else %}
   <h1>ESPERANDO ELECTOR</h1>
   {% endif %}
 </form>
-{% endblock %}
 {% endblock %}
 
 

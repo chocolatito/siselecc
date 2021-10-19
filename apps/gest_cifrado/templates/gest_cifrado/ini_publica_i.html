@@ -1,33 +1,25 @@
 {% extends "base.html" %}
 
-{% block page-title-heading %}
-Es usted Candidato o Autoridad de mesa???
-{% endblock %}
+{% block container-fluid %}
 
-{% block rows %}
-<form method="post">
-  {% csrf_token %}
-  <div class="row bg-light">
-  <div class="col card mt-3">
-    <div class="card-header bg-dark">
-      ...
-    </div>
-    <div class="card-body bg-white">
-      <button type="submit" name="btn" value='candidato' class='btn btn-primary'>
-      Soy Candidato
-      </button>
-    </div>
+
+<div class="card">
+  <div class="card-header h4 text-body font-weight-bold text-center">
+    Es usted Candidato o Autoridad de mesa???
   </div>
-    <div class="col card mt-3">
-      <div class="card-header bg-dark">
-        ...
-      </div>
-      <div class="card-body bg-white">
-        <button type="submit" name="btn" value='autoridad' class='btn btn-primary'>
-        Soy Autoridad de mesa
+  <form method="post">
+    {% csrf_token %}
+  <div class="card-body d-flex justify-content-between">
+        <button type="submit" name="btn" value='candidato' class='btn btn-primary border border-dark'>
+          Soy Candidato
         </button>
-      </div>
-    </div>
-</div>
+        <button type="submit" name="btn" value='autoridad' class='btn btn-primary border border-dark'>
+          Soy Autoridad de mesa
+        </button>
+  </div>
 </form>
+<div class="card-footer my-4">
+
+</div>
+</div>
 {% endblock %}

@@ -74,7 +74,7 @@ class ElectorSinCuentaListView(ListView):
         if request.POST.getlist('elector_enabled'):
             if gen_cuentas_e(request.POST.getlist('elector_enabled'),
                              reverse('gest_usuario:confirmar')):
-                return redirect('bienvenida:bienvenida')
+                return redirect('gest_usuario:cuenta-elector')
         return redirect(request.META['HTTP_REFERER'])
 
     def get_context_data(self, **kwargs):
@@ -141,9 +141,9 @@ class ConfirmarCuenta(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['submit_button'] = 'Ingresar'
+        context['submit_button'] = 'Confirmar'
         # context['cancel_url'] = 'gest_cifrado:ini-privada-i'
         # esta url necesita argumento pk
         context['cancel_url'] = 'bienvenida:bienvenida'
-        context['card_title'] = 'Crea una clave para inicializar el descifrado'
+        context['card_title'] = 'Escriba su nueva contraseña'
         return context

@@ -50,5 +50,5 @@ class CuentaElector(Base):
 
     def __str__(self):
         # deberia devolver la cuenta de usuario
-        return "{}".format(self.cuenta.username)
+        return f"{self.cuenta.username} / {self.elector.full_names}"
         # return "{}".format(self.cuenta.user.username)

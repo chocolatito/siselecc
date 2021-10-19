@@ -1,0 +1,119 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+<!--head-->
+<!-- ./head-->
+
+<!--body-->
+{% block container-fluid %}
+<div class="card text-white" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+  <div class="card-header">
+    <h4>Padrón: {{object}}</h4>
+    <a class='m-2 btn-transition btn btn-outline-light btn-block' href="{{object.eleccion.get_absolute_url}}">
+      <b>Volver a Elección</b>
+    </a>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <!--INCLUIDOS-->
+        {% if object.electores.all %}
+        <div class="card">
+          <form method="post">
+            {% csrf_token %}
+            <div class="card-header bg-light justify-content-around">
+              <h5 class="card-title">TABLA INCLUIDOS</h5>
+              <button type="submit" name="button" value='quitar' class='btn btn-danger'>Quitar</button>
+            </div>
+            <div class="card-body">
+              {% include 'gest_preparacion/snippets/snippet_table_padron.html' with id_data='data1' id_checkall='incluidos' object_list=object.electores.all name_imput='incluidos' %}
+            </div>
+            <div class="card-footer">
+              <p>. . .</p>
+            </div>
+          </form>
+        </div>
+        {% else %}
+        <div class="card text-dark">
+          <h1>EL PADRON ESTA VACIO</h1>
+        </div>
+        {% endif %}
+      </div>
+      <div class="col-6">
+            <!--NO INCLUIDOS-->
+            {% if no_incluidos.all %}
+            <div class="card">
+              <form method="post">
+              {% csrf_token %}
+              <div class="card-header bg-light justify-content-around">
+                <h5 class="card-title">TABLA NO INCLUIDOS</h5>
+                <button type="submit" name="button" value='agregar' class='btn btn-primary'>Agregar</button>
+              </div>
+              <div class="card-body">
+                {% include 'gest_preparacion/snippets/snippet_table_padron.html' with id_data='data2' id_checkall='no_incluidos' object_list=no_incluidos.all name_imput='no_incluidos' %}
+              </div>
+              <div class="card-footer">
+              </div>
+              </form>
+            </div>
+            {% else %}
+              <div class="jumbotron bg-warning">
+                {% if object.vacio %}
+                <h1>NO HAY ELECTORES EN CONDICIONES DE VOTAR</h1>
+                {% else %}
+                <h1>TODO LOS ELECTORES ESTAN EN EL PADRON</h1>
+                {% endif %}
+              </div>
+            {% endif %}
+            <!-- ./NO INCLUIDOS-->
+      </div>
+    </div>
+    <!-- ./INCLUIDOS-->
+
+
+  </div>
+  <div class="card-footer bg-light">
+    <p>. . .</p>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block  script_DataTable %}
+<script>
+  $(document).ready(function() {
+    $('#data1').DataTable();
+  });
+
+  $(document).ready(function() {
+    $('#data2').DataTable();
+  });
+
+  // Si se hace click sobre el input de tipo checkbox con id checkall_enabled
+  $('#no_incluidos').click(function() {
+      // Si esta seleccionado (si la propiedad checked es igual a true)
+      if ($(this).prop('checked')) {
+          // Selecciona cada input que tenga la nombre .elector_enabled
+          $('input[name$="no_incluidos"]').prop('checked', true);
+      } else {
+          // Deselecciona cada input que tenga la clase .checar
+          $('input[name$="no_incluidos"]').prop('checked', false);
+      }
+  });
+
+  // Si se hace click sobre el input de tipo checkbox con id checkall_enabled
+  $('#incluidos').click(function() {
+      // Si esta seleccionado (si la propiedad checked es igual a true)
+      if ($(this).prop('checked')) {
+          // Selecciona cada input que tenga la nombre .elector_enabled
+          $('input[name$="incluidos"]').prop('checked', true);
+      } else {
+          // Deselecciona cada input que tenga la clase .checar
+          $('input[name$="incluidos"]').prop('checked', false);
+      }
+  });
+</script>
+{% endblock %}
+<!-- ./body-->
+{% comment %}
+{% endcomment %}
