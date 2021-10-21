@@ -134,3 +134,6 @@ dmypy.json
 # carpeta
 300txt/
 static/
+
+# notas y apuntes
+pendiente.txt
