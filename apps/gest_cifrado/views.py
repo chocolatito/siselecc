@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -8,6 +9,7 @@ from django.views.generic.edit import FormView
 from .forms import ClaveForm
 from .utils import (es_candidato,
                     generar_Cpublica,
+                    get_clave_and_color,
                     verificar_user_clave,
                     crear_resultado, generar_parciales,
                     privada_iniciada,
@@ -38,10 +40,10 @@ class GestorCifradoView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title_of_the_document'] = 'Gestor de Cifrado'
-        context['page_title_heading'] = 'Gestor de Cifrado'
         context['programadas'] = Eleccion.objects.filter(etapa=1)
         context['cerradas'] = Eleccion.objects.filter(etapa=5)
+        context['text_badge_dark'] = 'Gestor de claves de Cifrado'
+
         return context
 
 
@@ -108,6 +110,7 @@ class IniPublica_II(FormView):
             if generar_Cpublica(form.cleaned_data.get('clave'),
                                 tuple(int(x) for x in form.cleaned_data.get('color')),
                                 self.user, self.object):
+                messages.success(request,'EXCELENTE La inicialización de la clave ha sido un exito!!!\n')
                 return redirect('bienvenida:bienvenida')
             else:
                 return redirect(self.success_url)
@@ -184,13 +187,14 @@ class IniPrivada_I(DetailView):
             if es_candidato(get_user(request.user), self.object.candidatos()):
                 # El usuarios es un candidato de la elección
                 if privada_iniciada(self.object, get_user(request.user)):
-                    # El usuario ya ha inicializado la clave privada
+                    # El usuario ya ha inicializado la clave privad
+                    messages.error(request, 'ERROR La clave  ya ha sido inicializada')
                     return redirect(self.object.get_absolute_url())
                 else:
                     # El usuario puede inicializar la clave privada
                     return redirect('gest_cifrado:ini-privada-ii', pk=self.object.id)
             else:
-                print(f'No es Candidatos\n___> {request.user.username}\n')
+                messages.error(request, 'ERROR Este usuario no esta registrado como candidato para esta elección')
         elif request.POST['btn'] == 'autoridad':
             if self.object.mesa.cuenta.username == request.user.username:
                 # Es autoridad
@@ -201,8 +205,8 @@ class IniPrivada_I(DetailView):
                 else:
                     return redirect('bienvenida:bienvenida')
             else:
-                # NO Es autoridad
-                return redirect('bienvenida:bienvenida')
+                messages.error(request, 'ERROR Este usuario no esta registrado como autoridad de mesa para esta elección')
+                return redirect(request.META['HTTP_REFERER'])
         return redirect(request.META['HTTP_REFERER'])
 
     def get_context_data(self, **kwargs):
@@ -220,6 +224,7 @@ class IniPrivada_II(FormView):
         self.eleccion = get_eleccion(kwargs['pk'])
         if verificar_user_clave(self.eleccion, get_user(request.user)):
             # El usuario no posee clave inicializada
+            messages.error(request,'ERROR Esta cuenta no verifica clave para esta elección')
             return redirect('bienvenida:bienvenida')
         else:
             #
@@ -228,13 +233,15 @@ class IniPrivada_II(FormView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            clave = form.cleaned_data.get('clave')
-            color = tuple(int(x) for x in form.cleaned_data.get('color'))
+            # clave = form.cleaned_data.get('clave')
+            # color = tuple(int(x) for x in form.cleaned_data.get('color'))
+            clave, color = get_clave_and_color(form.cleaned_data)
             if actualizar_resultado(clave, color, get_user(request.user), self.eleccion):
-                # return redirect(self.object.get_absolute_url())
+                messages.success(request,'EXCELENTE La inicialización de la clave para descifrar votos ha sido un exito!!!\n')
                 return redirect('bienvenida:bienvenida')
             else:
-                return redirect(self.eleccion.get_absolute_url())
+                messages.error(request,'ERROR Clave y/o Color ingresado/s incorrecto/s')
+                return redirect(self.eleccion.get_descifrado_url())
         else:
             context = self.get_context_data(**kwargs)
             context['form'] = form

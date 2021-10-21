@@ -1,5 +1,5 @@
 {% load static %}
-<table class="mb-0 table table-bordered" id="data">
+<table class="mb-0 table table-bordered" id="data1">
   <!--thead-->
   <thead>
     <tr>
@@ -16,7 +16,7 @@
       <td>{{value}}</td>
       {% endfor %}
     <td class="text-center">
-      <a class='btn btn-primary' href={{object.elector.get_absolute_url}}>Ver</a>
+      <a class='btn btn-primary' href={{object.elector.get_absolute_url}}>Ver datos de elector</a>
     </td>
     </tr>
     {% endfor %}

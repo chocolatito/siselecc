@@ -1,6 +1,10 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
+{% block navbar %}
+<div class="my-4">
 
+</div>
+{% endblock %}
 
 
 {% if padronelector %}
@@ -16,6 +20,13 @@
     La elección inicia a las {{inicio}}hs
   </div>
   <div class="card-body">
+    <br>
+    <div class="bg-dark h2 text-center text-info font-weight-bold p-4 rounded border border-warning" id="relojnumerico" onload="cargarReloj()">
+      <span><form name="form_reloj">
+        <input type="text" name="reloj" size="10" onfocus="window.document.form_reloj.reloj.blur()">
+      </form>
+    </span>
+  </div>
   </div>
   <div class="card-footer">
     <form method="post">
@@ -36,8 +47,47 @@
 {% block  script_DataTable %}
 <script>
 $(document).ready( function () {
-  $('#data1').DataTable();
+  $('#data1').DataTable({
+    {% include 'utils/snippets/language_datatables.html' %}
+  });
 } );
+</script>
+{% endblock %}
+
+{% block  script %}
+<script>
+// https://blog.nubecolectiva.com/como-crear-un-reloj-digital-numerico-con-javascript/
+function cargarReloj(){
+    // Haciendo uso del objeto Date() obtenemos la hora, minuto y segundo
+    var fechahora = new Date();
+    var hora = fechahora.getHours();
+    var minuto = fechahora.getMinutes();
+    var segundo = fechahora.getSeconds();
+    // Variable meridiano con el valor 'AM'
+    var meridiano = "AM";
+    // Si la hora es igual a 0, declaramos la hora con el valor 12
+    if(hora == 0){
+        hora = 12;
+    }
+    // Si la hora es mayor a 12, restamos la hora - 12 y mostramos la variable meridiano con el valor 'PM'
+    if(hora > 12) {
+        hora = hora - 12;
+        // Variable meridiano con el valor 'PM'
+        meridiano = "PM";
+    }
+    // Formateamos los ceros '0' del reloj
+    hora = (hora < 10) ? "0" + hora : hora;
+    minuto = (minuto < 10) ? "0" + minuto : minuto;
+    segundo = (segundo < 10) ? "0" + segundo : segundo;
+    // Enviamos la hora a la vista HTML
+    var tiempo = hora + ":" + minuto + ":" + segundo + " " + meridiano;
+    document.getElementById("relojnumerico").innerText = tiempo;
+    document.getElementById("relojnumerico").textContent = tiempo;
+    // Cargamos el reloj a los 500 milisegundos
+    setTimeout(cargarReloj, 500);
+}
+// Ejecutamos la función 'CargarReloj'
+cargarReloj();
 </script>
 {% endblock %}
 

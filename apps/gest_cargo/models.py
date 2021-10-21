@@ -16,6 +16,11 @@ class Cargo(Base):
         verbose_name = "Cargo"
         verbose_name_plural = "Cargos"
 
+
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        return super(Cargo, self).save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('gest_cargo:detalle', args=[str(self.id)])
 

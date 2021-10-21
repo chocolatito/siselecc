@@ -1,19 +1,14 @@
 {% load static %}
-<div class="widget-content p-0">
-  <div class="widget-content-outer">
-    <div class="widget-content-wrapper">
-      <div class="widget-content-left">
-        <div class="widget-heading">
-          <a class='text-dark' href='{{object.get_descifrado_url}}'>
-            Inicializar clave para descifrado
-          </a>
-        </div>
-        <div class="widget-subheading">
-          <p>Todos los candidatos deben haber Inicializado sus claves</p>
-        </div>
-      </div>
-      <div class="widget-content-right">
-      </div>
-    </div>
-  </div>
-</div>
+{% if sin_clave %}
+<p class="font-weight-bold text-dark">Deben inicializar su clave</p>
+<ul class="font-weight-bold text-dark">
+  {% for candidato in sin_clave %}
+    <li>{{candidato}}</li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p class="font-weight-bold text-dark">Inicializar clave para descifrado</p>
+  <a class='btn btn-info' href='{{object.get_descifrado_url}}'>
+    Inicializar
+  </a>
+{% endif %}

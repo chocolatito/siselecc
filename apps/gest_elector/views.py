@@ -40,9 +40,9 @@ class ElectorCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['card_title'] = 'Agregar un Elector'
         context['submit_button'] = 'Registrar'
         context['cancel_url'] = 'gest_elector:listado'
-        context['card_title'] = 'Agregar un Elector'
         return context
 
 
@@ -59,7 +59,7 @@ class ElectorUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form_title'] = "Editar datos del cargo"
+        context['card_title'] = "Editar datos del cargo"
         context['cancel_url'] = 'gest_elector:listado'
         context['submit_button'] = 'Actualizar'
         return context
@@ -101,6 +101,7 @@ class ElectorListView(ListView):
         context['url_actualizar'] = 'gest_elector:actualizar'
         if 'estado' in self.request.GET:
             context['estado'] = self.request.GET['estado']
+        context['text_badge_dark'] = 'Listado de electores registrado'
         return context
 
 
@@ -138,7 +139,7 @@ class ElectorDetailView(DetailView):
         else:
             context['accion_url'] = reverse('gest_usuario:gen-cu-elector')
             context['accion_text'] = 'Generar una cuenta'
-
+        context['text_badge_dark'] = 'Detalles del elector'
         # context['title'] = self.object.__str__()
         #context['eleccion_set'] = self.object.eleccion_set.all()
         #context['active_url'] = 'eleccion:active_elector'

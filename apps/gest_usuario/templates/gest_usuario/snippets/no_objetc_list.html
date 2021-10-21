@@ -9,8 +9,12 @@
     <br> <h2>{{message_no_queryset}}</h2>
   </div>
   <div class="card-footer d-flex justify-content-around">
-    <a class="btn btn-lg btn-primary" href="{% url 'gest_usuario:gen-cu-elector' %}">Generar Cuentas para Electores</a>
-    <a class="btn btn-lg btn-secondary" href="{% url 'gest_elector:listado' %}">Listado de Elector</a>
+    <a href="{% url url_listado_CE %}" class="btn btn-lg btn-primary border border-dark">
+      Listado de Cuentas de Electores
+    </a>
+    <a href="{% url url_listado_E %}" class="btn btn-lg btn-secondary border border-dark">
+      Listado de Elector Registrados
+    </a>
   </div>
   <!-- ./card-body-->
 </div>

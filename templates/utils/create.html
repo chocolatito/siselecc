@@ -2,10 +2,9 @@
 {% load static %}
 
 {% comment %}
-class CargoCreateView(CreateView)
-class CargoUpdateView(UpdateView):
 {% endcomment %}
 
+{% block badge-dark %} {% endblock %}
 {% block container-fluid %}
 <div class="card">
   <form class="form-group" method="post">
@@ -14,6 +13,10 @@ class CargoUpdateView(UpdateView):
       <h5 class="card-title text-white">{{card_title}}</h5>
     </div>
     <div class="card-body">
+      {# Include the hidden fields #}
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
       {% for field in form.visible_fields %}
       {% if field.errors %}
       <div class="row">

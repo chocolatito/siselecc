@@ -190,7 +190,13 @@ def privada_iniciada(eleccion, user):
     else:
         return parcial
 
-
+def gen_publica(n):
+    """
+    actualizar_resultado(ingreso, color, cuenta, eleccion)
+    desencriptar_suma(ingreso, color, cuenta, eleccion)
+    generar_parcial(clave, votos, resultado)
+    """
+    return paillier.PaillierPublicKey(n)
 # ________________________________________________________________________________________
 
 
@@ -207,6 +213,10 @@ def gen_privada(public_key, p, q):
 
 
 def gen_PQ(alfa, beta):
+    """
+    desencriptar_suma(ingreso, color, cuenta, eleccion)
+    actualizar_resultado(ingreso, color, cuenta, eleccion)
+    """
     # <alfa> string de 8 caracteres
     # <beta> tupla de dos enteros
     # <gamma> tupla de dos enteros
@@ -216,10 +226,6 @@ def gen_PQ(alfa, beta):
 
 def get_VecEncNum(publica, vector):
     return [publica.encrypt(v) for v in vector]
-
-
-def gen_publica(n):
-    return paillier.PaillierPublicKey(n)
 
 
 def desencriptar_suma(ingreso, color, cuenta, eleccion):
@@ -249,10 +255,12 @@ def desencriptar_suma(ingreso, color, cuenta, eleccion):
 
 
 def desc_intv(privada, int_vector):
+    """actualizar_resultado(ingreso, color, cuenta, eleccion)"""
     return [privada.raw_decrypt(v) for v in int_vector]
 
 
 def actualizar_resultado(ingreso, color, cuenta, eleccion):
+    """return to class IniPrivada_II(FormView)"""
     resultado = eleccion.resultado
     if resultado.final:
         # El ingreso corresponde al usuario tipo Staff
@@ -265,9 +273,9 @@ def actualizar_resultado(ingreso, color, cuenta, eleccion):
             pub_staff = gen_publica(int(clave.n))
             p, q = gen_PQ(ingreso, color)
             pri_staff = gen_privada(pub_staff, p, q)
-            #
-            resultado.vector_resultado = desc_intv(
-                pri_staff, resultado.int_vector())
+            resultado_cifrado = resultado.int_vector()
+            # Se actualiza al resultado en texto claro
+            resultado.vector_resultado = desc_intv(pri_staff, resultado_cifrado)
             resultado.save()
             #
             eleccion.etapa = 6
@@ -305,6 +313,8 @@ def actualizar_resultado(ingreso, color, cuenta, eleccion):
         return False
 
 
+def get_clave_and_color(cleaned_data):
+    return cleaned_data['clave'], tuple(int(x) for x in cleaned_data['color'])
 # ________________________________________________________________________________________
 
 # ________________________________________________________________________________________

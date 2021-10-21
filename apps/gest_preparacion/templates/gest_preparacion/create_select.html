@@ -2,7 +2,7 @@
 {% comment %}
 {% endcomment %}
 
-
+{% block badge-dark %}{% endblock %}
 {% block container-fluid %}
 <div class="card">
   <form class="form-group" method="post">
@@ -11,6 +11,10 @@
       <h5 class="card-title text-light">{{card_title}}</h5>
     </div>
     <div class="card-body">
+      {# Include the hidden fields #}
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
       {% for field in form.visible_fields %}
       {% if field.errors %}
       <div class="row">

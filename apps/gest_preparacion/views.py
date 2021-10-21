@@ -7,9 +7,10 @@ from django.contrib.auth.models import User
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from .forms import EleccionForm
+from .forms import EleccionForm, EleccionUpdateForm
 from .models import Eleccion, Padron, Mesa, Candidato
-from .utils import (gen_padron_mesa,
+from .utils import (claves_faltantes, parciales_faltantes,
+                    gen_padron_mesa,
                     get_disponibles,
                     get_elector_exclude_padron,
                     admi_elector2padron,
@@ -42,11 +43,16 @@ class EleccionCreateView(CreateView):
     template_name = 'gest_preparacion/create_select.html'
     success_url = reverse_lazy('bienvenida:bienvenida')
 
+    def get_form_kwargs(self):
+        kwargs = super(EleccionCreateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user.id})
+        return kwargs
+
     def post(self, request, *args, **kwargs):
         form = EleccionForm(request.POST)
         if form.is_valid():
-            # return redirect(self.success_url)
-            return HttpResponseRedirect(gen_padron_mesa(form.save()).get_absolute_url())
+            eleccion = form.save()
+            return HttpResponseRedirect(gen_padron_mesa(eleccion).get_absolute_url())
         self.object = None
         context = self.get_context_data(**kwargs)
         context['form'] = form
@@ -64,7 +70,7 @@ class EleccionCreateView(CreateView):
 @ method_decorator(decorators, name='dispatch')
 class EleccionUpdateView(UpdateView):
     model = Eleccion
-    form_class = EleccionForm
+    form_class = EleccionUpdateForm
     template_name = 'utils/create.html'
     # success_url = reverse_lazy('gest_cargo:listado')
 
@@ -77,13 +83,11 @@ class EleccionUpdateView(UpdateView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        if self.request:
-            print(self.request)
         return self.object.get_absolute_url()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form_title'] = "Editar datos del cargo"
+        context['card_title'] = "Editar datos de la elección"
         context['cancel_url'] = 'gest_preparacion:listado'
         context['submit_button'] = 'Actualizar'
         return context
@@ -128,6 +132,7 @@ class EleccionListView(ListView):
         context['snippet_accion_table'] = 'gest_preparacion/snippets/snippet_accion_table.html'
         if 'estado' in self.request.GET:
             context['estado'] = self.request.GET['estado']
+        context['text_badge_dark'] = 'Listado de elecciones'
         return context
 
 
@@ -138,6 +143,11 @@ class EleccionDetailView(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if self.object.etapa==1:
+            self.sin_clave = claves_faltantes(self.object.get_claves_candidatos(), self.object.candidatos())
+        elif self.object.etapa==5:
+            # self.sin_clave = self.object.resultado.parcial_set.filter(descifrado=False).values('clave__cuenta__cuentaelector__elector__candidato')
+            self.sin_clave = parciales_faltantes(self.object.get_parciales_cifrados(), self.object.candidatos())
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -162,6 +172,7 @@ class EleccionDetailView(DetailView):
             context['card_title'] = 'ELECCION EN PROCESO DE PREPARACIÓN'
         elif self.object.etapa == 1:
             context['card_title'] = 'ELECCION EN ETAPA PROGRAMADA'
+            context['sin_clave'] = self.sin_clave
         elif self.object.etapa == 2:
             context['card_title'] = 'ELECCION EN ETAPA LISTA'
         elif self.object.etapa == 3:
@@ -170,11 +181,12 @@ class EleccionDetailView(DetailView):
             context['card_title'] = 'ELECCION EN ETAPA CERRADA'
         elif self.object.etapa == 5:
             context['card_title'] = 'RECUENTO INICIADO'
+            context['sin_clave'] = self.sin_clave
         elif self.object.etapa == 6:
             context['card_title'] = 'RECUENTO FINALIZADO'
         else:
             context['card_title'] = 'ERROR'
-
+        context['text_badge_dark'] = f'Detalles: {self.object}'
         return context
 
 

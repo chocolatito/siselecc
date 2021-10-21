@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+# from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy  # , reverse
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+
 from django.contrib.auth.decorators import login_required
 
 from .forms import CargoForm
@@ -65,7 +67,7 @@ class CargoUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form_title'] = "Editar datos del cargo"
+        context['card_title'] = "Editar datos del cargo"
         context['cancel_url'] = 'gest_cargo:listado'
         context['submit_button'] = 'Actualizar'
         return context
@@ -77,7 +79,6 @@ class CargoListView(ListView):
     template_name = 'gest_cargo/cargo_list.html'
 
     def dispatch(self, request, *args, **kwargs):
-        # print(request.GET)
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -108,6 +109,7 @@ class CargoListView(ListView):
         context['snippet_accion_table'] = 'gest_cargo/snippets/snippet_accion_table.html'
         if 'estado' in self.request.GET:
             context['estado'] = self.request.GET['estado']
+        context['text_badge_dark'] = f'Listado de cargos registrados'
         return context
 
 
@@ -135,6 +137,7 @@ class CargoDetailView(DetailView):
         context['page_title_heading'] = self.object.__str__()
         context['url_actualizar'] = 'gest_cargo:actualizar'
         context['snippet_accion_detail'] = 'gest_cargo/snippets/snippet_accion_detail.html'
+        context['text_badge_dark'] = f'Detalles del cargo {self.object}'
         # context['title'] = self.object.__str__()
         #context['eleccion_set'] = self.object.eleccion_set.all()
         #context['active_url'] = 'eleccion:active_cargo'

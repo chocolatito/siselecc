@@ -1,15 +1,19 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 
-{% block app-sidebar %}{% endblock %}
+{% block navbar %}
+<div class="my-4">
+
+</div>
+{% endblock %}
 
 {% block container-fluid %}
 <form method="post">
   {% csrf_token %}
   <div class="container-fluid">
-    <div class="card">
-      <div class="card-header bg-white mt-2">
-        <h1><b>Elector:</b></h1>
+    <div class="card border border-dark">
+      <div class="card-header bg-white text-primary text-center mt-2">
+        <h1><b>Id #{{object.id}}</b></h1>
       </div>
       <div class="card-body bg-dark">
         <div class="container-fluid">
@@ -20,7 +24,8 @@
         </div>
       </div>
       <div class="card-footer bg-light mb-3">
-        <div class="container-fluid">
+
+        <div class="container-fluid mt-2">
           {% if estado_urna == 1 %}
           <button type="submit" name="btn" class='btn btn-primary btn-block btn-lg'><h4><b>Autorizar</b></h4></button>
           <a href='{{mesa.get_absolute_url_mesa_ope}}' class='btn btn-danger btn-lg btn-block'><h4><b>Cancelar</b></h4></a>

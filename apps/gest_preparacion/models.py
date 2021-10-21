@@ -23,14 +23,20 @@ class Eleccion(Base):
     hora_inicio = models.TimeField('Hora de inicio', blank=True, null=True)
     hora_fin = models.TimeField('Hora de cierre', blank=True, null=True)
     etapa = models.IntegerField('Etapa de elección', choices=ETAPAS, default=0)
-    slug = models.SlugField(max_length=100, unique=True)
+    # signals
+    codigo =  models.CharField('Codigo', max_length=100)
+    slug = models.SlugField(max_length=200, unique=True)
     # Relationships
     cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
+    staff = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['fecha', 'titulo']
         verbose_name = 'Eleccion'
         verbose_name_plural = 'Elecciones'
+
+    #
+    #
 
     def get_absolute_url(self):
         return reverse('gest_preparacion:detalle', args=[str(self.id)])
@@ -85,14 +91,17 @@ class Eleccion(Base):
 
     def get_detali_info(self):
         """ [(verbose_name, value_field), ]"""
-        return [(vname_f(self._meta, 'titulo'), self.titulo),
+        return [('Identificador', f"{self.codigo}/{self.fecha.strftime('%Y')}"),
+                (vname_f(self._meta, 'titulo'), self.titulo),
                 (vname_f(self._meta, 'fecha'), self.fecha),
                 ('Horarios de Inicio-Fin', self.get_strftime()),
                 (vname_f(self._meta, 'etapa'), self.get_etapa_display()),
-                ('Cargo', self.cargo)]
+                ('Cargo', self.cargo),
+                ('Creado por el usuario', self.staff)]
 
     def __str__(self):
-        return "{} - {}".format(self.fecha, self.titulo)
+        # return "{} - {}".format(self.fecha, self.titulo)
+        return f"{self.codigo}/{self.fecha.strftime('%Y')} _ {self.titulo} {self.fecha}"
 
     def es_proxima(self):
         return self.fecha >= datetime.datetime.now().date()
@@ -127,12 +136,21 @@ class Eleccion(Base):
     def candidatos(self):
         return self.candidato_set.filter(estado_postulacion=True)
 
+
+    def candidatos_sin_clave(self):
+        pass
+
     def n_candidatos(self):
         return self.candidatos().count()
 
     def get_claves_candidatos(self):
         cuenta = self.mesa.cuenta
         return self.clave_set.exclude(cuenta=cuenta)
+
+    def get_n_claves_candidatos(self):
+        # Nro de claves publicas inicializadas
+        cuenta = self.mesa.cuenta
+        return self.clave_set.exclude(cuenta=cuenta).count()
 
     def get_clave_autoridad(self):
         cuenta = self.mesa.cuenta
@@ -141,6 +159,9 @@ class Eleccion(Base):
     def get_n_staff(self):
         cuenta = self.mesa.cuenta
         return int(self.clave_set.get(cuenta=cuenta).n)
+
+    def get_parciales_cifrados(self):
+        return self.resultado.parcial_set.filter(descifrado=False)
 
 
 # _Candidato
@@ -238,7 +259,7 @@ class Padron(Base):
             return 0
 
     def __str__(self):
-        return f'{self.id}-{self.eleccion}'
+        return f'Padrón #{self.id} de la Elección: {self.eleccion}'
 
 
 ESTADO_PADRONELECTOR = [(0, "AUSENTE"), (1, "AUTORIZADO"), (2, "RETIRADO"), ]
@@ -309,12 +330,30 @@ class Mesa(Base):
 
 # _______________________________________________________
 # PRE/POST SAVE
+def set_codigo_Eleccion(sender, instance, *args, **kwargs):
+    # Existen registro en el año actual?
+    if instance.id and instance.fecha and not instance.codigo:
+        anuales=sender.objects.filter(fecha__year__gte=int(instance.fecha.strftime('%Y'))).exclude(id=instance.id)
+        print('buscando un codigo')
+        if anuales:
+            antigua = anuales.order_by('-codigo').first()
+            instance.codigo = f"{int(antigua.codigo)+1}"
+        else:
+            instance.codigo = f"{1}"
+        instance.save()
+
 def set_slug_Eleccion(sender, instance, *args, **kwargs):
     # Falta controlar la longitud del slug
-    if instance.id and instance.titulo and instance.fecha and not instance.slug:
+    if instance.codigo and instance.cargo and instance.fecha and not instance.slug:
+        print('buscando un slug')
         instance.slug = slugify(
-            f'{instance.fecha}__{instance.id}_{instance.titulo}')
+            f'{instance.codigo}_{instance.fecha}__{instance.cargo}'[:100])
         instance.save()
 
 
+
+
+
+
+post_save.connect(set_codigo_Eleccion, sender=Eleccion)
 post_save.connect(set_slug_Eleccion, sender=Eleccion)

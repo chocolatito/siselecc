@@ -53,7 +53,7 @@ class IniMesa(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Mesa de Votación'
-        context['page_title_heading'] = f'Iniciar Mesa #{self.object.pk} / {self.object.eleccion}'
+        context['text_badge_dark'] = f'Iniciar Mesa #{self.object.pk} de: {self.object.eleccion}'
         return context
 
 
@@ -150,7 +150,7 @@ class MesaOpe(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Mesa de Votación'
-        context['page_title_heading'] = f'Mesa de Votación / {self.object.eleccion}'
+        #context['text_badge_dark'] = f'Mesa de Votación / {self.object.eleccion}'
         context['horarios'] = self.object.eleccion.get_strftime()
         if self.object.estado_mesa == 5:
             context['padronelector'] = self.padronelector

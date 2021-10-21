@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block container-fluid %}
-<h1>Si es autoridad de mesa o candidato, podra...</h1>
+<div class="h1 mt-2 text-center">Si es autoridad de mesa o candidato, podra...</div>
 <div class="d-flex flex-row">
   <div class="card bg-light border-dark m-1" style="width: 100%;">
     <div class="card-header bg-dark text-white">Inicializar clave de Cifrado</div>
     <div class="card-body">
       {% if programadas %}
+      <div class="h4 font-weight-bold">Elecciones programadas: {{programadas.count}}</div>
       <ul class="list-group">
         {% for object in  programadas.all %}
         <li class="list-group-item text-dark">
@@ -15,9 +16,13 @@
         {% endfor %}
       </ul>
       {% else %}
-      <h1>NO HAY ELECCIONES PROGRAMADAS</h1>
+      <div class="jumbotron bg-warning">
+        <h1 class="">NO SE REGISTRAN ELECCIONES PROGRAMADAS</h1>
+        <hr class="my-4">
+        <p class="lead">Solo se puede inicializar claves para el cifrado de votos, en aquellas elecciónes con horarios de inicio y cierre de votación establecidos.
+        </p>
+      </div>
       {% endif %}
-      <p>...</p>
     </div>
     <div class="card-footer bg-dark"></div>
   </div>
@@ -25,9 +30,8 @@
   <div class="card bg-light border-dark m-1" style="width: 100%;">
     <div class="card-header bg-dark text-white">Inicializar clave de Descifrado</div>
     <div class="card-body">
-      <h5 class="card-title">Para elecciones en etapa de recuento iniciado</h5>
-      <p>Es decir, para aquellas elecciones que finalizaron la votación y se solicito el inicio del recuento.</p>
       {% if cerradas %}
+      <div class="h4 font-weight-bold">Elecciones cerradas: {{cerradas.count}}</div>
       <ul class="list-group">
         {% for object in  cerradas.all %}
         <li class="list-group-item text-dark">
@@ -36,9 +40,16 @@
         {% endfor %}
       </ul>
       {% else %}
-      <h1>NO HAY ELECCIONES CERRADAS</h1>
+      <div class="jumbotron bg-warning">
+        <h1>NO SE REGISTRAN ELECCIONES EN PORCESO DE ESCRUTINIO</h1>
+        <hr class="my-4">
+        <p class="lead">
+          Solo se puede inicializar claves para el descifrado de votos,
+          en aquellas elecciónes donde la votación haya finalizado y la autoridad de mesa,
+          inicie el proceso de conteo de votos.
+        </p>
+      </div>
       {% endif %}
-      <p>...</p>
     </div>
     <div class="card-footer bg-dark"></div>
   </div>

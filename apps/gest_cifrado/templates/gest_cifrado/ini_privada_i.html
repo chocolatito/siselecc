@@ -1,33 +1,36 @@
 {% extends "base.html" %}
 
-{% block page-title-heading %}
-Es usted Candidato o Autoridad de mesa???
-{% endblock %}
+{% block badge-dark %}{% endblock %}
 
 {% block container-fluid %}
-<form method="post">
-  {% csrf_token %}
-  <div class="row bg-light">
-  <div class="col card mt-3">
-    <div class="card-header bg-dark">
-      {% if candidatos %} ************** {% else %} --- {% endif %}
-    </div>
-    <div class="card-body bg-white">
-      <button type="submit" name="btn" value='candidato' class='btn btn-primary'>
-      Soy Candidato
-      </button>
+
+<div class="card">
+  <div class="card-header h4 text-body font-weight-bold text-center">
+    Es usted Candidato o Autoridad de mesa???
+  </div>
+  <div class="card-body">
+    <div class="jumbotron bg-warning text-body">
+      <h4><strong>RECUERDE</strong></h4>
+
+      <p>Debe volver a retir la clave de 8 digitos y elegir el mismo color que inicializo entes de la votacón de la elección.
+      <br>
+      Se permitian letras
+      <i><strong>mayúsculas</strong></i> y <i><strong>minúsculas</strong></i>;
+      <i><strong>números</strong></i>
+      y los caracteres <span class="bg-light text-body"><i><strong>'@' '.' ';' '_' '-' '$'</strong></i></span></p>
+      <p>DEBERA ROCORDAR ESTA CLAVE PARA VOLVER PERMITIR EL RECUENTO DE VOTOS</p>
     </div>
   </div>
-    <div class="col card mt-3">
-      <div class="card-header bg-dark">
-        ...
-      </div>
-      <div class="card-body bg-white">
-        <button type="submit" name="btn" value='autoridad' class='btn btn-primary'>
-        Soy Autoridad de mesa
-        </button>
-      </div>
-    </div>
+  <form method="post">
+    {% csrf_token %}
+  <div class="card-footer my-4 d-flex justify-content-between">
+    <button type="submit" name="btn" value='candidato' class='btn btn-primary'>
+      Soy Candidato
+    </button>
+    <button type="submit" name="btn" value='autoridad' class='btn btn-primary'>
+      Soy Autoridad de mesa
+    </button>
+  </div>
+  </form>
 </div>
-</form>
 {% endblock %}

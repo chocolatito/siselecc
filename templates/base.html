@@ -36,7 +36,6 @@
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{% url 'gest_preparacion:agregar' %}">Nuevo Registro</a>
             <a class="dropdown-item" href="{% url 'gest_preparacion:listado' %}">Listado</a>
-            <a class="dropdown-item" href="#">Resumen</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -75,14 +74,17 @@
       <!-- ***************** -->
       <!-- Login-->
       <!-- ./Login-->
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mr-4">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown">
             <b>{{user}}</b>
           </a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Link 1</a>
-            <a class="dropdown-item" href="#">Link 2</a>
+            {% if user.cuentaelector %}
+              {% if not user.cuentaelector.estado_confirmacion %}
+                <a href="{% url 'gest_usuario:confirmar' %}" class="dropdown-item">Confirmar</a>
+              {% endif %}
+            {% endif %}
             <a class="dropdown-item" href="{% url 'gest_usuario:logout' %}">Cerrar Sesión</a>
           </div>
         </li>
@@ -103,25 +105,25 @@
     {% endif %}
   </nav>
   {% endblock %}
+
+  {% block badge-dark %}
+  <div class="container-fluid bg-dark pt-3 pb-1">
+    <h1><span class="badge badge-light text-body">{{text_badge_dark}}</span></h1>
+  </div>
+{% endblock %}
   <div class="container-fluid mb-5">
+    {% if messages %}
+    <ul class="messages mt-5">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}danger{% else %}dark{% endif %} alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <h4>{{ message }}</h4>
+          <br>
+        </div>
+        {% endfor %}
+    </ul>
+    {% endif %}
     {% block container-fluid %}
-      <div class="row">
-      <div class="col-sm-4">
-        <h3>Column 1</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-      </div>
-      <div class="col-sm-4">
-        <h3>Column 2</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-      </div>
-      <div class="col-sm-4">
-        <h3>Column 3</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-      </div>
-    </div>
     {% endblock %}
   </div>
 

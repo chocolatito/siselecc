@@ -4,7 +4,10 @@
 {% block link-script %}
 {% endblock %}
 
+
 {% block container-fluid %}
+
+
 <div class="row mt-2">
   <div class="col">
     {% if en_curso %}
@@ -73,11 +76,15 @@
 {% block  script_DataTable %}
 <script>
 $(document).ready( function () {
-  $('#data1').DataTable();
+  $('#data1').DataTable({
+    {% include 'utils/snippets/language_datatables.html' %}
+  });
 } );
 
 $(document).ready( function () {
-  $('#data2').DataTable();
+  $('#data2').DataTable({
+    {% include 'utils/snippets/language_datatables.html' %}
+  });
 } );
 </script>
 {% endblock %}

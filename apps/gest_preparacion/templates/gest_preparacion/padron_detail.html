@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block container-fluid %}
-<div class="card text-white">
+<div class="card text-white border border-dark">
   <div class="card-header" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
     <h4>Padrón: {{object}}</h4>
     <a class='m-2 btn-transition btn btn-outline-light btn-block' href="{{object.eleccion.get_absolute_url}}">
@@ -12,7 +12,7 @@
   <div class="card-body text-dark">
     <div class="row mt-2">
       <div class="col">
-        <div class="card bordered border-dark">
+        <div class="card border border-dark">
           {% if object.electores.all %}
             <form method="post">
               {% csrf_token %}

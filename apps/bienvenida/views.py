@@ -10,7 +10,6 @@ class Bienvenida(TemplateView):
     template_name = "bienvenida/bienvenida.html"
 
     def dispatch(self, request, *args, **kwargs):
-        #
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -22,6 +21,7 @@ class Bienvenida(TemplateView):
         context['cerradas'] = Eleccion.objects.filter(etapa__in=[4, 5, 6])
         context['thead_values'] = ['Titulo', 'Fecha', 'Acciones', ]
         context['thead_values_encurso'] = ['Titulo', 'Fecha', 'Inicio-Cierre', ]
+        context['text_badge_dark'] = 'Página de Inicio - Resumen de la actividad electoral del sistema'
         return context
 
 
@@ -50,6 +50,7 @@ class Resultado(DetailView):
                                                get_total_votos(self.v_resultado))
         context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
         context['is_staff'] = self.is_staff
+        context['text_badge_dark'] = f"{self.object}"
         return context
 
 
@@ -61,6 +62,7 @@ class DetallesCerrada(DetailView):
         self.object = self.get_object()
         if self.object.etapa in [4, 5]:
             # Generar el resultado
+            self.is_staff = bool(request.user.groups.filter(name='staff'))
             return super().dispatch(request, *args, **kwargs)
         else:
             return redirect('bienvenida:bienvenida')
@@ -73,6 +75,8 @@ class DetallesCerrada(DetailView):
         context['padron'] = self.object.padron
         context['urna'] = self.object.mesa.urna
         context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
+        context['is_staff'] = self.is_staff
+        context['text_badge_dark'] = f"{self.object}"
         return context
 
 
@@ -96,4 +100,5 @@ class DetallesProxima(DetailView):
         # page_title_heading
         context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
         context['is_staff']=self.is_staff
+        context['text_badge_dark'] = f"{self.object}"
         return context

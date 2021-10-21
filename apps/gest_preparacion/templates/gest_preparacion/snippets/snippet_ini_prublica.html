@@ -1,5 +1,14 @@
 {% load static %}
-<p class="font-weight-bold text-dark">Inicializar clave para cifrado</p>
-<a class='btn btn-info' href='{{object.get_cifrado_url}}'>
-  Inicializar
-</a>
+{% if sin_clave %}
+<p class="font-weight-bold text-dark">Deben inicializar su clave</p>
+<ul class="font-weight-bold text-dark">
+  {% for candidato in sin_clave %}
+    <li>{{candidato}}</li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p class="font-weight-bold text-dark">Inicializar clave para cifrado</p>
+  <a class='btn btn-info' href='{{object.get_cifrado_url}}'>
+    Inicializar
+  </a>
+{% endif %}

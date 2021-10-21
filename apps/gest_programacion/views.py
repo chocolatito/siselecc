@@ -45,7 +45,7 @@ class AdmProgramacion(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form_title'] = "Administrar programación"
+        context['card_title'] = "Administrar programación"
         context['cancel_url'] = 'gest_preparacion:listado'
         context['submit_button'] = 'Programar'
         return context

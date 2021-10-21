@@ -2,14 +2,37 @@
 {% load static %}
 
 {% block container-fluid %}
-<h1><b>Desea iniciar el conteo de votos correspondiente a la eleccion:</b> {{object}}</h1>
-<form method="post">
-  {% csrf_token %}
-    <button type="submit" name="btn-iniciar" class='btn btn-primary'>
-      Iniciar
-    </button>
-</form>
-<a href='{{object.get_absolute_url}}' class='btn btn-danger'>Cancelar</a>
+<div class="card" style="background-color: rgb(51, 51, 51) border-color: rgb(51, 51, 51);">
+
+  <div class="card-header">
+    <h1>Desea iniciar el conteo de votos correspondiente a la eleccion:</h1>
+  </div>
+  <div class="card-body">
+    <br>
+    <div class="h1 text-center text-body font-weight-bold mt-4">
+      {{object}}
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-2">
+      </div>
+      <div class="col-4 d-flex justify-content-around">
+        <form method="post">
+        {% csrf_token %}
+          <button type="submit" name="btn-iniciar" class='btn btn-primary'>
+            Iniciar conteo
+          </button>
+        </form>
+      </div>
+        <div class="col-4 d-flex justify-content-around">
+          <a href='{{object.get_absolute_url}}' class='btn btn-danger'>Cancelar</a>
+        </div>
+      <div class="col-2">
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% comment %}

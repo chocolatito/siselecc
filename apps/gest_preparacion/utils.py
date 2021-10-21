@@ -79,6 +79,26 @@ def set_estado_postulacion(candidato):
 
 # ________________________________________________________________________________________
 
+def claves_faltantes(claves, candidatos):
+    if claves:
+        if claves.count() == candidatos.count():
+            return []
+        else:
+            elecotres=claves.values('cuenta__cuentaelector__elector')
+            return candidatos.exclude(elector__in=elecotres)
+    else:
+        return candidatos
+
+def parciales_faltantes(parciales, candidatos):
+    if parciales:
+        if parciales.count()==candidatos.count():
+            return candidatos
+        else:
+            electores = parciales.values('clave__cuenta__cuentaelector__elector')
+            return candidatos.exclude(elector__in=elecotres)
+    else:
+        return []
+
 
 def get_eleccion(id):
     return Eleccion.objects.get(id=id)

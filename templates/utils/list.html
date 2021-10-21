@@ -44,7 +44,9 @@
 {% block  script_DataTable %}
 <script>
 $(document).ready( function () {
-  $('#data1').DataTable();
+  $('#data1').DataTable({
+      {% include 'utils/snippets/language_datatables.html' %}
+    });
 } );
 </script>
 {% endblock %}

@@ -16,8 +16,8 @@
     <div class="card-body">
       <ul class="list-group">
         {% for tuple in object.get_detali_info %}
-        <li class="list-group-item text-dark text-justify">
-          <b>{{tuple.0}}:</b> {{tuple.1}}
+        <li class="list-group-item text-body">
+          <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
         </li>
         {% endfor %}
       </ul>
