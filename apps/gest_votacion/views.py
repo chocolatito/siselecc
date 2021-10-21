@@ -158,6 +158,7 @@ class MesaOpe(DetailView):
         else:
             context['inicio'] = self.object.eleccion.hora_inicio
         context['urna'] = self.object.urna
+        context['text_badge_dark'] = f'{self.object.eleccion}'
         return context
 
 

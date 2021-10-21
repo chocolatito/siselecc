@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 def set_active(model, id, active_value):
     set_active_field(model.objects.get(id=int(id)), active_value)
 
-
 def set_active_field(object, new_value):
     if new_value:
         object.active = False

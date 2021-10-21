@@ -144,9 +144,11 @@ class EleccionDetailView(DetailView):
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.etapa==1:
+            # Eleccion programada
             self.sin_clave = claves_faltantes(self.object.get_claves_candidatos(), self.object.candidatos())
         elif self.object.etapa==5:
-            # self.sin_clave = self.object.resultado.parcial_set.filter(descifrado=False).values('clave__cuenta__cuentaelector__elector__candidato')
+            # Eleccion esta en etapa de conteo de votos
+            print(self.object.etapa)
             self.sin_clave = parciales_faltantes(self.object.get_parciales_cifrados(), self.object.candidatos())
         return super().dispatch(request, *args, **kwargs)
 

@@ -97,8 +97,15 @@ class Eleccion(Base):
                 ('Horarios de Inicio-Fin', self.get_strftime()),
                 (vname_f(self._meta, 'etapa'), self.get_etapa_display()),
                 ('Cargo', self.cargo),
-                ('Creado por el usuario', self.staff)]
+                ('Creado por el usuario', self.staff),
+                ('Usuario Autoridad de Mesa', self.get_str_autoridad()),
+                ]
 
+    def get_str_autoridad(self):
+        if self.etapa:
+            return self.mesa.cuenta
+        else:
+            return 'SIN AUTORIDAD'
     def __str__(self):
         # return "{} - {}".format(self.fecha, self.titulo)
         return f"{self.codigo}/{self.fecha.strftime('%Y')} _ {self.titulo} {self.fecha}"
@@ -116,7 +123,7 @@ class Eleccion(Base):
                     return 2
                 else:
                     if self.mesa.estado_mesa in [1, 2]:
-                        if self.candidatos().count() >= 2:
+                        if self.candidatos().count() >= 1:
                             # La eleccion es programable
                             return 5
                         else:

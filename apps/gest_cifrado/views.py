@@ -48,7 +48,7 @@ class GestorCifradoView(TemplateView):
 
 
 # _Publica
-@ method_decorator(decorators_elector, name='dispatch')
+@method_decorator(decorators_elector, name='dispatch')
 class IniPublica_I(DetailView):
     model = Eleccion
     template_name = 'gest_cifrado/ini_publica_i.html'
@@ -88,7 +88,7 @@ class IniPublica_I(DetailView):
         return context
 
 
-@ method_decorator(decorators_elector, name='dispatch')
+@method_decorator(decorators_elector, name='dispatch')
 class IniPublica_II(FormView):
     form_class = ClaveForm
     template_name = 'utils/create.html'
@@ -110,13 +110,15 @@ class IniPublica_II(FormView):
             if generar_Cpublica(form.cleaned_data.get('clave'),
                                 tuple(int(x) for x in form.cleaned_data.get('color')),
                                 self.user, self.object):
-                messages.success(request,'EXCELENTE La inicialización de la clave ha sido un exito!!!\n')
-                return redirect('bienvenida:bienvenida')
+                messages.success(request, 'EXCELENTE La inicialización de la clave ha sido un exito')
+                messages.success(request, 'Ahora podra inicializar la mesa de votación y su correspondiente urna')
+                return redirect(self.object.get_absolute_url())
             else:
-                return redirect(self.success_url)
+                messages.success(request, 'EXCELENTE La inicialización de la clave ha sido un exito!!!')
+                return redirect('bienvenida:bienvenida')
         else:
             context = self.get_context_data(**kwargs)
-            context['form'] = form
+            context['form']=form
             return render(request, self.template_name, context)
 
     def get_context_data(self, **kwargs):
@@ -128,7 +130,7 @@ class IniPublica_II(FormView):
 
 
 # _Conteo
-@ method_decorator(decorators, name='dispatch')
+@method_decorator(decorators, name='dispatch')
 class IniConteo(DetailView):
     model = Eleccion
     template_name = 'gest_cifrado/ini_conteo.html'
@@ -169,7 +171,7 @@ class IniConteo(DetailView):
 
 
 # _Privada
-@ method_decorator(decorators_elector, name='dispatch')
+@method_decorator(decorators_elector, name='dispatch')
 class IniPrivada_I(DetailView):
     model = Eleccion
     template_name = 'gest_cifrado/ini_privada_i.html'
@@ -205,7 +207,8 @@ class IniPrivada_I(DetailView):
                 else:
                     return redirect('bienvenida:bienvenida')
             else:
-                messages.error(request, 'ERROR Este usuario no esta registrado como autoridad de mesa para esta elección')
+                messages.error(request,
+                               'ERROR Este usuario no esta registrado como autoridad de mesa para esta elección')
                 return redirect(request.META['HTTP_REFERER'])
         return redirect(request.META['HTTP_REFERER'])
 
@@ -214,7 +217,7 @@ class IniPrivada_I(DetailView):
         return context
 
 
-@ method_decorator(decorators_elector, name='dispatch')
+@method_decorator(decorators_elector, name='dispatch')
 class IniPrivada_II(FormView):
     form_class = ClaveForm
     template_name = 'utils/create.html'
@@ -224,7 +227,7 @@ class IniPrivada_II(FormView):
         self.eleccion = get_eleccion(kwargs['pk'])
         if verificar_user_clave(self.eleccion, get_user(request.user)):
             # El usuario no posee clave inicializada
-            messages.error(request,'ERROR Esta cuenta no verifica clave para esta elección')
+            messages.error(request, 'ERROR Esta cuenta no verifica clave para esta elección')
             return redirect('bienvenida:bienvenida')
         else:
             #
@@ -237,10 +240,11 @@ class IniPrivada_II(FormView):
             # color = tuple(int(x) for x in form.cleaned_data.get('color'))
             clave, color = get_clave_and_color(form.cleaned_data)
             if actualizar_resultado(clave, color, get_user(request.user), self.eleccion):
-                messages.success(request,'EXCELENTE La inicialización de la clave para descifrar votos ha sido un exito!!!\n')
+                messages.success(request,
+                                 'EXCELENTE La inicialización de la clave para descifrar votos ha sido un exito!!!\n')
                 return redirect('bienvenida:bienvenida')
             else:
-                messages.error(request,'ERROR Clave y/o Color ingresado/s incorrecto/s')
+                messages.error(request, 'ERROR Clave y/o Color ingresado/s incorrecto/s')
                 return redirect(self.eleccion.get_descifrado_url())
         else:
             context = self.get_context_data(**kwargs)

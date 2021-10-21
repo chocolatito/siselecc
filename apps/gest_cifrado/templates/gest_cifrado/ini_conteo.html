@@ -1,8 +1,10 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 
+{% block badge-dark %}{% endblock %}
+
 {% block container-fluid %}
-<div class="card" style="background-color: rgb(51, 51, 51) border-color: rgb(51, 51, 51);">
+<div class="card border border-dark" style="background-color: rgb(51, 51, 51) border-color: rgb(51, 51, 51);">
 
   <div class="card-header">
     <h1>Desea iniciar el conteo de votos correspondiente a la eleccion:</h1>
@@ -20,13 +22,15 @@
       <div class="col-4 d-flex justify-content-around">
         <form method="post">
         {% csrf_token %}
-          <button type="submit" name="btn-iniciar" class='btn btn-primary'>
+          <button type="submit" name="btn-iniciar" class='btn btn-primary border border-dark'>
             Iniciar conteo
           </button>
         </form>
       </div>
         <div class="col-4 d-flex justify-content-around">
-          <a href='{{object.get_absolute_url}}' class='btn btn-danger'>Cancelar</a>
+          <a href='{{object.get_absolute_url}}' class='btn btn-danger border border-dark'>
+            Cancelar
+          </a>
         </div>
       <div class="col-2">
       </div>
