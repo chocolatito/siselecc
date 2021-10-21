@@ -16,7 +16,7 @@ DATABASES = {
     }
 }
 
-LOGIN_REDIRECT_URL = '/'
+
 
 # Configure your Q cluster
 # More details https://django-q.readthedocs.io/en/latest/configure.html
