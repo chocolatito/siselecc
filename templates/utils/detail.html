@@ -6,40 +6,45 @@
 <!-- ./head-->
 
 
-<!--body-->
+<!--<div class="d-flex justify-content-around bg-light p-3 my-3">-->
 {% block container-fluid %}
-<div class="d-flex justify-content-around bg-light p-3 my-3">
-  <div class="card text-white m-1" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
-    <div class="card-header">
-      <h5 class="text-white font-weight-bold card-title">DETALLES</h5>
-    </div>
-    <div class="card-body">
-      <ul class="list-group">
-        {% for tuple in object.get_detali_info %}
-        <li class="list-group-item text-body">
-          <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="card-footer d-flex justify-content-center">
-      <div role="group" class="btn-group px-4">
-      {% if snippet_accion_detail %}
-      {% include snippet_accion_detail %}
-      {% else %}
-      {% include 'utils/snippets/snippet_accion_detail.html' %}
-      {% endif %}
-    </div>
+<div class="row">
+  <div class="col">
+    <div class="card text-white mt-2" style="height: 100%; width: 100%; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+      <div class="card-header">
+        <h5 class="text-white font-weight-bold card-title">DETALLES</h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          {% for tuple in object.get_detali_info %}
+          <li class="list-group-item text-body">
+            <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="card-footer d-flex justify-content-center">
+        <div role="group" class="btn-group px-4">
+          {% if snippet_accion_detail %}
+          {% include snippet_accion_detail %}
+          {% else %}
+          {% include 'utils/snippets/snippet_accion_detail.html' %}
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
-  {% block div_card-body %}
+
+  <div class="col">
+    {% block div_card-body %}
     <div class="card">
       <div class="text-white card-body" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
         <h5 class="text-white card-title">Special Title Treatment</h5>
         With supporting text below as a natural lead-in to additional content.
+      </div>
     </div>
-    </div>
-  {% endblock %}
+    {% endblock %}
+  </div>
 </div>
 {% endblock %}
 

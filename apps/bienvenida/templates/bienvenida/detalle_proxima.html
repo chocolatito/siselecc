@@ -1,8 +1,7 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 {% block div_card-body %}
-
-<div class="card text-white m-1" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
+<div class="card text-white mt-2 border border-info" style="height: 100%; width: 100%; background-color: rgb(51, 51, 51)">
   <div class="card-header font-weight-bold text-center">
     Candidatos postulados: {{object.candidatos.count}}
   </div>
