@@ -1,0 +1,9 @@
+{% load static %}
+<a href="{% url 'bienvenida:bienvenida' %}" class="btn btn-light btn-lg border dorder-dark">
+  <b>Ir a Inicio</b>
+</a>
+{% if is_staff %}
+<a href="{{object.get_absolute_url}}" class="btn btn-primary btn-lg border dorder-dark">
+  <b>Detalles de Elección</b>
+</a>
+{% endif %}

@@ -90,11 +90,15 @@
 {% block  script_DataTable %}
 <script>
   $(document).ready(function() {
-    $('#data1').DataTable();
+    $('#data1').DataTable({
+      {% include 'utils/snippets/language_datatables.html' %}
+    });
   });
 
   $(document).ready(function() {
-    $('#data2').DataTable();
+    $('#data2').DataTable({
+      {% include 'utils/snippets/language_datatables.html' %}
+    });
   });
 
   // Si se hace click sobre el input de tipo checkbox con id checkall_enabled

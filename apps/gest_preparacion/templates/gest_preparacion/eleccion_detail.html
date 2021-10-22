@@ -3,7 +3,7 @@
 {% block div_card-body %}
 
 {% comment %}{% endcomment %}
-<div class="card text-white m-1" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
+<div class="card text-white" style="height: 100%; width: 100%;background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
   <div class="card-header">
     <h5 class="">{{card_title}}</h5>
   </div>
@@ -56,6 +56,11 @@
       {% include 'gest_preparacion/snippets/snippet_resultado.html' %}
     </li>
   <!-- ./INICIAR MESA-->
+  {% elif  object.etapa == 7 %}
+  <!--INICIALIZAR PRIVADA-->
+    <li class="list-group-item mt-1 d-flex justify-content-between">
+      {% include 'gest_preparacion/snippets/snippet_fallida.html' %}
+    </li>
   {% else %}
     <!--PADRON-->
     <li class="list-group-item mt-1 d-flex justify-content-between">
@@ -72,7 +77,6 @@
       {% include 'gest_preparacion/snippets/snippet_candidato.html' %}
     </li>
     <!-- ./CANDIDATO-->
-
     <!--PROGRAMACIÓN-->
     <li class="list-group-item mt-1 d-flex justify-content-between mt-2">
       {% include 'gest_preparacion/snippets/snippet_programacion.html' %}

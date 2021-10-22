@@ -1,6 +1,8 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 
+{% block badge-dark %}{% endblock %}
+
 {% block container-fluid %}
 <form method='post'>
   {% csrf_token %}

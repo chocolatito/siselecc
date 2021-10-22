@@ -102,7 +102,6 @@ class EleccionListView(ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        """"""
         if 'estado' in self.request.GET:
             return get_queryset_by_state(self.model, self.request.GET['estado'])
         return self.model.objects.all()

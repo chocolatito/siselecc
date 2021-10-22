@@ -5,7 +5,6 @@ from .models import Eleccion, Padron, Mesa, Candidato
 from ..gest_elector.models import Elector
 from ..gest_usuario.models import CuentaElector
 
-
 def get_disponibles(excluidos, field='id'):
     if excluidos:
         lista_electores = Elector.objects.filter(

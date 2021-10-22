@@ -9,18 +9,26 @@
 <!--<div class="d-flex justify-content-around bg-light p-3 my-3">-->
 {% block container-fluid %}
 <div class="row">
-  <div class="col">
-    <div class="card text-white mt-2" style="height: 100%; width: 100%; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+  <div class="col mt-2">
+    <div class="card text-white" style="height: 100%; width: 100%; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
       <div class="card-header">
         <h5 class="text-white font-weight-bold card-title">DETALLES</h5>
       </div>
       <div class="card-body">
         <ul class="list-group">
-          {% for tuple in object.get_detali_info %}
-          <li class="list-group-item text-body">
-            <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
-          </li>
-          {% endfor %}
+          {% if detali_info %}
+            {% for tuple in detali_info %}
+            <li class="list-group-item text-body">
+              <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
+            </li>
+            {% endfor %}
+          {% else %}
+            {% for tuple in object.get_detali_info %}
+            <li class="list-group-item text-body">
+              <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
+            </li>
+            {% endfor %}
+          {% endif %}
         </ul>
       </div>
       <div class="card-footer d-flex justify-content-center">
@@ -35,7 +43,7 @@
     </div>
   </div>
 
-  <div class="col">
+  <div class="col mt-2">
     {% block div_card-body %}
     <div class="card">
       <div class="text-white card-body" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">

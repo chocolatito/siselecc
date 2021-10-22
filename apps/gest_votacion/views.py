@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import redirect  # render
 from django.urls import reverse
 from django.views.generic.base import TemplateView
@@ -109,6 +110,7 @@ class MesaOpe(DetailView):
         # ver hora
         if self.object.estado_mesa == 6:
             # ELECCION CERRADA
+            messages.info(request, 'VOTACIÓN CERRADA. ...')
             return redirect('bienvenida:bienvenida')
         # ELECCION EN CURSO
         if es_autoridad(self.object, request.user):
@@ -239,7 +241,6 @@ class IniUrna(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title_of_the_document'] = 'Iniciar Urna'
-        context['page_title_heading'] = 'Iniciar Urna'
         context['mesas'] = self.mesas
         return context
 

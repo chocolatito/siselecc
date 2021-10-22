@@ -1,3 +1,12 @@
+from datetime import date
+
+def actualiar_fallidas(programadas):
+    if programadas:
+        today = date.today()
+        fallidas = programadas.filter(fecha__lt=today)
+        if fallidas:
+            fallidas.update(etapa=7)
+
 
 def get_total_votos(v_resultado):
     if v_resultado:

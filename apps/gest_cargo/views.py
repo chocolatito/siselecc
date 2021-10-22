@@ -99,7 +99,6 @@ class CargoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Listado de Cargo"
-        context['page_title_heading'] = 'Cargos'
         context['message_no_queryset'] = 'No hay cargos registrados'
         context['thead_values'] = ['Cargo', 'Descripción', 'Estado de cargo', ]
         context['url_listado'] = 'gest_cargo:listado'

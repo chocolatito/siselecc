@@ -14,7 +14,7 @@ from ..utils import vname_f
 
 ETAPAS = [(0, "PREPARACIÓN"), (1, "PROGRAMADA"), (2, "LISTA"),
           (3, "EN CURSO"), (4, "CERRADA"),
-          (5, "CONTEO INICIADO"), (6, "CONTEO FINALIZADO")]
+          (5, "CONTEO INICIADO"), (6, "CONTEO FINALIZADO"), (7, "FALLIDA"),]
 
 
 class Eleccion(Base):
@@ -60,6 +60,11 @@ class Eleccion(Base):
     def get_resultado_url(self):
         return reverse('bienvenida:resultado', args=[str(self.id)])
 
+
+    def get_consultar_padron_url(self):
+        return reverse('bienvenida:padron', args=[str(self.id)])
+
+
     # ____________________________________________________________________________________
     def get_field_values(self):
         return [self.titulo,
@@ -101,6 +106,18 @@ class Eleccion(Base):
                 ('Usuario Autoridad de Mesa', self.get_str_autoridad()),
                 ]
 
+    def get_detali_info_proxima(self):
+        """ [(verbose_name, value_field), ]"""
+        return [('Identificador', f"{self.codigo}/{self.fecha.strftime('%Y')}"),
+                (vname_f(self._meta, 'titulo'), self.titulo),
+                ('Fecha y hora de votación', f"{self.fecha} - Entre {self.get_strftime()}"),
+                (vname_f(self._meta, 'etapa'), self.get_etapa_display()),
+                ('Cargo', self.cargo),
+                ('Creado por el usuario', self.staff),
+                ('Usuario Autoridad de Mesa', self.get_str_autoridad()),
+                ]
+
+
     def get_str_autoridad(self):
         if self.etapa:
             return self.mesa.cuenta
@@ -114,6 +131,8 @@ class Eleccion(Base):
         return self.fecha >= datetime.datetime.now().date()
 
     def es_programable(self):
+        if self.etapa == 1 and self.es_proxima():
+            return 5
         if self.es_proxima():
             fecha_anterior = self.fecha - datetime.timedelta(days=1)
             if fecha_anterior <= datetime.datetime.now().date():
@@ -135,6 +154,16 @@ class Eleccion(Base):
             else:
                 # Falta mas de 24hs para poder programar la eleccion
                 return 1
+        else:
+            return 0
+
+    def claves_atiempo(self):
+        # indica si ya se paso la hora de inicio de la elección
+        if self.es_programable() == 5:
+            if self.fecha == datetime.datetime.now().date():
+                return self.hora_inicio > datetime.datetime.now().time()
+            else:
+                True
         else:
             return False
     # ____________________________________________________________________________________

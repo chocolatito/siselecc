@@ -26,15 +26,15 @@ class LoginFormView(LoginView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            print("AUTENTICADO")
             if request.GET.get('next'):
-                print(f"NEXT: {request.GET.get('next')}")
                 return HttpResponseRedirect(request.GET.get('next'))
             else:
-                print(f'Usuario Autenticado sin NEXT: {request.user}')
                 return redirect('bienvenida:bienvenida')
-        print(f'Usuario NO AUTENTICADO: {request.user}')
         return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        # limpiar elecciones
+        return super().post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

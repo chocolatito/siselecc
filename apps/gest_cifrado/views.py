@@ -57,7 +57,11 @@ class IniPublica_I(DetailView):
         self.object = self.get_object()
         # Se debe verificar que la eleccion este programada
         if self.object.etapa == 1:
-            return super().dispatch(request, *args, **kwargs)
+            if self.object.claves_atiempo():
+                return super().dispatch(request, *args, **kwargs)
+            else:
+                messages.error(request, 'SE DEBE ACTUALIZAR LA PROGRAMACIÓN DE HORARIOS. El Staff debe reprogramar el horarió de inicio de votación a una hora mayor a la hora actual')
+                return redirect('gest_cifrado:gest_cifrado')
         elif self.object.etapa == 2:
             return redirect(self.object.get_absolute_url())
         else:

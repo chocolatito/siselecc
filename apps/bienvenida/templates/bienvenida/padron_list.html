@@ -1,0 +1,15 @@
+{% extends 'utils/list.html' %}
+{% load static %}
+
+
+{% block card-header %}
+<div class="card-header">
+  <a href="{{object.get_proxima_url}}" class="btn btn-secondary btn-block border border-dark">
+    <strong>Volver a la Eleccion</strong>
+  </a>
+</div>
+{% endblock %}
+
+{% block snippet_no_objetc_list %}
+
+{% endblock %}

@@ -11,4 +11,6 @@ urlpatterns = [
     path('proxima/<int:pk>', views.DetallesProxima.as_view(), name='proxima'),
     path('cerrada/<int:pk>', views.DetallesCerrada.as_view(), name='cerrada'),
     path('resultado/<int:pk>', views.Resultado.as_view(), name='resultado'),
+    # <int:pk> corresponde a pk de la elección
+    path('padron/<int:pk>', views.ConsultaPadron.as_view(), name='padron')
 ]
