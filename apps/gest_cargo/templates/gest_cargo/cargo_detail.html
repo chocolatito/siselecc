@@ -2,40 +2,45 @@
 {% load static %}
 {% block div_card-body %}
 
-<div class="card mt-1 text-white " style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%">
+<div class="card my-1 text-white " style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%">
   {% if object.editable %}
   <div class="card-header">
     NO SE REGISTRAN ELECCIONES PARA ESTE CARGO
   </div>
   <div class="card-body">
-    Pueden actualizarse la información la información rederida a
+    <p>Se puede actualizar la valores de los campos:</p>
     <ul>
       <li>Nombre Del Cargo</li>
       <li>Descripción</li>
     </ul>
+    <p><strong>Recuerde</strong><br>Cuando se registre una elección con este cargo,
+      entonces el cargo deja de ser <b><i>editable</i></b> y no se permite actualizar la información (incluso si la elección nunca se lleva a cabo y se suspende).</p>
   </div>
   <div class="card-footer">
-    IMPORTANTE:<br> Cunado se registran elecciones para un cargo determinado, este no podra editarse.
   </div>
   {% else %}
   <div class="card-header">
-    Cargo no editable
+    ELECCIONES PARA ESTE CARGO: <span class="font-weight-bold">{{object.eleccion_set.count}}</span>
   </div>
   <div class="card-body">
-    <p>Se se registran siguientes elecciones para este cargo:</p>
-    {% comment %}
-    Revisar - Sera necesario un scroll
-    https://www.w3schools.com/bootstrap4/bootstrap_scrollspy.asp
-    {% endcomment %}
+    {% if object.eleccion_set.count < 6 %}
+    <p>Se se registran las siguientes elecciones para este cargo:</p>
+    {% else %}
+    <p>Las ultimas 5 elecciones para este cargo:</p>
+    {% endif %}
     <div class="list-group">
       {% for eleccion in object.eleccion_set.all %}
-      <a href={{eleccion.get_absolute_url}} class="list-group-item list-group-item-action">
+      <a href={{eleccion.get_absolute_url}} class="list-group-item list-group-item-action text-body">
         {{eleccion}}
       </a>
       {% endfor %}
     </div>
   </div>
-  <div class="card-footer"></div>
+  <div class="card-footer d-flex justify-content-center">
+    {% if object.eleccion_set.count > 5 %}
+    <a href="#" class="btn btn-info">Ver el Listado Completo</a>
+    {% endif %}
+  </div>
   {% endif %}
 </div>
 {% endblock %}

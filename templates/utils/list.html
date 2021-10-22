@@ -20,15 +20,15 @@
   </div>
   {% endblock %}
   <div class="card-body">
-    <div class="">
+    <div class="table-responsive">
       {% block snippet_table %}
       {% include 'utils/snippets/snippet_table.html' %}
       {% endblock %}
     </div>
   </div>
   <div class="card-footer bg-dark p-3">
-
   </div>
+</div>
 </div>
 {% else %}
 {% block snippet_no_objetc_list %}

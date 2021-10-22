@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-
+from ..utils import vname_f
 from ..BaseModel import Base
 # Create your models here.
 
@@ -28,9 +28,13 @@ class Cargo(Base):
         return [self.nombre, self.descripcion, self.editable]
 
     def get_detali_info(self):
-        return [(self._meta.get_field('nombre').verbose_name.title(), self.nombre),
-                (self._meta.get_field('descripcion').verbose_name.title(), self.descripcion),
-                (self._meta.get_field('editable').verbose_name.title(), self.editable), ]
+        if self.editable:
+            editable = 'Es editable'
+        else:
+            editable = 'No se puede editar'
+        return [(vname_f(self._meta, 'nombre'), self.nombre),
+                (vname_f(self._meta, 'descripcion'), self.descripcion),
+                (vname_f(self._meta, 'editable'), editable), ]
 
     def elecciones(self):
         """retorna las elecciones en las que se elige representante para el cargo"""

@@ -2,17 +2,19 @@
 {% load static %}
 
 {% block container-fluid %}
-<div class="card text-white border border-dark">
+<div class="card text-white border border-dark mt-2">
   <div class="card-header" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
-    <h4>Padrón: {{object}}</h4>
     <a class='m-2 btn-transition btn btn-outline-light btn-block' href="{{object.eleccion.get_absolute_url}}">
-      <b>Volver a Elección</b>
-    </a>
+        <b>
+          Volver a Elección
+        </b>
+      </a>
   </div>
+
   <div class="card-body text-dark">
-    <div class="row mt-2">
+    <div class="row mt-2 d-flex">
       <div class="col">
-        <div class="card bordered border-dark">
+        <div class="card bordered border-dark"  style="height: 100%;">
           <div class="card-header d-flex justify-content-center">
             <p class="font-weight-bold">Autoridad Designada</p>
           </div>
@@ -38,7 +40,7 @@
 
       <!-- NO INCLUIDOS-->
       <div class="col">
-        <div class="card bordered border-dark">
+        <div class="card bordered border-dark" style="height: 100%;">
           {% if staff_list %}
           <div class="card-header d-flex justify-content-around">
             <p class="font-weight-bold">Staff disponibles</p>
@@ -71,14 +73,9 @@
       </div>
       <!-- ./NO INCLUIDOS-->
     </div>
-
   </div>
-  <div class="card-footer bg-dark">
-
-  </div>
-
+  <div class="card-footer bg-dark"></div>
 </div>
-
 {% endblock %}
 
 {% comment %}

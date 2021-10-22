@@ -7,14 +7,12 @@
 
 {% block container-fluid %}
 
-
+<!-- En Curso-->
 <div class="row mt-2">
   <div class="col">
     {% if en_curso %}
     <div class="card">
-      <div class="card-header bg-info text-light">
-        En Curso
-      </div>
+      <div class="card-header bg-info text-light">En Curso</div>
       <div class="card-body">
         <div class="table-responsive">
           {% include 'bienvenida/snippets/snippet_table_encurso.html' with object_list=en_curso.all %}
@@ -24,50 +22,59 @@
     {% endif %}
   </div>
 </div>
-<div class="d-flex flex-row">
-  <div class="card bg-light border-dark m-1" style="width: 100%;">
-      <div class="card-header text-body">
-        Ultimas elecciones
-      </div>
-      <div class="card-body">
-        {% if cerradas %}
-        <div class="table-responsive">
-          {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=cerradas.all %}
+<!-- ./En Curso-->
+
+<!-- Ultimas y Proximas-->
+  <div class="row">
+    <div class="col">
+      <div class="card bg-light border-dark" style="height: 100%; width: 100%;">
+        <div class="card-header text-body">
+          Ultimas elecciones
         </div>
-        {% else %}
+        <div class="card-body">
+          {% if cerradas %}
+          <div class="table-responsive">
+            {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=cerradas.all %}
+          </div>
+          {% else %}
           <div class="jumbotron jumbotron-fluid">
             <div class="container">
               <h2 class="display-4">No hay elecciones que completen la votación</h2>
             </div>
           </div>
-        {% endif %}
-      </div>
-    </div>
-
-  <!-- ./Ultimas elecciones realizadas -->
-
-  <!-- Proximas elecciones col-6 d-flex justify-content-center-->
-    <div class="card bg-light border-dark m-1" style="width: 100%;">
-      <div class="card-header text-body">
-        Proximas elecciones
-      </div>
-      <div class="card-body">
-      {% if proximas %}
-      <div class="table-responsive">
-        {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data2' object_list=proximas.all %}
-      </div>
-      {% else %}
-        <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h2 class="display-4">Aun no se registran elecciones programadas</h2>
-          </div>
+          {% endif %}
         </div>
-      {% endif %}
       </div>
     </div>
-  <!-- ./Proximas elecciones -->
+    <!-- ./Ultimas elecciones realizadas -->
+
+    <!-- Proximas elecciones col-6 d-flex justify-content-center-->
+    <div class="col">
+      <div class="card bg-light border-dark" style="height: 100%; width: 100%;">
+        <div class="card-header text-body">
+          Proximas elecciones
+        </div>
+        <div class="card-body">
+          {% if proximas %}
+          <div class="table-responsive">
+            {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data2' object_list=proximas.all %}
+          </div>
+          {% else %}
+          <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h2 class="display-4">Aun no se registran elecciones programadas</h2>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <div class="card-footer">
+        </div>
+      </div>
+    </div>
+    <!-- ./Proximas elecciones -->
   </div>
-</div>
+<!-- ./Ultimas y Proximas-->
+
 {% endblock %}
 {% block  lib_DataTables %}
 <script src="{% static '/DataTables/datatables.min.js' %}"></script>
