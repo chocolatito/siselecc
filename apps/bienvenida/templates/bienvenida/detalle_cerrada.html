@@ -6,15 +6,15 @@
     Candidatos postulados: {{object.candidatos.count}}
   </div>
   <div class="card-body text-body">
-      <ul class="list-group">
+      <ul class="list-group" style="height: 90%; overflow: auto;">
+        {% for candidato in object.candidatos.all %}
         <li class="list-group-item">
-          {% for candidato in object.candidatos.all %}
           <div class="d-flex justify-content-between mt-1">
             <span class="font-weight-bold">{{candidato.full_name}}</span>
             <span class="font-weight-bold text-info">ID Nro {{candidato.pk}}</span>
           </div>
-          {% endfor %}
         </li>
+        {% endfor %}
       </ul>
   </div>
   <div class="card-footer bg-light">
