@@ -21,7 +21,7 @@
 <body>
 
   <div class="container-fluid">
-  {% block navbar %}
+    {% block navbar %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
       <!-- LOGO-->
       <a class="navbar-brand" href="{% url 'bienvenida:bienvenida' %}"><b>SisElecc</b></a>
@@ -38,42 +38,42 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
               Gestor de Elección</a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="{% url 'gest_preparacion:agregar' %}">Nuevo Registro</a>
-                <a class="dropdown-item" href="{% url 'gest_preparacion:listado' %}">Listado</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
-                Gestor de Cargos</a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{% url 'gest_cargo:agregar' %}">Nuevo Registro</a>
-                  <a class="dropdown-item" href="{% url 'gest_cargo:listado' %}">Listado</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
-                  Gestor de Electores</a>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'gest_elector:agregar' %}">Nuevo Registro</a>
-                    <a class="dropdown-item" href="{% url 'gest_elector:listado' %}">Listado</a>
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
-                    Gestor de UsuariosE</a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="{% url 'gest_usuario:gen-cu-elector' %}">Generar Cuenta</a>
-                      <a class="dropdown-item" href="{% url 'gest_usuario:cuenta-elector' %}">Listado</a>
-                    </div>
-                  </li>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'gest_preparacion:agregar' %}">Nuevo Registro</a>
+              <a class="dropdown-item" href="{% url 'gest_preparacion:listado' %}">Listado</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
+              Gestor de Cargos</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'gest_cargo:agregar' %}">Nuevo Registro</a>
+              <a class="dropdown-item" href="{% url 'gest_cargo:listado' %}">Listado</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
+              Gestor de Electores</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'gest_elector:agregar' %}">Nuevo Registro</a>
+              <a class="dropdown-item" href="{% url 'gest_elector:listado' %}">Listado</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#">
+              Gestor de UsuariosE</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'gest_usuario:gen-cu-elector' %}">Generar Cuenta</a>
+              <a class="dropdown-item" href="{% url 'gest_usuario:cuenta-elector' %}">Listado</a>
+            </div>
+          </li>
         </ul>
         {% endif %}
         <ul class="navbar-nav mr-auto">
           <li class="nav-item border-light">
             <a class="nav-link text-white" href="{% url 'gest_cifrado:gest_cifrado' %}">
               Gestor de Cifrados</a>
-            </li>
+          </li>
         </ul>
         <!-- ./Gestores-->
         <!-- ***************** -->
@@ -109,54 +109,55 @@
       </div>
       {% endif %}
     </nav>
-  {% endblock %}
+    {% endblock %}
 
-  {% block badge-dark %}
-  <div class="container-fluid bg-light pt-3 pb-1 rounded border-top border-bottom border-dark">
-    <h2><span class="text-body">{{text_badge_dark}}</span></h2>
-  </div>
-  {% endblock %}
+    {% block badge-dark %}
+    <div class="container-fluid bg-light pt-3 pb-1 rounded border-top border-bottom border-dark">
+      <h2><span class="text-body">{{text_badge_dark}}</span></h2>
+    </div>
+    {% endblock %}
   </div>
 
 
   <div class="container-fluid mb-5">
     {% if messages %}
     <ul class="messages mt-5">
-        {% for message in messages %}
-        <div class="alert alert-{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}danger{% else %}dark{% endif %} alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <h4>{{ message }}</h4>
-          <br>
-        </div>
-        {% endfor %}
+      {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}danger{% else %}dark{% endif %} alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>{{ message }}</h4>
+        <br>
+      </div>
+      {% endfor %}
     </ul>
     {% endif %}
     {% block container-fluid %}
     {% endblock %}
   </div>
 
-<!-- Footer-->
-{% block footer %}
-<div class="jumbotron text-center mt-5" style="background-color: rgb(51, 51, 51);">
-  <div class="d-flex justify-content-around">
-    <span><a href="#" class="font-weight-bold text-light">UNSE</a></span>
-    <span><a href="#" class="font-weight-bold text-light">FCyT</a></span>
-    <span><a href="#" class="font-weight-bold text-light">Tutorial</a></span>
-    <span><a href="{% url 'gest_votacion:ini-urna' %}" class="font-weight-bold text-light">ini-u / staff</a></span>
+  <!-- Footer-->
+  {% block footer %}
+  <div class="jumbotron text-center mt-5" style="background-color: rgb(51, 51, 51);">
+    <div class="d-flex justify-content-around">
+      <span><a href="#" class="font-weight-bold text-light">UNSE</a></span>
+      <span><a href="#" class="font-weight-bold text-light">FCyT</a></span>
+      <span><a href="#" class="font-weight-bold text-light">Tutorial</a></span>
+      <span><a href="{% url 'gest_votacion:ini-urna' %}" class="font-weight-bold text-light">ini-u / staff</a></span>
+    </div>
   </div>
-</div>
-{% endblock %}
-<!-- ./Footer-->
+  {% endblock %}
+  <!-- ./Footer-->
 
-<!-- Scripts-->
-<script src="{% static '/bootstrap-4.6.0/site/static/docs/4.6/assets/js/vendor/jquery.slim.min.js' %}"></script>
-<script src="{% static '/bootstrap-4.6.0/dist/js/bootstrap.min.js' %}"></script>
-{% block  lib_DataTables %}
+  <!-- Scripts-->
+  <script src="{% static '/bootstrap-4.6.0/site/static/docs/4.6/assets/js/vendor/jquery.slim.min.js' %}"></script>
+  <script src="{% static '/bootstrap-4.6.0/dist/js/bootstrap.min.js' %}"></script>
+  {% block  lib_DataTables %}
 
-{% endblock %}
-{% block  script_DataTable %}
-{% endblock %}
-{% block  script %}{% endblock %}
-<!-- ./Scripts-->
+  {% endblock %}
+  {% block  script_DataTable %}
+  {% endblock %}
+  {% block  script %}{% endblock %}
+  <!-- ./Scripts-->
 </body>
+
 </html>

@@ -17,17 +17,17 @@
       <div class="card-body">
         <ul class="list-group">
           {% if detali_info %}
-            {% for tuple in detali_info %}
-            <li class="list-group-item text-body">
-              <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
-            </li>
-            {% endfor %}
+          {% for tuple in detali_info %}
+          <li class="list-group-item text-body">
+            <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
+          </li>
+          {% endfor %}
           {% else %}
-            {% for tuple in object.get_detali_info %}
-            <li class="list-group-item text-body">
-              <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
-            </li>
-            {% endfor %}
+          {% for tuple in object.get_detali_info %}
+          <li class="list-group-item text-body">
+            <span>{{tuple.0}}:</span><br><strong>{{tuple.1}}</strong>
+          </li>
+          {% endfor %}
           {% endif %}
         </ul>
       </div>

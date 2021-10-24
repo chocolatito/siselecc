@@ -8,11 +8,11 @@
     <!--div class=""-->
     <form method="post">
       {% csrf_token %}
-    <div class="main-card mb-3 card">
-      <div class="card-header bg-dark d-flex justify-content-center">
-        <h5 class="card-title text-light">{{card_title}}</h5>
-      </div>
-      <div class="card-body">
+      <div class="main-card mb-3 card">
+        <div class="card-header bg-dark d-flex justify-content-center">
+          <h5 class="card-title text-light">{{card_title}}</h5>
+        </div>
+        <div class="card-body">
           {% for field in form.visible_fields %}
           {% if field.errors %}
           <div class="row">
@@ -36,15 +36,15 @@
             </div>
           </div>
           {% endfor %}
-      </div>
-      <div class="card-footer justify-content-center">
-        <!--div class="position-relative row form-check"-->
-        <div class="row form-check">
-          <button class="btn btn-secondary">{{submit_button}}</button>
-          <a href={% url cancel_url %} class="btn btn-danger">Cancelar</a>
+        </div>
+        <div class="card-footer justify-content-center">
+          <!--div class="position-relative row form-check"-->
+          <div class="row form-check">
+            <button class="btn btn-secondary">{{submit_button}}</button>
+            <a href={% url cancel_url %} class="btn btn-danger">Cancelar</a>
+          </div>
         </div>
       </div>
-    </div>
     </form>
   </div>
 </div>

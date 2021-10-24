@@ -15,7 +15,7 @@
     <div class="card-body">
       {# Include the hidden fields #}
       {% for hidden in form.hidden_fields %}
-        {{ hidden }}
+      {{ hidden }}
       {% endfor %}
       {% for field in form.visible_fields %}
       {% if field.errors %}

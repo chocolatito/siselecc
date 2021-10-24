@@ -25,54 +25,54 @@
 <!-- ./En Curso-->
 
 <!-- Ultimas y Proximas-->
-  <div class="row">
-    <div class="col mt-2">
-      <div class="card bg-light border-dark" style="height: 100%; width: 100%;">
-        <div class="card-header text-body">
-          Ultimas elecciones
+<div class="row">
+  <div class="col mt-2">
+    <div class="card bg-light border-dark" style="height: 100%; width: 100%;">
+      <div class="card-header text-body">
+        Ultimas elecciones
+      </div>
+      <div class="card-body">
+        {% if cerradas %}
+        <div class="table-responsive">
+          {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=cerradas.all %}
         </div>
-        <div class="card-body">
-          {% if cerradas %}
-          <div class="table-responsive">
-            {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data1' object_list=cerradas.all %}
+        {% else %}
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h2 class="display-4">No hay elecciones que completen la votación</h2>
           </div>
-          {% else %}
-          <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-              <h2 class="display-4">No hay elecciones que completen la votación</h2>
-            </div>
-          </div>
-          {% endif %}
         </div>
+        {% endif %}
       </div>
     </div>
-    <!-- ./Ultimas elecciones realizadas -->
-
-    <!-- Proximas elecciones col-6 d-flex justify-content-center-->
-    <div class="col mt-2">
-      <div class="card bg-light border-dark" style="height: 100%; width: 100%;">
-        <div class="card-header text-body">
-          Proximas elecciones
-        </div>
-        <div class="card-body">
-          {% if proximas %}
-          <div class="table-responsive">
-            {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data2' object_list=proximas.all %}
-          </div>
-          {% else %}
-          <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-              <h2 class="display-4">Aun no se registran elecciones programadas</h2>
-            </div>
-          </div>
-          {% endif %}
-        </div>
-        <div class="card-footer">
-        </div>
-      </div>
-    </div>
-    <!-- ./Proximas elecciones -->
   </div>
+  <!-- ./Ultimas elecciones realizadas -->
+
+  <!-- Proximas elecciones col-6 d-flex justify-content-center-->
+  <div class="col mt-2">
+    <div class="card bg-light border-dark" style="height: 100%; width: 100%;">
+      <div class="card-header text-body">
+        Proximas elecciones
+      </div>
+      <div class="card-body">
+        {% if proximas %}
+        <div class="table-responsive">
+          {% include 'bienvenida/snippets/snippet_table_bienvenida.html' with id_data='data2' object_list=proximas.all %}
+        </div>
+        {% else %}
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h2 class="display-4">Aun no se registran elecciones programadas</h2>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+  <!-- ./Proximas elecciones -->
+</div>
 <!-- ./Ultimas y Proximas-->
 
 {% endblock %}
@@ -82,16 +82,20 @@
 
 {% block  script_DataTable %}
 <script>
-$(document).ready( function () {
-  $('#data1').DataTable({
-    {% include 'utils/snippets/language_datatables.html' %}
+  $(document).ready(function() {
+    $('#data1').DataTable({
+      {
+        % include 'utils/snippets/language_datatables.html' %
+      }
+    });
   });
-} );
 
-$(document).ready( function () {
-  $('#data2').DataTable({
-    {% include 'utils/snippets/language_datatables.html' %}
+  $(document).ready(function() {
+    $('#data2').DataTable({
+      {
+        % include 'utils/snippets/language_datatables.html' %
+      }
+    });
   });
-} );
 </script>
 {% endblock %}

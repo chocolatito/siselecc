@@ -1,8 +1,8 @@
 {% load static %}
 {% if candidato %}
-  <p class="font-weight-bold text-dark">Nro de candidatos postulados: {{candidato}}</p>
-  <a class='btn btn-info' href="{% url 'gest_preparacion:adm-candidato' object.id %}">Administrar</a>
+<p class="font-weight-bold text-dark">Nro de candidatos postulados: {{candidato}}</p>
+<a class='btn btn-info' href="{% url 'gest_preparacion:adm-candidato' object.id %}">Administrar</a>
 {% else %}
-  <p class="font-weight-bold text-danger mr-1">NO HAY CANDIDATOS POSTULADOS</p>
-  <a class='btn btn-warning ml-1' href="{% url 'gest_preparacion:adm-candidato' object.id %}">Postular</a>
+<p class="font-weight-bold text-danger mr-1">NO HAY CANDIDATOS POSTULADOS</p>
+<a class='btn btn-warning ml-1' href="{% url 'gest_preparacion:adm-candidato' object.id %}">Postular</a>
 {% endif %}

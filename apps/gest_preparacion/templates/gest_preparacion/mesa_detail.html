@@ -5,16 +5,16 @@
 <div class="card text-white border border-dark mt-2">
   <div class="card-header" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
     <a class='m-2 btn-transition btn btn-outline-light btn-block' href="{{object.eleccion.get_absolute_url}}">
-        <b>
-          Volver a Elección
-        </b>
-      </a>
+      <b>
+        Volver a Elección
+      </b>
+    </a>
   </div>
 
   <div class="card-body text-dark">
     <div class="row mt-2 d-flex">
       <div class="col">
-        <div class="card bordered border-dark"  style="height: 100%;">
+        <div class="card bordered border-dark" style="height: 100%;">
           <div class="card-header d-flex justify-content-center">
             <p class="font-weight-bold">Autoridad Designada</p>
           </div>
@@ -46,17 +46,17 @@
             <p class="font-weight-bold">Staff disponibles</p>
           </div>
           <div class="card-body bg-dark">
-              <ul class="list-group">
-                <form method="post">
-                  {% csrf_token %}
-                  {% for staff in staff_list %}
-                  <li class="list-group-item text-dark d-flex justify-content-around rounded mt-1">
-                      <button type="submit" name="staff-btn" value='{{staff.id}}' class='btn btn-primary'>Designar</button>
-                      <p class="font-weight-bold">{{staff}}</p>
-                  </li>
-                  {% endfor %}
-                </form>
-              </ul>
+            <ul class="list-group">
+              <form method="post">
+                {% csrf_token %}
+                {% for staff in staff_list %}
+                <li class="list-group-item text-dark d-flex justify-content-around rounded mt-1">
+                  <button type="submit" name="staff-btn" value='{{staff.id}}' class='btn btn-primary'>Designar</button>
+                  <p class="font-weight-bold">{{staff}}</p>
+                </li>
+                {% endfor %}
+              </form>
+            </ul>
           </div>
           <div class="card-footer">
           </div>

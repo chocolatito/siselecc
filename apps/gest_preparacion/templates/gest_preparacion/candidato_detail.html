@@ -14,19 +14,19 @@
       <div class="col">
         <div class="card bordered border-dark">
           {% if candidatos %}
-            <div class="card-header">
-              <p class="font-weight-bold">Candidatos</p>
-            </div>
-            <form method="post">
-              {% csrf_token %}
+          <div class="card-header">
+            <p class="font-weight-bold">Candidatos</p>
+          </div>
+          <form method="post">
+            {% csrf_token %}
             <div class="card-body">
               <div class="table-responsive">
                 {% include 'gest_preparacion/snippets/snippet_table_candidato.html' with id_data='data1' snippet_accion_table='gest_preparacion/snippets/snippet_accion_table_candidatos.html' object_list=candidatos %}
               </div>
             </div>
-            </form>
-            <div class="card-footer">
-            </div>
+          </form>
+          <div class="card-footer">
+          </div>
           {% else %}
           <div class="card-body">
             <div class="jumbotron jumbotron-fluid bg-warning">
@@ -49,11 +49,11 @@
           </div>
           <form method="post">
             {% csrf_token %}
-          <div class="card-body">
-            <div class="table-responsive">
-            {% include 'gest_preparacion/snippets/snippet_table_candidato.html' with id_data='data2' snippet_accion_table='gest_preparacion/snippets/snippet_accion_table_disponibles.html' object_list=disponibles %}
+            <div class="card-body">
+              <div class="table-responsive">
+                {% include 'gest_preparacion/snippets/snippet_table_candidato.html' with id_data='data2' snippet_accion_table='gest_preparacion/snippets/snippet_accion_table_disponibles.html' object_list=disponibles %}
+              </div>
             </div>
-          </div>
           </form>
           <div class="card-footer">
           </div>

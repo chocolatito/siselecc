@@ -14,7 +14,7 @@
         {% include 'gest_preparacion/snippets/snippet_cargo.html' %}
       </li>
       <!-- ./CARGO-->
-  {% if object.etapa == 1 %}
+      {% if object.etapa == 1 %}
       <!--PROGRAMACIÓN-->
       <li class="list-group-item mt-1 d-flex justify-content-between">
         {% include 'gest_preparacion/snippets/snippet_programacion.html' %}
@@ -25,65 +25,65 @@
         {% include 'gest_preparacion/snippets/snippet_ini_prublica.html' %}
       </li>
       <!-- ./INICIALIZAR CLAVE PUBLICA-->
-  {% elif  object.etapa == 2 %}
+      {% elif  object.etapa == 2 %}
       <!--INICIAR MESA-->
       <li class="list-group-item mt-1 d-flex justify-content-between">
         {% include 'gest_preparacion/snippets/snippet_ini_mesa.html' %}
       </li>
       <!-- ./INICIAR MESA-->
 
-  {% elif  object.etapa == 3 %}
+      {% elif  object.etapa == 3 %}
       <!--INICIAR MESA-->
       <li class="list-group-item mt-1 d-flex justify-content-between">
         {% include 'gest_preparacion/snippets/snippet_ini_mesa.html' %}
       </li>
       <!-- ./INICIAR MESA-->
-  {% elif  object.etapa == 4 %}
+      {% elif  object.etapa == 4 %}
       <!--INICIAR CONTEO-->
       <li class="list-group-item mt-1 d-flex justify-content-between">
         {% include 'gest_preparacion/snippets/snippet_ini_conteo.html' %}
       </li>
       <!-- ./INICIAR MESA-->
-  {% elif  object.etapa == 5 %}
-    <!--INICIALIZAR PRIVADA-->
-    <li class="list-group-item mt-1 d-flex justify-content-between">
-      {% include 'gest_preparacion/snippets/snippet_ini_privada.html' %}
-    </li>
-    <!-- ./INICIAR MESA-->
-  {% elif  object.etapa == 6 %}
-  <!--INICIALIZAR PRIVADA-->
-    <li class="list-group-item mt-1 d-flex justify-content-between">
-      {% include 'gest_preparacion/snippets/snippet_resultado.html' %}
-    </li>
-  <!-- ./INICIAR MESA-->
-  {% elif  object.etapa == 7 %}
-  <!--INICIALIZAR PRIVADA-->
-    <li class="list-group-item mt-1 d-flex justify-content-between">
-      {% include 'gest_preparacion/snippets/snippet_fallida.html' %}
-    </li>
-  {% else %}
-    <!--PADRON-->
-    <li class="list-group-item mt-1 d-flex justify-content-between">
-      {% include 'gest_preparacion/snippets/snippet_padron.html' %}
-    </li>
-    <!-- ./PADRON-->
-    <!--MESA-->
-    <li class="list-group-item mt-1 d-flex justify-content-between">
-      {% include 'gest_preparacion/snippets/snippet_mesa.html' %}
-    </li>
-    <!-- ./MESA-->
-    <!--CANDIDATO-->
-    <li class="list-group-item mt-1 d-flex justify-content-between">
-      {% include 'gest_preparacion/snippets/snippet_candidato.html' %}
-    </li>
-    <!-- ./CANDIDATO-->
-    <!--PROGRAMACIÓN-->
-    <li class="list-group-item mt-1 d-flex justify-content-between mt-2">
-      {% include 'gest_preparacion/snippets/snippet_programacion.html' %}
-    </li>
-    <!-- ./PROGRAMACIÓN-->
-  {% endif %}
-  </ul>
+      {% elif  object.etapa == 5 %}
+      <!--INICIALIZAR PRIVADA-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_ini_privada.html' %}
+      </li>
+      <!-- ./INICIAR MESA-->
+      {% elif  object.etapa == 6 %}
+      <!--INICIALIZAR PRIVADA-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_resultado.html' %}
+      </li>
+      <!-- ./INICIAR MESA-->
+      {% elif  object.etapa == 7 %}
+      <!--INICIALIZAR PRIVADA-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_fallida.html' %}
+      </li>
+      {% else %}
+      <!--PADRON-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_padron.html' %}
+      </li>
+      <!-- ./PADRON-->
+      <!--MESA-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_mesa.html' %}
+      </li>
+      <!-- ./MESA-->
+      <!--CANDIDATO-->
+      <li class="list-group-item mt-1 d-flex justify-content-between">
+        {% include 'gest_preparacion/snippets/snippet_candidato.html' %}
+      </li>
+      <!-- ./CANDIDATO-->
+      <!--PROGRAMACIÓN-->
+      <li class="list-group-item mt-1 d-flex justify-content-between mt-2">
+        {% include 'gest_preparacion/snippets/snippet_programacion.html' %}
+      </li>
+      <!-- ./PROGRAMACIÓN-->
+      {% endif %}
+    </ul>
   </div>
 </div>
 {% endblock %}

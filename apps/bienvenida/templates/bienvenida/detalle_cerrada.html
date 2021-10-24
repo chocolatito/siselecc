@@ -6,16 +6,16 @@
     Candidatos postulados: {{object.candidatos.count}}
   </div>
   <div class="card-body text-body">
-      <ul class="list-group" style="height: 90%; overflow: auto;">
-        {% for candidato in object.candidatos.all %}
-        <li class="list-group-item">
-          <div class="d-flex justify-content-between mt-1">
-            <span class="font-weight-bold">{{candidato.full_name}}</span>
-            <span class="font-weight-bold text-info">ID Nro {{candidato.pk}}</span>
-          </div>
-        </li>
-        {% endfor %}
-      </ul>
+    <ul class="list-group" style="height: 90%; overflow: auto;">
+      {% for candidato in object.candidatos.all %}
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between mt-1">
+          <span class="font-weight-bold">{{candidato.full_name}}</span>
+          <span class="font-weight-bold text-info">ID Nro {{candidato.pk}}</span>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
   <div class="card-footer bg-light">
   </div>
@@ -26,23 +26,23 @@
     INFORMACIÓN DEL PADRON
   </div>
   <div class="card-body text-body">
-      <ul class="list-group">
-        <li class="list-group-item mt-1">
-          <div class="d-flex justify-content-between">
-            <p class="font-weight-bold">Electores:</p>
-            <p class="font-weight-bold text-primary">{{object.padron.empadronados}}</p>
-          </div>
-          <div class="d-flex justify-content-between">
-            <p class="font-weight-bold">Asistencias:</p>
-            <p class="font-weight-bold"><span class="text-primary">{{padron.presentes}}</span> _ <span class="text-primary">{{padron.presentes_por_cien}}%</span> del padrón</p>
-          </div>
-          <div class="d-flex justify-content-between">
-            <p class="font-weight-bold">Ausencias:</p>
-            <p class="font-weight-bold"><span class="text-primary">{{padron.ausentes}}</span> _ <span class="text-primary">{{padron.ausentes_por_cien}}%</span> del padrón</p>
-          </div>
-        </li>
-        {% include 'bienvenida/snippets/snippet_consultar_padron.html' %}
-      </ul>
+    <ul class="list-group">
+      <li class="list-group-item mt-1">
+        <div class="d-flex justify-content-between">
+          <p class="font-weight-bold">Electores:</p>
+          <p class="font-weight-bold text-primary">{{object.padron.empadronados}}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p class="font-weight-bold">Asistencias:</p>
+          <p class="font-weight-bold"><span class="text-primary">{{padron.presentes}}</span> _ <span class="text-primary">{{padron.presentes_por_cien}}%</span> del padrón</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p class="font-weight-bold">Ausencias:</p>
+          <p class="font-weight-bold"><span class="text-primary">{{padron.ausentes}}</span> _ <span class="text-primary">{{padron.ausentes_por_cien}}%</span> del padrón</p>
+        </div>
+      </li>
+      {% include 'bienvenida/snippets/snippet_consultar_padron.html' %}
+    </ul>
   </div>
   <div class="card-footer bg-light">
   </div>

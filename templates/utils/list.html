@@ -32,7 +32,7 @@
 </div>
 {% else %}
 {% block snippet_no_objetc_list %}
-  {% include 'utils/snippets/no_objetc_list.html' %}
+{% include 'utils/snippets/no_objetc_list.html' %}
 {% endblock %}
 {% endif %}
 {% endblock %}
@@ -43,11 +43,14 @@
 
 {% block  script_DataTable %}
 <script>
-$(document).ready( function () {
-  $('#data1').DataTable({
-      {% include 'utils/snippets/language_datatables.html' %}
+  $(document).ready(function() {
+    $('#data1').DataTable({
+      {
+        %
+        include 'utils/snippets/language_datatables.html' %
+      }
     });
-} );
+  });
 </script>
 {% endblock %}
 <!-- ./body-->

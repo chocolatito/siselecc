@@ -27,15 +27,15 @@
     INFORMACIÓN DEL PADRON
   </div>
   <div class="card-body text-body">
-      <ul class="list-group">
-        <li class="list-group-item mt-1">
-          <div class="d-flex justify-content-between">
-            <p class="font-weight-bold">Electores:</p>
-            <p class="font-weight-bold text-primary">{{object.padron.empadronados}}</p>
-          </div>
-        </li>
-        {% include 'bienvenida/snippets/snippet_consultar_padron.html' %}
-      </ul>
+    <ul class="list-group">
+      <li class="list-group-item mt-1">
+        <div class="d-flex justify-content-between">
+          <p class="font-weight-bold">Electores:</p>
+          <p class="font-weight-bold text-primary">{{object.padron.empadronados}}</p>
+        </div>
+      </li>
+      {% include 'bienvenida/snippets/snippet_consultar_padron.html' %}
+    </ul>
   </div>
   <div class="card-footer bg-light">
   </div>
