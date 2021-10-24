@@ -27,11 +27,11 @@
       {% for value in object.get_field_values_cuenta %}
       <td>{{value}}</td>
       {% endfor %}
-    <td class="text-center">
-      <!--'Acción' cell-->
+      <td class="text-center">
+        <!--'Acción' cell-->
         <input type="checkbox" name="elector_enabled" value="{{object.id}}">
-      <!--/'Acción' cell-->
-    </td>
+        <!--/'Acción' cell-->
+      </td>
     </tr>
     {% endfor %}
   </tbody>

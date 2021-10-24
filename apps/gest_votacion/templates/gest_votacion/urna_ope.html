@@ -35,7 +35,7 @@
         {% for boleta in boletas %}
         <div class="col">
           <div class="card">
-            <div class="card-header d-flex justify-content-center bg-dark h4 text-primary font-weight-bold"style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
+            <div class="card-header d-flex justify-content-center bg-dark h4 text-primary font-weight-bold" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
               #{{boleta.pk}}
             </div>
             <div class="card-body justify-content-center">
@@ -60,7 +60,7 @@
     <div class="card-body bg-light text-center text-body font-weight-bold my-5">
       <h1>{{boleta.get_info_alternativa}}</h1>
       {% if boleta.candidato %}
-        <h1 class="text-primary">Id Nro {{boleta.candidato.pk }}</h1>
+      <h1 class="text-primary">Id Nro {{boleta.candidato.pk }}</h1>
       {% endif %}
     </div>
     <div class="card-footer bg-primary d-flex justify-content-around">
@@ -84,14 +84,14 @@
     <div class="card-body bg-light text-center text-body font-weight-bold my-5">
       <h4>Presione Aceptar para finalizar la operación</h4>
     </div>
-      <div class="card-footer d-flex justify-content-around border border-dark">
-        <form method="post">
-          {% csrf_token %}
-          <button type="submit" name="btn" class='btn btn-success btn-lg'>
-            Aceptar
-          </button>
-        </form>
-      </div>
+    <div class="card-footer d-flex justify-content-around border border-dark">
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="btn" class='btn btn-success btn-lg'>
+          Aceptar
+        </button>
+      </form>
+    </div>
   </div>
 
   {% else %}
@@ -105,7 +105,9 @@
 
 {% block  script %}
 <script type="text/javascript">
-// https://franyerverjel.com/blog/como-deshabilitar-el-click-derecho-de-una-web
-	document.oncontextmenu = function(){return false}
+  // https://franyerverjel.com/blog/como-deshabilitar-el-click-derecho-de-una-web
+  document.oncontextmenu = function() {
+    return false
+  }
 </script>
 {% endblock %}

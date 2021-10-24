@@ -5,17 +5,17 @@
 {% block card-header %}
 <form method="post">
   {% csrf_token %}
-<div class="card-header bg-light text-center bordered border-dark">
-  {#% include 'utils/snippets/new-act-deact.html' %#}
-  <h4 class="text-weight-bold">Listado de Electores sin Cuenta</h4>
-  <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-success">Generar Cuenta/s</button>
+  <div class="card-header bg-light text-center bordered border-dark">
+    {#% include 'utils/snippets/new-act-deact.html' %#}
+    <h4 class="text-weight-bold">Listado de Electores sin Cuenta</h4>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-success">Generar Cuenta/s</button>
+    </div>
   </div>
-</div>
-{% endblock %}
+  {% endblock %}
 
-{% block snippet_table %}
-{% include 'gest_usuario/snippets/snippet_table.html' %}
+  {% block snippet_table %}
+  {% include 'gest_usuario/snippets/snippet_table.html' %}
 </form>
 {% endblock %}
 
@@ -28,14 +28,14 @@
 <script>
   // Si se hace click sobre el input de tipo checkbox con id checkall_enabled
   $('#checkall_enabled').click(function() {
-      // Si esta seleccionado (si la propiedad checked es igual a true)
-      if ($(this).prop('checked')) {
-          // Selecciona cada input que tenga la nombre .elector_enabled
-          $('input[name$="elector_enabled"]').prop('checked', true);
-      } else {
-          // Deselecciona cada input que tenga la clase .checar
-          $('input[name$="elector_enabled"]').prop('checked', false);
-      }
+    // Si esta seleccionado (si la propiedad checked es igual a true)
+    if ($(this).prop('checked')) {
+      // Selecciona cada input que tenga la nombre .elector_enabled
+      $('input[name$="elector_enabled"]').prop('checked', true);
+    } else {
+      // Deselecciona cada input que tenga la clase .checar
+      $('input[name$="elector_enabled"]').prop('checked', false);
+    }
   });
 </script>
 {% endblock %}

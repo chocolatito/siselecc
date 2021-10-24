@@ -5,7 +5,7 @@
 
 {% block container-fluid %}
 {% if padronelector %}
-  {% include "gest_votacion/snippets/padronelector_table.html" %}
+{% include "gest_votacion/snippets/padronelector_table.html" %}
 {% else %}
 <div class="card bg-light">
   <div class="card-header bg-primary h1 text-light">
@@ -14,11 +14,12 @@
   <div class="card-body">
     <br>
     <div class="bg-dark h2 text-center text-info font-weight-bold p-4 rounded border border-warning" id="relojnumerico" onload="cargarReloj()">
-      <span><form name="form_reloj">
-        <input type="text" name="reloj" size="10" onfocus="window.document.form_reloj.reloj.blur()">
-      </form>
-    </span>
-  </div>
+      <span>
+        <form name="form_reloj">
+          <input type="text" name="reloj" size="10" onfocus="window.document.form_reloj.reloj.blur()">
+        </form>
+      </span>
+    </div>
   </div>
   <div class="card-footer">
     <form method="post">
@@ -38,18 +39,20 @@
 
 {% block  script_DataTable %}
 <script>
-$(document).ready( function () {
-  $('#data1').DataTable({
-    {% include 'utils/snippets/language_datatables.html' %}
+  $(document).ready(function() {
+    $('#data1').DataTable({
+      {
+        % include 'utils/snippets/language_datatables.html' %
+      }
+    });
   });
-} );
 </script>
 {% endblock %}
 
 {% block  script %}
 <script>
-// https://blog.nubecolectiva.com/como-crear-un-reloj-digital-numerico-con-javascript/
-function cargarReloj(){
+  // https://blog.nubecolectiva.com/como-crear-un-reloj-digital-numerico-con-javascript/
+  function cargarReloj() {
     // Haciendo uso del objeto Date() obtenemos la hora, minuto y segundo
     var fechahora = new Date();
     var hora = fechahora.getHours();
@@ -58,14 +61,14 @@ function cargarReloj(){
     // Variable meridiano con el valor 'AM'
     var meridiano = "AM";
     // Si la hora es igual a 0, declaramos la hora con el valor 12
-    if(hora == 0){
-        hora = 12;
+    if (hora == 0) {
+      hora = 12;
     }
     // Si la hora es mayor a 12, restamos la hora - 12 y mostramos la variable meridiano con el valor 'PM'
-    if(hora > 12) {
-        hora = hora - 12;
-        // Variable meridiano con el valor 'PM'
-        meridiano = "PM";
+    if (hora > 12) {
+      hora = hora - 12;
+      // Variable meridiano con el valor 'PM'
+      meridiano = "PM";
     }
     // Formateamos los ceros '0' del reloj
     hora = (hora < 10) ? "0" + hora : hora;
@@ -77,9 +80,9 @@ function cargarReloj(){
     document.getElementById("relojnumerico").textContent = tiempo;
     // Cargamos el reloj a los 500 milisegundos
     setTimeout(cargarReloj, 500);
-}
-// Ejecutamos la función 'CargarReloj'
-cargarReloj();
+  }
+  // Ejecutamos la función 'CargarReloj'
+  cargarReloj();
 </script>
 {% endblock %}
 
