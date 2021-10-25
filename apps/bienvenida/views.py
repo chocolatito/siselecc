@@ -95,6 +95,9 @@ class DetallesProxima(DetailView):
             #
             self.is_staff = bool(request.user.groups.filter(name='staff'))
             return super().dispatch(request, *args, **kwargs)
+        elif self.object.etapa in [4,5,6]:
+            self.is_staff = bool(request.user.groups.filter(name='staff'))
+            return redirect(self.object.get_cerrada_url())
         else:
             return redirect('bienvenida:bienvenida')
 
