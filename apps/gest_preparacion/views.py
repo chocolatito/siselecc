@@ -145,9 +145,10 @@ class EleccionDetailView(DetailView):
         if self.object.etapa==1:
             # Eleccion programada
             self.sin_clave = claves_faltantes(self.object.get_claves_candidatos(), self.object.candidatos())
+        elif self.object.etapa==2:
+            self.mesa_habil = self.object.mesa_habil()
         elif self.object.etapa==5:
             # Eleccion esta en etapa de conteo de votos
-            print(self.object.etapa)
             self.sin_clave = parciales_faltantes(self.object.get_parciales_cifrados(), self.object.candidatos())
         return super().dispatch(request, *args, **kwargs)
 
@@ -176,6 +177,7 @@ class EleccionDetailView(DetailView):
             context['sin_clave'] = self.sin_clave
         elif self.object.etapa == 2:
             context['card_title'] = 'ELECCION EN ETAPA LISTA'
+            context['mesa_habil'] = self.mesa_habil
         elif self.object.etapa == 3:
             context['card_title'] = '>ELECCION EN CURSO'
         elif self.object.etapa == 4:

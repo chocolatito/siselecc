@@ -48,6 +48,9 @@ class Eleccion(Base):
     def get_cifrado_url(self):
         return reverse('gest_cifrado:ini-publica-i', args=[str(self.id)])
 
+    def get_cifrado_ii_url(self):
+        return reverse('gest_cifrado:ini-publica-ii', args=[str(self.id)])
+
     def get_descifrado_url(self):
         return reverse('gest_cifrado:ini-privada-i', args=[str(self.id)])
 
@@ -60,10 +63,8 @@ class Eleccion(Base):
     def get_resultado_url(self):
         return reverse('bienvenida:resultado', args=[str(self.id)])
 
-
     def get_consultar_padron_url(self):
         return reverse('bienvenida:padron', args=[str(self.id)])
-
 
     # ____________________________________________________________________________________
     def get_field_values(self):
@@ -123,15 +124,29 @@ class Eleccion(Base):
             return self.mesa.cuenta
         else:
             return 'SIN AUTORIDAD'
+
     def __str__(self):
         # return "{} - {}".format(self.fecha, self.titulo)
         return f"{self.codigo}/{self.fecha.strftime('%Y')} _ {self.titulo} {self.fecha}"
+
+    # ____________________________________________________________________________________
+
+    def hora_previa(self):
+        return (datetime.datetime.combine(self.fecha,self.hora_inicio) - datetime.timedelta(minutes=15)).time()
+    def mesa_habil(self):
+        if self.etapa == 2:
+            if self.fecha == datetime.date.today():
+                # hora_previa = datetime.datetime.combine(self.fecha,self.hora_inicio) - datetime.timedelta(minutes=15)
+                return datetime.datetime.now().time() >= self.hora_previa()
+            return False
+        else:
+            return False
 
     def es_proxima(self):
         return self.fecha >= datetime.datetime.now().date()
 
     def es_programable(self):
-        if self.etapa == 1 and self.es_proxima():
+        if self.etapa == 1  and self.es_proxima():
             return 5
         if self.es_proxima():
             fecha_anterior = self.fecha - datetime.timedelta(days=1)
@@ -163,7 +178,7 @@ class Eleccion(Base):
             if self.fecha == datetime.datetime.now().date():
                 return self.hora_inicio > datetime.datetime.now().time()
             else:
-                True
+                return True
         else:
             return False
     # ____________________________________________________________________________________

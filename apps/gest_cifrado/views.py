@@ -70,17 +70,15 @@ class IniPublica_I(DetailView):
     def post(self, request, *args, **kwargs):
         if request.POST['btn'] == 'candidato':
             if es_candidato(get_user(request.user), self.object.candidatos()):
-                print(f'Candidatos\n___> {request.user.username}\n')
-                print('SE DEBE REDIRECCIONAR A UN FORMULARIO PARA INGRESAR LA CLAVE')
-                return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
+                # return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
+                return redirect(self.object.get_cifrado_ii_url())
             else:
                 print(f'No es Candidatos\n___> {request.user.username}\n')
         elif request.POST['btn'] == 'autoridad':
             # if self.object.mesa.cuenta.username == request.user.username:
             if es_autoridad(self.object.mesa, request.user):
                 print(f'Autoridad\n___> {request.user.username}\n')
-                print('SE DEBE REDIRECCIONAR A UN FORMULARIO PARA INGRESAR LA CLAVE')
-                return redirect('gest_cifrado:ini-publica-ii', pk=self.object.id)
+                return redirect(self.object.get_cifrado_ii_url())
             else:
                 print(f'No es Autoridad\n___> {request.user.username}\n')
         return redirect(request.META['HTTP_REFERER'])
@@ -119,7 +117,7 @@ class IniPublica_II(FormView):
                 return redirect(self.object.get_absolute_url())
             else:
                 messages.success(request, 'EXCELENTE La inicialización de la clave ha sido un exito!!!')
-                return redirect('bienvenida:bienvenida')
+                return redirect(self.object.get_proxima_url())
         else:
             context = self.get_context_data(**kwargs)
             context['form']=form
@@ -234,7 +232,6 @@ class IniPrivada_II(FormView):
             messages.error(request, 'ERROR Esta cuenta no verifica clave para esta elección')
             return redirect('bienvenida:bienvenida')
         else:
-            #
             return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -244,9 +241,8 @@ class IniPrivada_II(FormView):
             # color = tuple(int(x) for x in form.cleaned_data.get('color'))
             clave, color = get_clave_and_color(form.cleaned_data)
             if actualizar_resultado(clave, color, get_user(request.user), self.eleccion):
-                messages.success(request,
-                                 'EXCELENTE La inicialización de la clave para descifrar votos ha sido un exito!!!\n')
-                return redirect('bienvenida:bienvenida')
+                messages.success(request, 'EXCELENTE La inicialización de la clave ha sido un exito!!!')
+                return redirect(self.eleccion.get_cerrada_url())
             else:
                 messages.error(request, 'ERROR Clave y/o Color ingresado/s incorrecto/s')
                 return redirect(self.eleccion.get_descifrado_url())

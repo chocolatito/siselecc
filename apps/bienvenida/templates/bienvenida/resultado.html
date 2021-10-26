@@ -1,5 +1,5 @@
 {% extends 'utils/detail.html' %}
-{% load static %}
+
 {% block div_card-body %}
 <div class="card text-white m-1" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
   <div class="card-header font-weight-bold text-center">
@@ -21,10 +21,41 @@
       {% endfor %}
     </ul>
   </div>
-  <div class="card-footer">
+  <div class="card-footer"></div>
+</div>
 
+{% endblock %}
+
+{% block extra-rows %}
+<div class="col-2"></div>
+<div class="col-8">
+  <div class="card text-white border border-dark mt-2 " style="width: 100%; background-color: rgb(51, 51, 51)">
+    <div class="card-header font-weight-bold text-center">
+      INFORMACIÓN DEL PADRON
+    </div>
+    <div class="card-body text-body">
+      <ul class="list-group">
+        <li class="list-group-item mt-1">
+          <div class="d-flex justify-content-between">
+            <p class="font-weight-bold">Electores:</p>
+            <p class="font-weight-bold text-primary">{{object.padron.empadronados}}</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="font-weight-bold">Asistencias:</p>
+            <p class="font-weight-bold"><span class="text-primary">{{padron.presentes}}</span> _ <span class="text-primary">{{padron.presentes_por_cien}}%</span> del padrón</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="font-weight-bold">Ausencias:</p>
+            <p class="font-weight-bold"><span class="text-primary">{{padron.ausentes}}</span> _ <span class="text-primary">{{padron.ausentes_por_cien}}%</span> del padrón</p>
+          </div>
+        </li>
+        {% include 'bienvenida/snippets/snippet_consultar_padron.html' %}
+      </ul>
+    </div>
+    <div class="card-footer bg-light"></div>
   </div>
 </div>
+<div class="col-2"></div>
 {% endblock %}
 {% comment %}
 {% endcomment %}

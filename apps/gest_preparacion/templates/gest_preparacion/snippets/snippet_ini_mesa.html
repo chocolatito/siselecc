@@ -1,9 +1,14 @@
 {% load static %}
 {% if mesa.estado_mesa == 2 %}
-<p class="font-weight-bold text-dark">Iniciar Terminal de Mesa de Votación #</p>
-<a class='btn btn-info' href='{{mesa.get_ini_url}}'>
-  Iniciar
-</a>
+  {% if mesa_habil %}
+    <p class="font-weight-bold text-dark">Iniciar Terminal de Mesa de Votación #</p>
+    <a class='btn btn-info' href='{{mesa.get_ini_url}}'>
+      Iniciar
+    </a>
+  {% else %}
+  <p class="font-weight-bold text-dark">La Terminal de Mesa de Votación se inica desde las</p>
+  <p class="font-weight-bold text-dark">{{object.hora_previa}}hs</p>
+  {% endif %}
 {% elif mesa.estado_mesa == 3 or mesa.estado_mesa == 4 or mesa.estado_mesa == 5 %}
 <p class="font-weight-bold text-dark">Terminal de Mesa de Votación</p>
 <a class='btn btn-warnig' href='{{mesa.get_mesa_ini_url}}'>

@@ -52,6 +52,7 @@ class Resultado(DetailView):
                                                self.v_resultado,
                                                get_total_votos(self.v_resultado))
         context['snippet_accion_detail'] = 'bienvenida/snippets/snippet_accion_detail.html'
+        context['padron'] = self.object.padron
         context['is_staff'] = self.is_staff
         context['text_badge_dark'] = f"{self.object}"
         return context

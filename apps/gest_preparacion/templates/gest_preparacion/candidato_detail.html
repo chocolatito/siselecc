@@ -12,7 +12,7 @@
     <div class="row mt-2">
       <!-- CANDIDATOS-->
       <div class="col">
-        <div class="card bordered border-dark">
+        <div class="card bordered border-dark" style="height: 100%">
           {% if candidatos %}
           <div class="card-header">
             <p class="font-weight-bold">Candidatos</p>
@@ -28,13 +28,16 @@
           <div class="card-footer">
           </div>
           {% else %}
+          <div class="card-header bg-dark">
+          </div>
           <div class="card-body">
-            <div class="jumbotron jumbotron-fluid bg-warning">
+            <div class="jumbotron jumbotron-fluid bg-warning text-body">
               <div class="container">
-                <h2 class="display-4">No hay candidatos</h2>
+                <h2 class="display-4">No hay candidatos postulados</h2>
               </div>
             </div>
           </div>
+          <div class="card-footer bg-dark"></div>
           {% endif %}
         </div>
       </div>
@@ -42,7 +45,7 @@
 
       <!-- DIPONIBLES-->
       <div class="col">
-        <div class="card bordered border-dark">
+        <div class="card bordered border-dark" style="height: 100%">
           {% if disponibles %}
           <div class="card-header">
             <p class="font-weight-bold">TABLA DIPONIBLES</p>
@@ -83,11 +86,15 @@
 {% block  script_DataTable %}
 <script>
   $(document).ready(function() {
-    $('#data1').DataTable();
+    $('#data1').DataTable({
+      {% include 'utils/snippets/language_datatables.html' %}
+    });
   });
 
   $(document).ready(function() {
-    $('#data2').DataTable();
+    $('#data2').DataTable({
+      {% include 'utils/snippets/language_datatables.html' %}
+    });
   });
 </script>
 {% endblock %}
