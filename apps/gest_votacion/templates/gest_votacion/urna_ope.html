@@ -27,15 +27,17 @@
   </div>
 
   {% elif object.estado_urna == 3 %}
-  <h1>Alternativas de votación</h1>
+  <div class="bg-light text-center rounded border border-info mt-2">
+    <h1>Alternativas de votación</h1>
+  </div>
   <div class="container-fluid">
     <div class="row">
       <form method="post">
         {% csrf_token %}
         {% for boleta in boletas %}
         <div class="col">
-          <div class="card">
-            <div class="card-header d-flex justify-content-center bg-dark h4 text-primary font-weight-bold" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%;">
+          <div class="card mt-1" style="height: 100%">
+            <div class="card-header d-flex justify-content-center bg-dark h4 text-primary font-weight-bold" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
               #{{boleta.pk}}
             </div>
             <div class="card-body justify-content-center">
