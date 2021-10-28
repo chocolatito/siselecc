@@ -1,0 +1,51 @@
+{% extends 'utils/detail.html' %}
+{% load static %}
+{% block div_card-body %}
+  <h1>Candidatos postulados:</h1>
+  {% for candidato in object.candidatos.all %}
+    <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <div class="widget-content p-0">
+            <div class="widget-content-outer">
+                <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                        <div class="widget-heading h4">{{candidato.full_name}}</div>
+                        <div class="widget-subheading"> . . . Alguna leyenda, slogan, etc.. </div>
+                    </div>
+                    <div class="widget-content-right">
+                        <div class="widget-numbers text-primary">ID Nro{{candidato.pk}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+  </ul>
+  {% endfor %}
+{% endblock %}
+
+{% block news_rows %}
+<div class="container-fluid bg-dark">
+<div class="card bg-light text-body mb-2">
+  <div class="card-header">Detalles del padron</div>
+  <div class="card-body">
+    <ul class="list-group">
+      <li class="list-group-item text-body h5">
+        Electores empadronados: {{padron.empadronados}}
+      </li>
+      <li class="list-group-item text-dark h5">
+        Asistencias: {{padron.presentes}} sufragios _ {{padron.presentes_por_cien}}% del padrón
+      </li>
+      <li class="list-group-item text-dark h5">
+        Ausencias: {{padron.ausentes}} _ {{padron.ausentes_por_cien}}% del padrón
+      </li>
+      <li class="list-group-item text-dark h5">
+        Cierre de terminal de votación: {{urna.hora_cierre}}hs
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer"></div>
+</div>
+</div>
+{% endblock %}
+{% comment %}
+{% endcomment %}

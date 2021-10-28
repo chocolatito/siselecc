@@ -31,6 +31,7 @@ urlpatterns = [
     path('gestor-preparacion/', include('apps.gest_preparacion.urls')),
     path('gestor-programacion/', include('apps.gest_programacion.urls')),
     path('gestor-votacion/', include('apps.gest_votacion.urls')),
+    path('system_info/', include('apps.system_info.urls')),
     path('admin/', admin.site.urls),
 ]
 

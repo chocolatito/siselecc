@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'apps.gest_cifrado',
     'apps.gest_votacion',
     'apps.bienvenida',
+    'apps.system_info',
     # LIBRARIES
     # # for import/export data with included Django admin.
     'import_export',
