@@ -3,28 +3,27 @@
 
 {% block container-fluid %}
 <div class="card text-white border border-dark mt-2">
-  <div class="card-header" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51);">
+  <div class="card-header" style="background-color: rgb(51, 51, 51);">
     <a class='m-2 btn-transition btn btn-outline-light btn-block' href="{{object.eleccion.get_absolute_url}}">
       <b>
         Volver a Elección
       </b>
     </a>
   </div>
-
   <div class="card-body text-dark">
-    <div class="row mt-2 d-flex">
+    <div class="row mt-2">
       <div class="col">
-        <div class="card border-dark" style="height: 100%;">
+        <div class="card border-dark" style="height: 100%; weight: 100%">
           <div class="card-header bg-dark text-white text-center">
             <p class="font-weight-bold">Autoridad Designada</p>
           </div>
-          <div class="card-body d-flex justify-content-around border border-dark">
           {% if object.cuenta %}
-            <h2>Usuario:</h2>
-            <h2><b>{{object.cuenta}}</b></h2>
-          </div>
-          <div class="card-footer bg-dark">
-          </div>
+            <div class="card-body border border-dark">
+              <li class="list-group-item text-body d-flex justify-content-around rounded border border-info mt-1">
+                <h2>Usuario:</h2> <h2><b>{{object.cuenta}}</b></h2>
+              </li>
+            </div>
+          <div class="card-footer bg-dark"></div>
           {% else %}
           <div class="card-body">
             <div class="jumbotron jumbotron-fluid bg-warning">
@@ -40,7 +39,7 @@
 
       <!-- NO INCLUIDOS-->
       <div class="col">
-        <div class="card bordered border-dark" style="height: 100%;">
+        <div class="card border-dark" style="height: 100%; weight: 100%">
           {% if staff_list %}
           <div class="card-header d-flex justify-content-around">
             <p class="font-weight-bold">Staff disponibles</p>
@@ -50,7 +49,7 @@
               <form method="post">
                 {% csrf_token %}
                 {% for staff in staff_list %}
-                <li class="list-group-item text-dark d-flex justify-content-around rounded mt-1">
+                <li class="list-group-item text-body d-flex justify-content-around rounded mt-1">
                   <button type="submit" name="staff-btn" value='{{staff.id}}' class='btn btn-primary'>Designar</button>
                   <p class="font-weight-bold">{{staff}}</p>
                 </li>
