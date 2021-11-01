@@ -130,12 +130,8 @@ class ElectorDetailView(DetailView):
         context['page_title_heading'] = self.object.__str__()
         context['url_actualizar'] = 'gest_elector:actualizar'
         if self.object.cuenta_u:
-            if self.object.cuentaelector.estado_confirmacion:
-                context['accion_url'] = '#'
-                context['accion_text'] = 'Detalle de cuenta'
-            else:
-                context['accion_url'] = '#'
-                context['accion_text'] = 'Detalle de cuenta'
+            context['accion_url'] = '#'
+            context['accion_text'] = 'Mas info'
         else:
             context['accion_url'] = reverse('gest_usuario:gen-cu-elector')
             context['accion_text'] = 'Generar una cuenta'

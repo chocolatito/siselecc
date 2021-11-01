@@ -1,26 +1,53 @@
 {% extends 'utils/detail.html' %}
 {% load static %}
 {% block div_card-body %}
-
-<div class="card mt-1 text-white" style="background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); width: 100%">
+<div class="card mt-1 text-white" style="background-color: rgb(51, 51, 51); height: 100%; width: 100%">
   <div class="card-header">CUENTA DE USUARIO</div>
   <div class="card-body">
-    {% if object.cuenta_u %}
-      {% if object.cuentaelector.estado_confirmacion %}
-      <h5 class="text-white card-title">El elector posee la cuenta confirmada</h5>
-      <h5>Detalles de confirmación:</h5>
-      Fue candidato en las siguientes elecciones:
-      {% else %}
-      <h5 class="text-white card-title">El elector posee cuenta confirmada sin conmfirmar</h5>
-      Este elector no poduede se postulado como candidato de una elección
-      {% endif %}
-    {% else %}
-      <h5 class="text-white card-title">Este elector no posee cuenta de usuario</h5>
-      La cuenta es necesaria para postularse como candidato para el cargo de una elección
-    {% endif %}
+      <ul class="list-group text-body">
+        {% if object.cuenta_u %}
+          {% if object.cuentaelector.estado_confirmacion %}
+          <li class="list-group-item mb-1">
+            <h5 class="">El elector posee la cuenta confirmada</h5>
+          </li>
+          <li class="list-group-item d-flex justify-content-between mb-1">
+            <span>Fecha de creación:</span> <span><strong>{{object.cuentaelector.creacion}}</strong></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between mb-1">
+            <span>Fecha de confirmación:</span> <span><strong>{{object.cuentaelector.confirmacion}}</strong></span>
+          </li>
+          {% else %}
+          <li class="list-group-item mb-1">
+            <h5 class="">El elector posee cuenta confirmada sin conmfirmar</h5>
+          </li>
+          <li class="list-group-item d-flex justify-content-between mb-1">
+            Este elector no poduede se postulado como candidato de una elección
+          </li>
+          {% endif %}
+        {% else %}
+        <li class="list-group-item mb-1">
+          <h5 class="">Este elector no posee cuenta de usuario</h5>
+        </li>
+        <li class="list-group-item d-flex justify-content-between mb-1">
+          La cuenta es necesaria para postularse como candidato para el cargo de una elección
+        </li>
+        {% endif %}
+      </ul>
+
   </div>
   <div class="card-footer">
-    <a href={{accion_url}} class="btn btn-block btn-light">{{accion_text}}</a>
+    {% if object.cuenta_u %}
+      {% if object.candidato %}
+      <div class="d-flex justify-content-between align-items-end">
+        <h5>Fue candidato en <b>{{object.candidato_set.count}}</b> elección/es:</h5>
+        <a href={{accion_url}} class="btn btn-info border border-light">{{accion_text}}</a>
+      </div>
+      {% else %}
+        <h5>Este elector no registra la postulación de ninguna candidatura para elecciones</h5>
+      {% endif %}
+    {% else %}
+      <a href={{accion_url}} class="btn btn-light btn-block border border-info">{{accion_text}}</a>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
