@@ -25,6 +25,7 @@
           <br>&nbsp;&nbsp;&nbsp;&nbsp;<a class="text-body" href="#t1_5">FUNCIONALIDAD DEL SISTEMA</a>
         </li>
         <li class="list-group-item"><b><a class="text-success" href="#t2">Saber Mas</a></b>
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;<a class="text-body" href="#t2_1">CIFRADO</a>
         </li>
       </ul>
     </div>
@@ -180,8 +181,108 @@
 <div class="h2 font-weight-bold text-success my-4 border-bottom border-success" id="t2">
   Saber Mas
 </div>
+
 <div class="shadow p-4 mb-4 bg-white">
-  <h3 id="t2_1" class="border-bottom border-success">Actualización pendiente..</h3>
+  <h3 id="t2_1" class="border-bottom border-success">CIFRADO</h3>
+  <p> Es un técnica que implica remplazar un símbolo, por otro. Dado un mensaje original, se le aplica una función de cifrado y se obtiene un mensaje cifrado.
+    <br>
+    Ejemplo: <i>Marte</i> debe enviar a <i>Venus</i>, un nro de teléfono <b>que debe permanecer en secreto</b>.</p>
+    <br><div class="text-center h5">Aun cuando algún intruso, intersecte el mensaje.</div>
+    <p><br>
+    <b>La solución:</b> <i>Marte</i> y <i>Venus</i> se ponen de acuerdo en utilizar la siguiente función de cifrado, las cuales solo ellos conocen
+  </p>
+  <div class="container">
+    <div class="row">
+      <div class="col-2">
+        <table class="table table-sm table-bordered text-body">
+          <thead class="text-center">
+            <tr>
+              <th style="width: 50%"><b><i>x</i></b></th>
+              <th style="width: 50%"><b><i>f(x)</i></b></th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr>
+              <td>0</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td >1</td>
+              <td >0</td>
+            </tr>
+            <tr>
+              <td >2</td>
+              <td >6</td>
+            </tr>
+            <tr>
+              <td >3</td>
+              <td >8</td>
+            </tr>
+            <tr>
+              <td >4</td>
+              <td >7</td>
+            </tr>
+            <tr>
+              <td >5</td>
+              <td >3</td>
+            </tr>
+            <tr>
+              <td >6</td>
+              <td >9</td>
+            </tr>
+            <tr>
+              <td >7</td>
+              <td >2</td>
+            </tr>
+            <tr>
+              <td >8</td>
+              <td >1</td>
+            </tr>
+            <tr>
+              <td >9</td>
+              <td >4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-10">
+        <div class="card p-4 bg-light">
+          <p><b>Esto significa que se envie un número de teléfono, la función remplazara..</b></p>
+          <div style="font-family:monospace;" class="text-center bg-dark py-4 text-white rounded">
+            todos los 0 por 5 (x = 0 entonces f(x) = 5),
+            <br>todos los 1 por 0 (x = 1 entonces f(x) = 0),
+            <br>todos los 2 por 6 (x = 2 entonces f(x) = 6),
+            <br>
+            . . .
+            <br>
+            y todos los 9 por 4 (x = 9 entonces f(x) = 4).
+          </div>
+        </div>
+        <div class="card p-2 mt-2 bg-light text-center border border-info">
+          <p><b>SI</b> el mensaje original es el numero <b><i>385-955-309599</i></b></p>
+          <br>
+          <p>aplicando la función acordada entre las partes, <b>ENTONCES</b> el mensaje cifrado seria el siguiente numero
+          <br><i><b>813-433-854344</b></i>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="shadow card pt-2 px-4 mt-2 border border-success">
+      <div class="py-3">
+        <p><b>De manera que</b>,
+          el intruso puede interceptar el mensaje enviado por <i>Marte</i> y ver el numero <b><i>813-433-854344</i></b>.
+          <br>Sin embargo, nunca sabrá que en realidad es el numero <b><i>385-955-309599</i></b>
+          ya que no conoce la definición de la tabla.
+          <br>Cuando <i>Venus</i> recibe el mensaje cifrado, aplica la función inversa (consulta la tabla de derecha a izquierda).
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="shadow p-4 mb-4 bg-white">
+  <h3 id="t2_x" class="border-bottom border-success">Actualización pendiente..</h3>
 </div>
 </div>
 
