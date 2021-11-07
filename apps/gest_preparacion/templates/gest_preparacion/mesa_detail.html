@@ -40,10 +40,10 @@
       <!-- NO INCLUIDOS-->
       <div class="col">
         <div class="card border-dark" style="height: 100%; weight: 100%">
-          {% if staff_list %}
           <div class="card-header d-flex justify-content-around">
             <p class="font-weight-bold">Staff disponibles</p>
           </div>
+          {% if staff_list %}
           <div class="card-body bg-dark">
             <ul class="list-group">
               <form method="post">
@@ -62,8 +62,9 @@
           {% else %}
           <div class="card-body">
             <div class="jumbotron jumbotron-fluid bg-warning">
-              <div class="container">
+              <div class="container text-body">
                 <h2 class="display-4">No Hay Staff</h2>
+                <h4>Para la fecha de la elección no hay autoridades disponibles</h4>
               </div>
             </div>
           </div>

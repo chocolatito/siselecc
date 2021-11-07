@@ -56,10 +56,14 @@ def admi_elector2padron(objetc, id_list, accion):
             [objetc.electores.remove(elector) for elector in get_electores(id_list)]
 
 
-def staff_list(actual):
-    if actual:
-        return User.objects.filter(Q(groups__name='staff') & ~Q(id=actual.id))
+def staff_list(actual, fecha):
+    # listado de cuentas tipo staff que estan designados como autoridad para la misma fecha
+    designados = [e.mesa.cuenta.id for e in Eleccion.objects.filter(fecha=fecha) if e.mesa.cuenta]
+    if designados:
+        # La mesa ya posee autoridad
+        return User.objects.filter(Q(groups__name='staff') & ~Q(id__in=designados))
     else:
+        # La mesa aun no posee autoridad
         return User.objects.filter(groups__name='staff')
 
 

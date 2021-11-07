@@ -50,7 +50,8 @@ class Urna(Base):
 ESTADO_VOTO = [(0, "EMITIDO"), (1, "SUMADO"), ]
 
 
-class Voto(Base):
+class Voto(models.Model):
+    id = models.AutoField(primary_key=True)
     vector_cifrado = models.JSONField(verbose_name="Vector cifrado")
     hash_voto = models.CharField(verbose_name='Hash voto',
                                  max_length=100, unique=True)
@@ -60,6 +61,9 @@ class Voto(Base):
                                        auto_now_add=True)
     urna = models.ForeignKey(Urna, on_delete=models.CASCADE)
     clave = models.ForeignKey(Clave, on_delete=models.CASCADE, null=True)
+    # 
+    modified_at = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         ordering = ['estado_voto']

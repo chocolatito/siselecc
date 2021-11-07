@@ -7,8 +7,13 @@
   {% endfor %}
 </ul>
 {% else %}
+  {% if object.mesa.cuenta == user %}
   <p class="font-weight-bold text-dark">Inicializar clave para cifrado</p>
   <a class='btn btn-info' href='{{object.get_cifrado_url}}'>
     Inicializar
   </a>
+  {% else %}
+  <p class="text-body">Debe inicializar su clave</p>
+  <p class="font-weight-bold text-body">{{object.mesa.cuenta}}</p>
+  {% endif %}
 {% endif %}

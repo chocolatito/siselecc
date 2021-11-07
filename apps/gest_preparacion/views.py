@@ -257,7 +257,7 @@ class MesaDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['text_badge_dark'] = f'Corresponde a la {self.object.eleccion.__str__()}'
         context['snippet_accion_detail'] = 'utils/blank.html'
-        context['staff_list'] = staff_list(self.object.cuenta)
+        context['staff_list'] = staff_list(self.object.cuenta, self.object.eleccion.fecha)
         return context
 
 
